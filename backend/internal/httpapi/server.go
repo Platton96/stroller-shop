@@ -2,21 +2,31 @@
 package httpapi
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/Platton96/stroller-shop/backend/internal/assistant"
 	"github.com/Platton96/stroller-shop/backend/internal/catalog"
 )
+
+// Chatter answers chat turns; *assistant.Assistant implements it.
+type Chatter interface {
+	Chat(ctx context.Context, req assistant.Request) (assistant.Reply, error)
+}
 
 // Server wires handlers to their dependencies.
 type Server struct {
 	Catalog *catalog.Store
 	Shop    json.RawMessage
 	Log     *slog.Logger
+	// Assistant is nil when no Claude API key is configured.
+	Assistant Chatter
 }
 
 // Handler returns the root handler with all routes and middleware.
@@ -29,6 +39,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /api/v1/types", s.listTypes)
 	mux.HandleFunc("GET /api/v1/strollers", s.searchStrollers)
 	mux.HandleFunc("GET /api/v1/strollers/{id}", s.getStroller)
+	mux.HandleFunc("POST /api/v1/chat", s.chat)
 	return s.logRequests(cors(mux))
 }
 
@@ -59,6 +70,30 @@ func (s *Server) searchStrollers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, s.Catalog.Search(f))
+}
+
+func (s *Server) chat(w http.ResponseWriter, r *http.Request) {
+	if s.Assistant == nil {
+		writeError(w, http.StatusServiceUnavailable, "assistant is not configured")
+		return
+	}
+	var req assistant.Request
+	if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, 64<<10)).Decode(&req); err != nil {
+		writeError(w, http.StatusBadRequest, "invalid JSON body")
+		return
+	}
+	ctx, cancel := context.WithTimeout(r.Context(), 90*time.Second)
+	defer cancel()
+	reply, err := s.Assistant.Chat(ctx, req)
+	switch {
+	case errors.Is(err, assistant.ErrEmptyMessage):
+		writeError(w, http.StatusBadRequest, err.Error())
+	case err != nil:
+		s.Log.Error("chat failed", "err", err)
+		writeError(w, http.StatusBadGateway, "assistant is unavailable")
+	default:
+		writeJSON(w, http.StatusOK, reply)
+	}
 }
 
 type queryError struct{ param string }
