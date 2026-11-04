@@ -1,0 +1,6 @@
+*.freezed.dart linguist-generated=true
+*.g.dart linguist-generated=true
+*.config.dart linguist-generated=true
+app/lib/l10n/generated/** linguist-generated=true
+app/pubspec.lock linguist-generated=true
+backend/go.sum linguist-generated=true
