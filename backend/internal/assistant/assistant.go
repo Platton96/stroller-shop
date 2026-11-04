@@ -101,6 +101,7 @@ func (a *Assistant) Chat(ctx context.Context, req Request) (Reply, error) {
 	messages := append(slices.Clip(conv.messages),
 		anthropic.NewUserMessage(anthropic.NewTextBlock(a.userTurn(text, req.Cart))))
 
+	var texts []string
 	for round := 0; ; round++ {
 		resp, err := a.client.Messages.New(ctx, anthropic.MessageNewParams{
 			Model:        model,
@@ -115,7 +116,6 @@ func (a *Assistant) Chat(ctx context.Context, req Request) (Reply, error) {
 		}
 		messages = append(messages, resp.ToParam())
 
-		var texts []string
 		var results []anthropic.ContentBlockParamUnion
 		for _, block := range resp.Content {
 			switch b := block.AsAny().(type) {
@@ -166,6 +166,7 @@ func (a *Assistant) runTool(name string, raw []byte, reply *Reply) (string, bool
 			return "invalid input: " + err.Error(), true
 		}
 		page := a.catalog.Search(in.filter())
+		in.Types = a.typeLabels(in.Types)
 		items := make([]briefStroller, len(page.Items))
 		for i, s := range page.Items {
 			items[i] = brief(s)
@@ -239,6 +240,21 @@ func (a *Assistant) runTool(name string, raw []byte, reply *Reply) (string, bool
 		return fmt.Sprintf("added %s %s, color %s", s.Brand, s.Model, color), false
 	}
 	return "unknown tool " + name, true
+}
+
+func (a *Assistant) typeLabels(types []string) []string {
+	labels := map[string]string{}
+	for _, info := range a.catalog.Types() {
+		labels[string(info.Type)] = strings.ToLower(info.Label)
+	}
+	out := make([]string, len(types))
+	for i, t := range types {
+		out[i] = t
+		if label, ok := labels[t]; ok {
+			out[i] = label
+		}
+	}
+	return out
 }
 
 // splitSuggestions pulls the optional <suggestions> block out of the reply text.

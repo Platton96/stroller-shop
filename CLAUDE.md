@@ -33,9 +33,9 @@ fvm dart run build_runner build
 fvm dart format lib test
 fvm flutter analyze
 fvm flutter test
-fvm flutter run --dart-define=API_BASE_URL=http://localhost:8080
+fvm flutter run    # uses the hosted backend; --dart-define=API_BASE_URL=http://localhost:8080 for a local one
 ```
 
-Backend: `cd backend && go run ./cmd/server` (port from `PORT`, default 8080), `go test ./...`.
+Backend is hosted on Render (`render.yaml`, `backend/Dockerfile`) at https://stroller-shop-api.onrender.com. Locally: `cd backend && go run ./cmd/server` (port from `PORT`, default 8080), `go test ./...`.
 
 Never edit generated files (`*.freezed.dart`, `*.g.dart`, `*.config.dart`, `lib/l10n/generated/*`) — a hook blocks it; rerun the generators instead. `fvm flutter analyze` must be clean before a commit.

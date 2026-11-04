@@ -144,3 +144,35 @@ func TestChatDoesNotStoreFailedTurn(t *testing.T) {
 		t.Fatalf("reply = %+v, err = %v", reply, err)
 	}
 }
+
+func TestChatKeepsTextWrittenBeforeToolCalls(t *testing.T) {
+	a, _ := newTestAssistant(t,
+		message("tool_use", text("Вот что подойдёт:")+","+toolUse("t1", toolShow, `{"ids":["priam"]}`)),
+		message("end_turn", text("<suggestions>\n- Подешевле\n</suggestions>")),
+	)
+
+	reply, err := a.Chat(context.Background(), Request{Message: "на зиму"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if reply.Text != "Вот что подойдёт:" {
+		t.Errorf("text = %q", reply.Text)
+	}
+}
+
+func TestSearchSummaryUsesTypeLabels(t *testing.T) {
+	a, _ := newTestAssistant(t,
+		message("tool_use", toolUse("t1", toolSearch, `{"types":["travel"]}`)),
+		message("end_turn", text("Готово.")),
+	)
+
+	reply, err := a.Chat(context.Background(), Request{Message: "для путешествий"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if got := reply.Searches[0].Summary; !strings.Contains(got, "компактные для путешествий") {
+		t.Errorf("summary = %q", got)
+	}
+}

@@ -31,7 +31,9 @@ app/lib/
 
 ## Запуск
 
-Бэкенд:
+Бэкенд развёрнут на Render: `https://stroller-shop-api.onrender.com` (бесплатный план — после 15 минут простоя первый запрос идёт около минуты). Приложение по умолчанию ходит туда, так что для запуска достаточно Flutter.
+
+Локальный бэкенд:
 
 ```bash
 cd backend && go run ./cmd/server
@@ -45,10 +47,10 @@ cd backend && go run ./cmd/server
 cd app
 fvm install
 fvm flutter pub get
-fvm flutter run --dart-define=API_BASE_URL=http://localhost:8080
+fvm flutter run
 ```
 
-Для Android-эмулятора адрес бэкенда — `http://10.0.2.2:8080`. В web-сборке фото колясок не грузятся: сайты производителей не отдают CORS-заголовки.
+С локальным бэкендом: `fvm flutter run --dart-define=API_BASE_URL=http://localhost:8080` (для Android-эмулятора — `http://10.0.2.2:8080`). В web-сборке фото колясок не грузятся: сайты производителей не отдают CORS-заголовки.
 
 ## Использование ИИ
 
