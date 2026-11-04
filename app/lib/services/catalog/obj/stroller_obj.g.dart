@@ -43,12 +43,8 @@ StrollerObj _$StrollerObjFromJson(Map<String, dynamic> json) => StrollerObj(
     json['terrain'],
     unknownValue: JsonKey.nullForUndefinedEnumValue,
   ),
-  colors:
-      (json['colors'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-      const [],
-  features:
-      (json['features'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-      const [],
+  colors: (json['colors'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
+  features: (json['features'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
   isInStock: json['in_stock'] as bool? ?? false,
   stockQuantity: (json['stock_qty'] as num?)?.toInt() ?? 0,
   rating: (json['rating'] as num?)?.toDouble() ?? 0,

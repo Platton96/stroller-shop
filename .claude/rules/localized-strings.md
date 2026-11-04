@@ -15,7 +15,7 @@ Every user-visible string goes through an ARB key — no string literals in `Tex
 
 `S.of(context)` needs a `BuildContext`; a BLoC has none and MUST NOT hold one. State and VMs carry typed values (enum, sealed variant, number, exception) and widgets turn them into localized text. Never pass `BuildContext` into a BLoC, event, or mapper to get a string.
 
-**Exception — toasts:** a toast is a one-shot side effect owned by the BLoC handler, so the handler builds its text with `appStrings` (`lib/l10n/app_strings.dart`, a context-free `lookupS(const Locale('ru'))`): `toastService.showSuccess(appStrings.cartAdded(name))`. Use `appStrings` only for toast text, never for text stored in state or VMs.
+**Exception — toasts:** a toast is a one-shot side effect owned by the BLoC handler, so the handler builds its text with `appStrings` (`lib/l10n/app_strings.dart`, a context-free `lookupS(const Locale('ru'))`): `toastService.showSuccess(appStrings.cartAdded(name))`. Use `appStrings` only for toast text and for text the BLoC sends to the backend on the user's behalf (e.g. a prefilled question to the assistant) — never for display text stored in state or VMs.
 
 ## One ARB Key, Not Concatenation
 

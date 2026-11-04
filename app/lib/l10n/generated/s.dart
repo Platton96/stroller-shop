@@ -254,6 +254,90 @@ abstract class S {
   /// **'Тест-драйв'**
   String get shopTestDriveTitle;
 
+  /// No description provided for @assistantTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Помощник'**
+  String get assistantTitle;
+
+  /// No description provided for @assistantSubtitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'подбирает по каталогу магазина'**
+  String get assistantSubtitle;
+
+  /// No description provided for @assistantGreeting.
+  ///
+  /// In ru, this message translates to:
+  /// **'Здравствуйте! Расскажите, для кого коляска и где будете гулять — подберу из нашего каталога.'**
+  String get assistantGreeting;
+
+  /// No description provided for @assistantStarterTravel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лёгкая для путешествий'**
+  String get assistantStarterTravel;
+
+  /// No description provided for @assistantStarterWinter.
+  ///
+  /// In ru, this message translates to:
+  /// **'Для зимы и бездорожья'**
+  String get assistantStarterWinter;
+
+  /// No description provided for @assistantStarterBudget.
+  ///
+  /// In ru, this message translates to:
+  /// **'До 1500 BYN'**
+  String get assistantStarterBudget;
+
+  /// No description provided for @assistantInputHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Напишите, что ищете…'**
+  String get assistantInputHint;
+
+  /// No description provided for @assistantSendLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get assistantSendLabel;
+
+  /// No description provided for @assistantDetails.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подробнее'**
+  String get assistantDetails;
+
+  /// No description provided for @assistantTypingLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Помощник печатает'**
+  String get assistantTypingLabel;
+
+  /// No description provided for @assistantCartAddedTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Добавил в корзину'**
+  String get assistantCartAddedTitle;
+
+  /// No description provided for @assistantCartAddedLine.
+  ///
+  /// In ru, this message translates to:
+  /// **'{name} · {color} · {price}'**
+  String assistantCartAddedLine(String name, String color, String price);
+
+  /// No description provided for @assistantOpenCart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть корзину'**
+  String get assistantOpenCart;
+
+  /// No description provided for @assistantAskAboutStroller.
+  ///
+  /// In ru, this message translates to:
+  /// **'Расскажите подробнее про {name}'**
+  String assistantAskAboutStroller(String name);
+
   /// No description provided for @commonRetry.
   ///
   /// In ru, this message translates to:
@@ -283,6 +367,12 @@ abstract class S {
   /// In ru, this message translates to:
   /// **'Сервер ответил ошибкой ({statusCode})'**
   String errorServer(int statusCode);
+
+  /// No description provided for @errorUnavailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сервис сейчас недоступен. Попробуйте чуть позже.'**
+  String get errorUnavailable;
 
   /// No description provided for @errorUnexpected.
   ///

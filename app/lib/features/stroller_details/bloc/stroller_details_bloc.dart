@@ -1,4 +1,5 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
+import 'package:stroller_shop/features/assistant/messages/ask_assistant_message.dart';
 import 'package:stroller_shop/features/stroller_details/mappers/stroller_details_vm_mapper.dart';
 import 'package:stroller_shop/features/stroller_details/models/stroller_details_vm.dart';
 import 'package:stroller_shop/features/tabs/open_tab_message.dart';
@@ -79,6 +80,9 @@ class StrollerDetailsBloc extends BaseBloc<StrollerDetailsEvent, StrollerDetails
     Emitter<StrollerDetailsState> emit,
     _AskAssistantPressedEvent event,
   ) {
+    if (_stroller case final stroller?) {
+      messageBus.send(AskAssistantMessage(stroller));
+    }
     messageBus.send(const OpenTabMessage(.assistant));
     appNavigator.pop();
   }

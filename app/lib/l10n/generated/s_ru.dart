@@ -115,6 +115,53 @@ class SRu extends S {
   String get shopTestDriveTitle => 'Тест-драйв';
 
   @override
+  String get assistantTitle => 'Помощник';
+
+  @override
+  String get assistantSubtitle => 'подбирает по каталогу магазина';
+
+  @override
+  String get assistantGreeting =>
+      'Здравствуйте! Расскажите, для кого коляска и где будете гулять — подберу из нашего каталога.';
+
+  @override
+  String get assistantStarterTravel => 'Лёгкая для путешествий';
+
+  @override
+  String get assistantStarterWinter => 'Для зимы и бездорожья';
+
+  @override
+  String get assistantStarterBudget => 'До 1500 BYN';
+
+  @override
+  String get assistantInputHint => 'Напишите, что ищете…';
+
+  @override
+  String get assistantSendLabel => 'Отправить';
+
+  @override
+  String get assistantDetails => 'Подробнее';
+
+  @override
+  String get assistantTypingLabel => 'Помощник печатает';
+
+  @override
+  String get assistantCartAddedTitle => 'Добавил в корзину';
+
+  @override
+  String assistantCartAddedLine(String name, String color, String price) {
+    return '$name · $color · $price';
+  }
+
+  @override
+  String get assistantOpenCart => 'Открыть корзину';
+
+  @override
+  String assistantAskAboutStroller(String name) {
+    return 'Расскажите подробнее про $name';
+  }
+
+  @override
   String get commonRetry => 'Повторить';
 
   @override
@@ -130,6 +177,9 @@ class SRu extends S {
   String errorServer(int statusCode) {
     return 'Сервер ответил ошибкой ($statusCode)';
   }
+
+  @override
+  String get errorUnavailable => 'Сервис сейчас недоступен. Попробуйте чуть позже.';
 
   @override
   String get errorUnexpected => 'Неожиданная ошибка';

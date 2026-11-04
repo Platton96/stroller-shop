@@ -14,5 +14,8 @@ sealed class AppException with _$AppException implements Exception {
   @Implements<DomainIgnoreFromCrashReporting>()
   const factory AppException.notFound() = NotFoundException;
 
+  @Implements<DomainIgnoreFromCrashReporting>()
+  const factory AppException.unavailable() = UnavailableException;
+
   const factory AppException.unexpected(String message) = UnexpectedException;
 }

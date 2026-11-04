@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/extensions/stroller_card_vm_extension.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
+import 'package:stroller_shop/ui_kit/widgets/add_to_cart_button.dart';
 import 'package:stroller_shop/ui_kit/widgets/stroller_image.dart';
 
 class StrollerCard extends StatelessWidget {
@@ -61,7 +63,7 @@ class StrollerCard extends StatelessWidget {
                     Text(vm.brand, style: textStyles.caption, maxLines: 1),
                     Text(vm.model, style: textStyles.bodyStrong, maxLines: 1, overflow: .ellipsis),
                     Text(
-                      _meta(strings),
+                      vm.meta(strings),
                       style: textStyles.caption.copyWith(fontSize: 12),
                       maxLines: 1,
                       overflow: .ellipsis,
@@ -75,13 +77,11 @@ class StrollerCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        vm.isPriceApproximate
-                            ? strings.priceApproxByn(vm.priceByn)
-                            : strings.priceByn(vm.priceByn),
+                        vm.priceLabel(strings),
                         style: textStyles.price,
                       ),
                     ),
-                    _AddButton(
+                    AddToCartButton(
                       semanticLabel: strings.addToCartLabel(name),
                       onPressed: onAddToCartPressed,
                     ),
@@ -94,11 +94,6 @@ class StrollerCard extends StatelessWidget {
       ),
     );
   }
-
-  String _meta(S strings) => [
-    if (vm.weightKg case final weight?) strings.weightKg(weight),
-    vm.ageFromMonths == 0 ? strings.ageFromBirth : strings.ageFromMonths(vm.ageFromMonths),
-  ].join(strings.metaSeparator);
 }
 
 class _CabinLuggageBadge extends StatelessWidget {
@@ -125,36 +120,6 @@ class _CabinLuggageBadge extends StatelessWidget {
               style: context.textStyles.label.copyWith(color: colors.accent),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _AddButton extends StatelessWidget {
-  const _AddButton({required this.semanticLabel, required this.onPressed});
-
-  final String semanticLabel;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.colors;
-
-    return Semantics(
-      button: true,
-      label: semanticLabel,
-      excludeSemantics: true,
-      child: Material(
-        color: colors.accentSoft,
-        shape: const CircleBorder(),
-        child: InkWell(
-          customBorder: const CircleBorder(),
-          onTap: onPressed,
-          child: SizedBox.square(
-            dimension: 40,
-            child: Icon(Icons.add_rounded, size: 20, color: colors.accent),
-          ),
         ),
       ),
     );

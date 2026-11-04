@@ -21,20 +21,17 @@ ShopResponseObj _$ShopResponseObjFromJson(
           ?.map((e) => DeliveryOptionObj.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
-  payment:
-      (json['payment'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-      const [],
+  payment: (json['payment'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
   returns: json['returns'] as String? ?? '',
   warranty: json['warranty'] as String? ?? '',
   testDrive: json['test_drive'] as String? ?? '',
   disclaimer: json['disclaimer'] as String? ?? '',
 );
 
-DeliveryOptionObj _$DeliveryOptionObjFromJson(Map<String, dynamic> json) =>
-    DeliveryOptionObj(
-      method: json['method'] as String? ?? '',
-      title: json['title'] as String? ?? '',
-      priceByn: (json['price_byn'] as num?)?.toInt() ?? 0,
-      eta: json['eta'] as String? ?? '',
-      freeFromByn: (json['free_from_byn'] as num?)?.toInt(),
-    );
+DeliveryOptionObj _$DeliveryOptionObjFromJson(Map<String, dynamic> json) => DeliveryOptionObj(
+  method: json['method'] as String? ?? '',
+  title: json['title'] as String? ?? '',
+  priceByn: (json['price_byn'] as num?)?.toInt() ?? 0,
+  eta: json['eta'] as String? ?? '',
+  freeFromByn: (json['free_from_byn'] as num?)?.toInt(),
+);

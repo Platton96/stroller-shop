@@ -19,6 +19,10 @@ import 'package:stroller_shop/core/navigation/app_navigator.dart' as _i940;
 import 'package:stroller_shop/core/toast/toast_service.dart' as _i264;
 import 'package:stroller_shop/di/navigation_module.dart' as _i242;
 import 'package:stroller_shop/di/network_module.dart' as _i624;
+import 'package:stroller_shop/features/assistant/bloc/assistant_bloc.dart'
+    as _i525;
+import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart'
+    as _i341;
 import 'package:stroller_shop/features/cart/bloc/cart_bloc.dart' as _i714;
 import 'package:stroller_shop/features/cart/mappers/cart_vm_mapper.dart'
     as _i415;
@@ -28,7 +32,7 @@ import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper
     as _i863;
 import 'package:stroller_shop/features/catalog/sort_sheet/bloc/sort_sheet_bloc.dart'
     as _i500;
-import 'package:stroller_shop/features/shop/bloc/shop_bloc.dart' as _i441;
+import 'package:stroller_shop/features/shop/bloc/shop_bloc.dart' as _i442;
 import 'package:stroller_shop/features/shop/mappers/shop_vm_mapper.dart'
     as _i646;
 import 'package:stroller_shop/features/stroller_details/bloc/stroller_details_bloc.dart'
@@ -36,9 +40,12 @@ import 'package:stroller_shop/features/stroller_details/bloc/stroller_details_bl
 import 'package:stroller_shop/features/stroller_details/mappers/stroller_details_vm_mapper.dart'
     as _i310;
 import 'package:stroller_shop/features/tabs/bloc/tabs_bloc.dart' as _i984;
+import 'package:stroller_shop/repositories/assistant_repository.dart' as _i441;
 import 'package:stroller_shop/repositories/cart_repository.dart' as _i176;
 import 'package:stroller_shop/repositories/catalog_repository.dart' as _i130;
 import 'package:stroller_shop/repositories/shop_repository.dart' as _i301;
+import 'package:stroller_shop/services/assistant/assistant_service.dart'
+    as _i105;
 import 'package:stroller_shop/services/catalog/catalog_service.dart' as _i776;
 import 'package:stroller_shop/services/shop/shop_service.dart' as _i831;
 
@@ -70,6 +77,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factoryParam<_i500.SortSheetBloc, _i9.StrollerSort, dynamic>(
       (selectedSort, _) => _i500.SortSheetBloc(selectedSort),
     );
+    gh.lazySingleton<_i105.AssistantService>(
+      () => _i105.AssistantService(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i776.CatalogService>(
       () => _i776.CatalogService(gh<_i361.Dio>()),
     );
@@ -83,6 +93,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i301.ShopRepository>(
       () => _i301.ShopRepository(gh<_i831.ShopService>()),
     );
+    gh.factory<_i341.AssistantVMMapper>(
+      () => _i341.AssistantVMMapper(gh<_i863.CatalogVMMapper>()),
+    );
+    gh.lazySingleton<_i441.AssistantRepository>(
+      () => _i441.AssistantRepository(gh<_i105.AssistantService>()),
+    );
     gh.lazySingleton<_i130.CatalogRepository>(
       () => _i130.CatalogRepository(gh<_i776.CatalogService>()),
     );
@@ -93,6 +109,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i415.CartVMMapper>(),
       ),
     );
+    gh.factory<_i525.AssistantBloc>(
+      () => _i525.AssistantBloc(
+        gh<_i441.AssistantRepository>(),
+        gh<_i176.CartRepository>(),
+        gh<_i341.AssistantVMMapper>(),
+      ),
+    );
     gh.factoryParam<_i708.StrollerDetailsBloc, String, dynamic>(
       (_strollerId, _) => _i708.StrollerDetailsBloc(
         _strollerId,
@@ -101,9 +124,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i310.StrollerDetailsVMMapper>(),
       ),
     );
-    gh.factory<_i441.ShopBloc>(
+    gh.factory<_i442.ShopBloc>(
       () =>
-          _i441.ShopBloc(gh<_i301.ShopRepository>(), gh<_i646.ShopVMMapper>()),
+          _i442.ShopBloc(gh<_i301.ShopRepository>(), gh<_i646.ShopVMMapper>()),
     );
     gh.factory<_i87.CatalogBloc>(
       () => _i87.CatalogBloc(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stroller_shop/core/bloc/app_bloc_provider.dart';
+import 'package:stroller_shop/features/assistant/assistant_screen.dart';
 import 'package:stroller_shop/features/cart/cart_screen.dart';
 import 'package:stroller_shop/features/catalog/catalog/catalog_screen.dart';
 import 'package:stroller_shop/features/shop/shop_screen.dart';
@@ -45,7 +46,7 @@ class _TabBody extends StatelessWidget {
     .catalog => const CatalogScreen(),
     .cart => const CartScreen(),
     .shop => const ShopScreen(),
-    .assistant => Center(child: Text(tab.title(S.of(context)))),
+    .assistant => const AssistantScreen(),
   };
 }
 

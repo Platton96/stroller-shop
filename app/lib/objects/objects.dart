@@ -1,3 +1,5 @@
+export 'assistant/assistant_action.dart';
+export 'assistant/chat_reply.dart';
 export 'cart/cart_item.dart';
 export 'catalog/stroller.dart';
 export 'catalog/stroller_filter.dart';

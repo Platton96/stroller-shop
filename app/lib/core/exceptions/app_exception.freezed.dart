@@ -56,13 +56,14 @@ extension AppExceptionPatterns on AppException {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( NoConnectionException value)?  noConnection,TResult Function( ServerException value)?  server,TResult Function( NotFoundException value)?  notFound,TResult Function( UnexpectedException value)?  unexpected,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( NoConnectionException value)?  noConnection,TResult Function( ServerException value)?  server,TResult Function( NotFoundException value)?  notFound,TResult Function( UnavailableException value)?  unavailable,TResult Function( UnexpectedException value)?  unexpected,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case NoConnectionException() when noConnection != null:
 return noConnection(_that);case ServerException() when server != null:
 return server(_that);case NotFoundException() when notFound != null:
-return notFound(_that);case UnexpectedException() when unexpected != null:
+return notFound(_that);case UnavailableException() when unavailable != null:
+return unavailable(_that);case UnexpectedException() when unexpected != null:
 return unexpected(_that);case _:
   return orElse();
 
@@ -81,13 +82,14 @@ return unexpected(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( NoConnectionException value)  noConnection,required TResult Function( ServerException value)  server,required TResult Function( NotFoundException value)  notFound,required TResult Function( UnexpectedException value)  unexpected,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( NoConnectionException value)  noConnection,required TResult Function( ServerException value)  server,required TResult Function( NotFoundException value)  notFound,required TResult Function( UnavailableException value)  unavailable,required TResult Function( UnexpectedException value)  unexpected,}){
 final _that = this;
 switch (_that) {
 case NoConnectionException():
 return noConnection(_that);case ServerException():
 return server(_that);case NotFoundException():
-return notFound(_that);case UnexpectedException():
+return notFound(_that);case UnavailableException():
+return unavailable(_that);case UnexpectedException():
 return unexpected(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -102,13 +104,14 @@ return unexpected(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( NoConnectionException value)?  noConnection,TResult? Function( ServerException value)?  server,TResult? Function( NotFoundException value)?  notFound,TResult? Function( UnexpectedException value)?  unexpected,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( NoConnectionException value)?  noConnection,TResult? Function( ServerException value)?  server,TResult? Function( NotFoundException value)?  notFound,TResult? Function( UnavailableException value)?  unavailable,TResult? Function( UnexpectedException value)?  unexpected,}){
 final _that = this;
 switch (_that) {
 case NoConnectionException() when noConnection != null:
 return noConnection(_that);case ServerException() when server != null:
 return server(_that);case NotFoundException() when notFound != null:
-return notFound(_that);case UnexpectedException() when unexpected != null:
+return notFound(_that);case UnavailableException() when unavailable != null:
+return unavailable(_that);case UnexpectedException() when unexpected != null:
 return unexpected(_that);case _:
   return null;
 
@@ -126,12 +129,13 @@ return unexpected(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  noConnection,TResult Function( int statusCode,  String message)?  server,TResult Function()?  notFound,TResult Function( String message)?  unexpected,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  noConnection,TResult Function( int statusCode,  String message)?  server,TResult Function()?  notFound,TResult Function()?  unavailable,TResult Function( String message)?  unexpected,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case NoConnectionException() when noConnection != null:
 return noConnection();case ServerException() when server != null:
 return server(_that.statusCode,_that.message);case NotFoundException() when notFound != null:
-return notFound();case UnexpectedException() when unexpected != null:
+return notFound();case UnavailableException() when unavailable != null:
+return unavailable();case UnexpectedException() when unexpected != null:
 return unexpected(_that.message);case _:
   return orElse();
 
@@ -150,12 +154,13 @@ return unexpected(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  noConnection,required TResult Function( int statusCode,  String message)  server,required TResult Function()  notFound,required TResult Function( String message)  unexpected,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  noConnection,required TResult Function( int statusCode,  String message)  server,required TResult Function()  notFound,required TResult Function()  unavailable,required TResult Function( String message)  unexpected,}) {final _that = this;
 switch (_that) {
 case NoConnectionException():
 return noConnection();case ServerException():
 return server(_that.statusCode,_that.message);case NotFoundException():
-return notFound();case UnexpectedException():
+return notFound();case UnavailableException():
+return unavailable();case UnexpectedException():
 return unexpected(_that.message);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -170,12 +175,13 @@ return unexpected(_that.message);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  noConnection,TResult? Function( int statusCode,  String message)?  server,TResult? Function()?  notFound,TResult? Function( String message)?  unexpected,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  noConnection,TResult? Function( int statusCode,  String message)?  server,TResult? Function()?  notFound,TResult? Function()?  unavailable,TResult? Function( String message)?  unexpected,}) {final _that = this;
 switch (_that) {
 case NoConnectionException() when noConnection != null:
 return noConnection();case ServerException() when server != null:
 return server(_that.statusCode,_that.message);case NotFoundException() when notFound != null:
-return notFound();case UnexpectedException() when unexpected != null:
+return notFound();case UnavailableException() when unavailable != null:
+return unavailable();case UnexpectedException() when unexpected != null:
 return unexpected(_that.message);case _:
   return null;
 
@@ -310,6 +316,38 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
     return 'AppException.notFound()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class UnavailableException implements AppException, DomainIgnoreFromCrashReporting {
+  const UnavailableException();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is UnavailableException);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+    return 'AppException.unavailable()';
 }
 
 

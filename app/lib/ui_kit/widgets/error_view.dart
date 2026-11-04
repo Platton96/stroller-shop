@@ -40,6 +40,7 @@ extension ExceptionMessage on Exception {
   String localizedMessage(S strings) => switch (this) {
     NoConnectionException() => strings.errorNoConnection,
     NotFoundException() => strings.errorNotFound,
+    UnavailableException() => strings.errorUnavailable,
     ServerException(:final statusCode) => strings.errorServer(statusCode),
     _ => strings.errorUnexpected,
   };

@@ -64,6 +64,40 @@
   "shopReturnsTitle": "Возврат",
   "shopWarrantyTitle": "Гарантия",
   "shopTestDriveTitle": "Тест-драйв",
+  "assistantTitle": "Помощник",
+  "assistantSubtitle": "подбирает по каталогу магазина",
+  "assistantGreeting": "Здравствуйте! Расскажите, для кого коляска и где будете гулять — подберу из нашего каталога.",
+  "assistantStarterTravel": "Лёгкая для путешествий",
+  "assistantStarterWinter": "Для зимы и бездорожья",
+  "assistantStarterBudget": "До 1500 BYN",
+  "assistantInputHint": "Напишите, что ищете…",
+  "assistantSendLabel": "Отправить",
+  "assistantDetails": "Подробнее",
+  "assistantTypingLabel": "Помощник печатает",
+  "assistantCartAddedTitle": "Добавил в корзину",
+  "assistantCartAddedLine": "{name} · {color} · {price}",
+  "@assistantCartAddedLine": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "color": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "assistantOpenCart": "Открыть корзину",
+  "assistantAskAboutStroller": "Расскажите подробнее про {name}",
+  "@assistantAskAboutStroller": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "commonRetry": "Повторить",
   "commonErrorTitle": "Что-то пошло не так",
   "errorNoConnection": "Нет связи с сервером. Проверьте интернет и попробуйте ещё раз.",
@@ -76,6 +110,7 @@
       }
     }
   },
+  "errorUnavailable": "Сервис сейчас недоступен. Попробуйте чуть позже.",
   "errorUnexpected": "Неожиданная ошибка",
   "priceByn": "{amount} BYN",
   "@priceByn": {
