@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "backend",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd backend && go run ./cmd/server"
+      ],
+      "port": 8080
+    },
+    {
+      "name": "app-web",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": [
+        "-c",
+        "cd app && fvm flutter run -d web-server --web-port 5173 --web-hostname localhost"
+      ],
+      "port": 5173
+    }
+  ]
+}

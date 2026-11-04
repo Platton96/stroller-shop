@@ -1,0 +1,5 @@
+.env
+.env.*
+!.env.example
+/backend/server
+.DS_Store
