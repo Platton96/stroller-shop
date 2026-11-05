@@ -14,21 +14,23 @@ class TabsScreen extends StatelessWidget {
   const TabsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => AppBlocProvider<TabsBloc>(
-    lazy: false,
-    child: BlocBuilder<TabsBloc, TabsState>(
-      builder: (context, state) => Scaffold(
-        body: IndexedStack(
-          index: state.data.selectedTab.index,
-          children: AppTab.values.map(_TabBody.new).toList(),
-        ),
-        bottomNavigationBar: _BottomBar(
-          selectedTab: state.data.selectedTab,
-          cartCount: state.data.cartCount,
+  Widget build(BuildContext context) {
+    return AppBlocProvider<TabsBloc>(
+      lazy: false,
+      child: BlocBuilder<TabsBloc, TabsState>(
+        builder: (context, state) => Scaffold(
+          body: IndexedStack(
+            index: state.data.selectedTab.index,
+            children: AppTab.values.map(_TabBody.new).toList(),
+          ),
+          bottomNavigationBar: _BottomBar(
+            selectedTab: state.data.selectedTab,
+            cartCount: state.data.cartCount,
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _TabBody extends StatelessWidget {
@@ -37,12 +39,14 @@ class _TabBody extends StatelessWidget {
   const _TabBody(this.tab);
 
   @override
-  Widget build(BuildContext context) => switch (tab) {
-    .catalog => const CatalogScreen(),
-    .cart => const CartScreen(),
-    .shop => const ShopScreen(),
-    .assistant => const AssistantScreen(),
-  };
+  Widget build(BuildContext context) {
+    return switch (tab) {
+      .catalog => const CatalogScreen(),
+      .cart => const CartScreen(),
+      .shop => const ShopScreen(),
+      .assistant => const AssistantScreen(),
+    };
+  }
 }
 
 class _BottomBar extends StatelessWidget {

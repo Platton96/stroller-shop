@@ -32,10 +32,12 @@ class _SummaryRow extends StatelessWidget {
   const _SummaryRow({required this.label, required this.value});
 
   @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      Expanded(child: Text(label, style: context.textStyles.caption)),
-      Text(value, style: context.textStyles.bodyStrong),
-    ],
-  );
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: Text(label, style: context.textStyles.caption)),
+        Text(value, style: context.textStyles.bodyStrong),
+      ],
+    );
+  }
 }

@@ -18,78 +18,83 @@ class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => AppBlocProvider<CatalogBloc>(
-    postCreate: (bloc) => bloc.add(const .init()),
-    child: BlocBuilder<CatalogBloc, CatalogState>(
-      builder: (context, state) => SafeArea(
-        bottom: false,
-        child: NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            if (notification.metrics.extentAfter < _loadMoreThreshold) {
-              context.read<CatalogBloc>().add(const .loadMore());
-            }
+  Widget build(BuildContext context) {
+    return AppBlocProvider<CatalogBloc>(
+      postCreate: (bloc) => bloc.add(const .init()),
+      child: BlocBuilder<CatalogBloc, CatalogState>(
+        builder: (context, state) => SafeArea(
+          bottom: false,
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              if (notification.metrics.extentAfter < _loadMoreThreshold) {
+                context.read<CatalogBloc>().add(const .loadMore());
+              }
 
-            return false;
-          },
-          child: CustomScrollView(
-            keyboardDismissBehavior: .onDrag,
-            slivers: [
-              SliverPadding(
-                padding: const .fromLTRB(20, 16, 20, 18),
-                sliver: SliverToBoxAdapter(
-                  child: Column(
-                    spacing: 18,
-                    children: [
-                      CatalogHeader(
-                        city: state.data.city,
-                        cartCount: state.data.cartCount,
-                        onCartPressed: () => context.read<CatalogBloc>().add(const .cartPressed()),
-                        onQueryChanged: (query) =>
-                            context.read<CatalogBloc>().add(.queryChanged(query: query)),
-                      ),
-                      AssistantPromoCard(
-                        onPressed: () => context.read<CatalogBloc>().add(const .assistantPressed()),
-                      ),
-                    ],
+              return false;
+            },
+            child: CustomScrollView(
+              keyboardDismissBehavior: .onDrag,
+              slivers: [
+                SliverPadding(
+                  padding: const .fromLTRB(20, 16, 20, 18),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      spacing: 18,
+                      children: [
+                        CatalogHeader(
+                          city: state.data.city,
+                          cartCount: state.data.cartCount,
+                          onCartPressed: () =>
+                              context.read<CatalogBloc>().add(const .cartPressed()),
+                          onQueryChanged: (query) =>
+                              context.read<CatalogBloc>().add(.queryChanged(query: query)),
+                        ),
+                        AssistantPromoCard(
+                          onPressed: () =>
+                              context.read<CatalogBloc>().add(const .assistantPressed()),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: TypeChips(
-                  chips: state.data.typeChips,
-                  onSelected: (type) => context.read<CatalogBloc>().add(.typeSelected(type: type)),
-                ),
-              ),
-              SliverPadding(
-                padding: const .fromLTRB(20, 18, 8, 4),
-                sliver: SliverToBoxAdapter(child: _SectionHeader(vm: state.data)),
-              ),
-              switch (state) {
-                CatalogInitialState() || CatalogLoadingState() => const SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-                CatalogErrorState(:final exception) => SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: ErrorView(
-                    exception: exception,
-                    onRetry: () => context.read<CatalogBloc>().add(const .retryPressed()),
+                SliverToBoxAdapter(
+                  child: TypeChips(
+                    chips: state.data.typeChips,
+                    onSelected: (type) =>
+                        context.read<CatalogBloc>().add(.typeSelected(type: type)),
                   ),
                 ),
-                CatalogLoadedState(:final data) when data.cards.isEmpty => SliverFillRemaining(
-                  hasScrollBody: false,
-                  child: Center(
-                    child: Text(S.of(context).catalogEmpty, style: context.textStyles.caption),
-                  ),
+                SliverPadding(
+                  padding: const .fromLTRB(20, 18, 8, 4),
+                  sliver: SliverToBoxAdapter(child: _SectionHeader(vm: state.data)),
                 ),
-                CatalogLoadedState(:final data) => _SliverStrollerGrid(vm: data),
-              },
-            ],
+                switch (state) {
+                  CatalogInitialState() || CatalogLoadingState() => const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(child: CircularProgressIndicator()),
+                  ),
+                  CatalogErrorState(:final exception) => SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: ErrorView(
+                      exception: exception,
+                      onRetry: () => context.read<CatalogBloc>().add(const .retryPressed()),
+                    ),
+                  ),
+                  CatalogLoadedState(:final data) when data.cards.isEmpty => SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Text(S.of(context).catalogEmpty, style: context.textStyles.caption),
+                    ),
+                  ),
+                  CatalogLoadedState(:final data) => _SliverStrollerGrid(vm: data),
+                },
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _SectionHeader extends StatelessWidget {
@@ -122,38 +127,40 @@ class _SliverStrollerGrid extends StatelessWidget {
   const _SliverStrollerGrid({required this.vm});
 
   @override
-  Widget build(BuildContext context) => SliverPadding(
-    padding: const .fromLTRB(20, 8, 20, 24),
-    sliver: SliverMainAxisGroup(
-      slivers: [
-        SliverGrid.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            mainAxisExtent: 290,
-          ),
-          itemCount: vm.cards.length,
-          itemBuilder: (context, index) {
-            final card = vm.cards[index];
-
-            return StrollerCard(
-              vm: card,
-              onPressed: () =>
-                  context.read<CatalogBloc>().add(.strollerPressed(strollerId: card.id)),
-              onAddToCartPressed: () =>
-                  context.read<CatalogBloc>().add(.addToCartPressed(strollerId: card.id)),
-            );
-          },
-        ),
-        if (vm.hasMore)
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: .all(16),
-              child: Center(child: CircularProgressIndicator()),
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: const .fromLTRB(20, 8, 20, 24),
+      sliver: SliverMainAxisGroup(
+        slivers: [
+          SliverGrid.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              mainAxisExtent: 290,
             ),
+            itemCount: vm.cards.length,
+            itemBuilder: (context, index) {
+              final card = vm.cards[index];
+
+              return StrollerCard(
+                vm: card,
+                onPressed: () =>
+                    context.read<CatalogBloc>().add(.strollerPressed(strollerId: card.id)),
+                onAddToCartPressed: () =>
+                    context.read<CatalogBloc>().add(.addToCartPressed(strollerId: card.id)),
+              );
+            },
           ),
-      ],
-    ),
-  );
+          if (vm.hasMore)
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: .all(16),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 }

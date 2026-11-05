@@ -114,6 +114,20 @@ A handler with no `await` drops `async`/`Future<void>` and becomes `void`. The `
 
 Single-expression methods/getters MUST use `=>`, not a block with a single `return`. Not when the body has multiple statements, a `try/catch`, or a local `final` kept for readability.
 
+**Exception — widget `build` methods.** Every `build` (`StatelessWidget`, `State`, any widget class) MUST use a block body with `return`, even when it is a single expression. A local `final` or a `debugPrint` can then be added without reshaping the whole method, and every widget reads the same way. The `prefer_expression_function_bodies` lint is off for this reason; never re-enable it. Builder callbacks passed as arguments (`builder: (context, state) => ...`) stay `=>`.
+
+```dart
+// bad
+@override
+Widget build(BuildContext context) => Text(title);
+
+// good
+@override
+Widget build(BuildContext context) {
+  return Text(title);
+}
+```
+
 ## No Single-Use Wrapper Variables
 
 Inline expressions used only once, unless: used 2+ times, captures a value before an async gap, or inlining hurts readability.

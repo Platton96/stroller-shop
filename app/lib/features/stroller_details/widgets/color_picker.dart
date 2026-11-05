@@ -16,29 +16,31 @@ class ColorPicker extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: .start,
-    spacing: 10,
-    children: [
-      Text(
-        S.of(context).detailsColor(selectedColor),
-        style: context.textStyles.captionStrong.copyWith(fontSize: 14),
-      ),
-      Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: colors
-            .map(
-              (color) => _ColorChip(
-                label: color,
-                isSelected: color == selectedColor,
-                onPressed: () => onSelected(color),
-              ),
-            )
-            .toList(),
-      ),
-    ],
-  );
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: .start,
+      spacing: 10,
+      children: [
+        Text(
+          S.of(context).detailsColor(selectedColor),
+          style: context.textStyles.captionStrong.copyWith(fontSize: 14),
+        ),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: colors
+              .map(
+                (color) => _ColorChip(
+                  label: color,
+                  isSelected: color == selectedColor,
+                  onPressed: () => onSelected(color),
+                ),
+              )
+              .toList(),
+        ),
+      ],
+    );
+  }
 }
 
 class _ColorChip extends StatelessWidget {

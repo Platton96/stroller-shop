@@ -9,28 +9,32 @@ class StrollerImage extends StatelessWidget {
   const StrollerImage({required this.imageUrl, required this.semanticLabel, super.key});
 
   @override
-  Widget build(BuildContext context) => imageUrl.isEmpty
-      ? const _Placeholder()
-      : CachedNetworkImage(
-          imageUrl: imageUrl,
-          fit: .contain,
-          imageBuilder: (context, provider) => Image(
-            image: provider,
+  Widget build(BuildContext context) {
+    return imageUrl.isEmpty
+        ? const _Placeholder()
+        : CachedNetworkImage(
+            imageUrl: imageUrl,
             fit: .contain,
-            semanticLabel: semanticLabel,
-            color: context.colors.imagePlaceholder,
-            colorBlendMode: .multiply,
-          ),
-          placeholder: (_, _) => const _Placeholder(),
-          errorWidget: (_, _, _) => const _Placeholder(),
-        );
+            imageBuilder: (context, provider) => Image(
+              image: provider,
+              fit: .contain,
+              semanticLabel: semanticLabel,
+              color: context.colors.imagePlaceholder,
+              colorBlendMode: .multiply,
+            ),
+            placeholder: (_, _) => const _Placeholder(),
+            errorWidget: (_, _, _) => const _Placeholder(),
+          );
+  }
 }
 
 class _Placeholder extends StatelessWidget {
   const _Placeholder();
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: Icon(Icons.child_friendly_outlined, size: 56, color: context.colors.placeholderIcon),
-  );
+  Widget build(BuildContext context) {
+    return Center(
+      child: Icon(Icons.child_friendly_outlined, size: 56, color: context.colors.placeholderIcon),
+    );
+  }
 }

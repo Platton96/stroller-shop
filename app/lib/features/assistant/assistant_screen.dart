@@ -21,24 +21,27 @@ class AssistantScreen extends StatelessWidget {
   const AssistantScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => AppBlocProvider<AssistantBloc>(
-    postCreate: (bloc) => bloc.add(const .init()),
-    child: BlocBuilder<AssistantBloc, AssistantState>(
-      builder: (context, state) => Column(
-        children: [
-          AssistantHeader(
-            cartCount: state.data.cartCount,
-            onCartPressed: () => context.read<AssistantBloc>().add(const .openCartPressed()),
-          ),
-          Expanded(child: _ChatList(vm: state.data)),
-          ChatInputBar(
-            isEnabled: !state.data.isSending,
-            onSubmitted: (text) => context.read<AssistantBloc>().add(.messageSubmitted(text: text)),
-          ),
-        ],
+  Widget build(BuildContext context) {
+    return AppBlocProvider<AssistantBloc>(
+      postCreate: (bloc) => bloc.add(const .init()),
+      child: BlocBuilder<AssistantBloc, AssistantState>(
+        builder: (context, state) => Column(
+          children: [
+            AssistantHeader(
+              cartCount: state.data.cartCount,
+              onCartPressed: () => context.read<AssistantBloc>().add(const .openCartPressed()),
+            ),
+            Expanded(child: _ChatList(vm: state.data)),
+            ChatInputBar(
+              isEnabled: !state.data.isSending,
+              onSubmitted: (text) =>
+                  context.read<AssistantBloc>().add(.messageSubmitted(text: text)),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _ChatList extends StatelessWidget {

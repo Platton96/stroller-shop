@@ -60,18 +60,20 @@ class _StepButton extends StatelessWidget {
   const _StepButton({required this.icon, required this.semanticLabel, required this.onPressed});
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    button: true,
-    label: semanticLabel,
-    excludeSemantics: true,
-    child: InkWell(
-      onTap: onPressed,
-      borderRadius: const .all(.circular(12)),
-      child: SizedBox(
-        width: 36,
-        height: 36,
-        child: Icon(icon, size: 18, color: context.colors.textPrimary),
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      excludeSemantics: true,
+      child: InkWell(
+        onTap: onPressed,
+        borderRadius: const .all(.circular(12)),
+        child: SizedBox(
+          width: 36,
+          height: 36,
+          child: Icon(icon, size: 18, color: context.colors.textPrimary),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

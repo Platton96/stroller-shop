@@ -15,21 +15,23 @@ class StrollerCardList extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-    scrollDirection: .horizontal,
-    padding: const .symmetric(horizontal: 16),
-    child: Row(
-      crossAxisAlignment: .start,
-      spacing: 12,
-      children: cards
-          .map(
-            (card) => AssistantStrollerCard(
-              vm: card,
-              onPressed: () => onPressed(card.id),
-              onAddToCartPressed: () => onAddToCartPressed(card.id),
-            ),
-          )
-          .toList(),
-    ),
-  );
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: .horizontal,
+      padding: const .symmetric(horizontal: 16),
+      child: Row(
+        crossAxisAlignment: .start,
+        spacing: 12,
+        children: cards
+            .map(
+              (card) => AssistantStrollerCard(
+                vm: card,
+                onPressed: () => onPressed(card.id),
+                onAddToCartPressed: () => onAddToCartPressed(card.id),
+              ),
+            )
+            .toList(),
+      ),
+    );
+  }
 }

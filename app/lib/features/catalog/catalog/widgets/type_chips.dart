@@ -12,38 +12,40 @@ class TypeChips extends StatelessWidget {
   const TypeChips({required this.chips, required this.onSelected, super.key});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-    height: 40,
-    child: ListView.separated(
-      scrollDirection: .horizontal,
-      padding: const .symmetric(horizontal: 20),
-      itemCount: chips.length,
-      separatorBuilder: (_, _) => const SizedBox(width: 8),
-      itemBuilder: (context, index) {
-        final (type, label, count, isSelected) = switch (chips[index]) {
-          AllTypesChipVM(:final count, :final isSelected) => (
-            null,
-            S.of(context).catalogAllTypes,
-            count,
-            isSelected,
-          ),
-          SingleTypeChipVM(:final type, :final label, :final count, :final isSelected) => (
-            type,
-            label,
-            count,
-            isSelected,
-          ),
-        };
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: ListView.separated(
+        scrollDirection: .horizontal,
+        padding: const .symmetric(horizontal: 20),
+        itemCount: chips.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (context, index) {
+          final (type, label, count, isSelected) = switch (chips[index]) {
+            AllTypesChipVM(:final count, :final isSelected) => (
+              null,
+              S.of(context).catalogAllTypes,
+              count,
+              isSelected,
+            ),
+            SingleTypeChipVM(:final type, :final label, :final count, :final isSelected) => (
+              type,
+              label,
+              count,
+              isSelected,
+            ),
+          };
 
-        return _Chip(
-          label: label,
-          count: count,
-          isSelected: isSelected,
-          onPressed: () => onSelected(type),
-        );
-      },
-    ),
-  );
+          return _Chip(
+            label: label,
+            count: count,
+            isSelected: isSelected,
+            onPressed: () => onSelected(type),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class _Chip extends StatelessWidget {

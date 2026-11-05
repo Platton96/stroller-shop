@@ -9,8 +9,10 @@ class TextInfoCard extends StatelessWidget {
   const TextInfoCard({required this.title, required this.text, super.key});
 
   @override
-  Widget build(BuildContext context) => InfoCard(
-    title: title,
-    child: Text(text, style: context.textStyles.body),
-  );
+  Widget build(BuildContext context) {
+    return InfoCard(
+      title: title,
+      child: Text(text, style: context.textStyles.body),
+    );
+  }
 }

@@ -170,6 +170,11 @@ void _handleEditEvent(...) => emit(.editing(...)); // not: Future<void> ... asyn
 
 ```dart
 VM toVM(Domain d) => VM(id: d.id, ...); // not: { return VM(...); }
+
+@override
+Widget build(BuildContext context) {
+  return Text(title); // build is the exception: always a block body
+}
 ```
 
 ## No Single-Use Wrapper Variables
