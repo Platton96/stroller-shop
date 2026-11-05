@@ -4,6 +4,7 @@ import 'package:stroller_shop/features/catalog/catalog/models/catalog.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/type_chip_vm.dart';
+import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/objects/objects.dart';
 
 @injectable
@@ -36,12 +37,14 @@ class CatalogVMMapper {
     final selectedTypes = catalog.filter.types;
 
     return [
-      TypeChipVM.all(
+      TypeChipVM(
+        type: null,
+        label: appStrings.catalogAllTypes,
         count: catalog.types.map((info) => info.count).sum,
         isSelected: selectedTypes.isEmpty,
       ),
       ...catalog.types.map(
-        (info) => TypeChipVM.type(
+        (info) => TypeChipVM(
           type: info.type,
           label: info.label,
           count: info.count,

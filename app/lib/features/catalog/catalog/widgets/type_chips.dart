@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/type_chip_vm.dart';
-import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/objects/objects.dart';
 import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
@@ -21,26 +20,13 @@ class TypeChips extends StatelessWidget {
         itemCount: chips.length,
         separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
-          final (type, label, count, isSelected) = switch (chips[index]) {
-            AllTypesChipVM(:final count, :final isSelected) => (
-              null,
-              S.of(context).catalogAllTypes,
-              count,
-              isSelected,
-            ),
-            SingleTypeChipVM(:final type, :final label, :final count, :final isSelected) => (
-              type,
-              label,
-              count,
-              isSelected,
-            ),
-          };
+          final chip = chips[index];
 
           return _Chip(
-            label: label,
-            count: count,
-            isSelected: isSelected,
-            onPressed: () => onSelected(type),
+            label: chip.label,
+            count: chip.count,
+            isSelected: chip.isSelected,
+            onPressed: () => onSelected(chip.type),
           );
         },
       ),
