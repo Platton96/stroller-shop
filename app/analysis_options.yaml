@@ -42,4 +42,3 @@ linter:
     - use_super_parameters
     - always_use_package_imports
     - omit_local_variable_types
-    - prefer_expression_function_bodies

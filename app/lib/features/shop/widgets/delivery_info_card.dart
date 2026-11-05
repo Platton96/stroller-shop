@@ -10,13 +10,15 @@ class DeliveryInfoCard extends StatelessWidget {
   const DeliveryInfoCard({required this.options, super.key});
 
   @override
-  Widget build(BuildContext context) => InfoCard(
-    title: S.of(context).shopDeliveryTitle,
-    child: Column(
-      spacing: 10,
-      children: options.map((option) => _DeliveryRow(vm: option)).toList(),
-    ),
-  );
+  Widget build(BuildContext context) {
+    return InfoCard(
+      title: S.of(context).shopDeliveryTitle,
+      child: Column(
+        spacing: 10,
+        children: options.map((option) => _DeliveryRow(vm: option)).toList(),
+      ),
+    );
+  }
 }
 
 class _DeliveryRow extends StatelessWidget {

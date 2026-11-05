@@ -19,36 +19,38 @@ class StrollerDetailsScreen extends StatelessWidget {
   const StrollerDetailsScreen({required this.strollerId, super.key});
 
   @override
-  Widget build(BuildContext context) => AppBlocProvider<StrollerDetailsBloc>(
-    param1: strollerId,
-    postCreate: (bloc) => bloc.add(const .init()),
-    child: BlocBuilder<StrollerDetailsBloc, StrollerDetailsState>(
-      builder: (context, state) => Scaffold(
-        body: switch (state) {
-          StrollerDetailsInitialState() || StrollerDetailsLoadingState() => const Stack(
-            children: [
-              Center(child: CircularProgressIndicator()),
-              _BackButton(),
-            ],
-          ),
-          StrollerDetailsErrorState(:final exception) => Stack(
-            children: [
-              ErrorView(
-                exception: exception,
-                onRetry: () => context.read<StrollerDetailsBloc>().add(const .retryPressed()),
-              ),
-              const _BackButton(),
-            ],
-          ),
-          StrollerDetailsLoadedState(:final data) => _LoadedContent(vm: data),
-        },
-        bottomNavigationBar: switch (state) {
-          StrollerDetailsLoadedState() => const _BottomBar(),
-          _ => null,
-        },
+  Widget build(BuildContext context) {
+    return AppBlocProvider<StrollerDetailsBloc>(
+      param1: strollerId,
+      postCreate: (bloc) => bloc.add(const .init()),
+      child: BlocBuilder<StrollerDetailsBloc, StrollerDetailsState>(
+        builder: (context, state) => Scaffold(
+          body: switch (state) {
+            StrollerDetailsInitialState() || StrollerDetailsLoadingState() => const Stack(
+              children: [
+                Center(child: CircularProgressIndicator()),
+                _BackButton(),
+              ],
+            ),
+            StrollerDetailsErrorState(:final exception) => Stack(
+              children: [
+                ErrorView(
+                  exception: exception,
+                  onRetry: () => context.read<StrollerDetailsBloc>().add(const .retryPressed()),
+                ),
+                const _BackButton(),
+              ],
+            ),
+            StrollerDetailsLoadedState(:final data) => _LoadedContent(vm: data),
+          },
+          bottomNavigationBar: switch (state) {
+            StrollerDetailsLoadedState() => const _BottomBar(),
+            _ => null,
+          },
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _LoadedContent extends StatelessWidget {
@@ -197,21 +199,23 @@ class _BackButton extends StatelessWidget {
   const _BackButton();
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-    child: Padding(
-      padding: const .all(16),
-      child: IconButton.filled(
-        tooltip: S.of(context).detailsBack,
-        style: IconButton.styleFrom(
-          backgroundColor: context.colors.background,
-          foregroundColor: context.colors.textPrimary,
-          fixedSize: const Size.square(44),
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const .all(16),
+        child: IconButton.filled(
+          tooltip: S.of(context).detailsBack,
+          style: IconButton.styleFrom(
+            backgroundColor: context.colors.background,
+            foregroundColor: context.colors.textPrimary,
+            fixedSize: const Size.square(44),
+          ),
+          onPressed: () => context.read<StrollerDetailsBloc>().add(const .backPressed()),
+          icon: const Icon(Icons.chevron_left_rounded),
         ),
-        onPressed: () => context.read<StrollerDetailsBloc>().add(const .backPressed()),
-        icon: const Icon(Icons.chevron_left_rounded),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _BottomBar extends StatelessWidget {

@@ -17,25 +17,27 @@ class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => AppBlocProvider<CartBloc>(
-    postCreate: (bloc) => bloc.add(const .init()),
-    child: BlocBuilder<CartBloc, CartState>(
-      builder: (context, state) => SafeArea(
-        bottom: false,
-        child: switch (state) {
-          CartInitialState() || CartLoadingState() => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          CartErrorState(:final exception) => ErrorView(
-            exception: exception,
-            onRetry: () => context.read<CartBloc>().add(const .retryPressed()),
-          ),
-          CartLoadedState(:final data) when data.isEmpty => const _EmptyView(),
-          CartLoadedState(:final data) => _LoadedView(vm: data),
-        },
+  Widget build(BuildContext context) {
+    return AppBlocProvider<CartBloc>(
+      postCreate: (bloc) => bloc.add(const .init()),
+      child: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) => SafeArea(
+          bottom: false,
+          child: switch (state) {
+            CartInitialState() || CartLoadingState() => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            CartErrorState(:final exception) => ErrorView(
+              exception: exception,
+              onRetry: () => context.read<CartBloc>().add(const .retryPressed()),
+            ),
+            CartLoadedState(:final data) when data.isEmpty => const _EmptyView(),
+            CartLoadedState(:final data) => _LoadedView(vm: data),
+          },
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _LoadedView extends StatelessWidget {
@@ -44,45 +46,47 @@ class _LoadedView extends StatelessWidget {
   const _LoadedView({required this.vm});
 
   @override
-  Widget build(BuildContext context) => Column(
-    children: [
-      Expanded(
-        child: ListView(
-          padding: const .fromLTRB(20, 16, 20, 20),
-          children: [
-            CartHeader(itemsCount: vm.itemsCount),
-            const SizedBox(height: 16),
-            Column(
-              spacing: 12,
-              children: [
-                ...vm.lines.map(
-                  (line) => CartLineCard(
-                    vm: line,
-                    onDecreasePressed: () => context.read<CartBloc>().add(
-                      .quantityChanged(strollerId: line.strollerId, color: line.color, delta: -1),
-                    ),
-                    onIncreasePressed: () => context.read<CartBloc>().add(
-                      .quantityChanged(strollerId: line.strollerId, color: line.color, delta: 1),
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            padding: const .fromLTRB(20, 16, 20, 20),
+            children: [
+              CartHeader(itemsCount: vm.itemsCount),
+              const SizedBox(height: 16),
+              Column(
+                spacing: 12,
+                children: [
+                  ...vm.lines.map(
+                    (line) => CartLineCard(
+                      vm: line,
+                      onDecreasePressed: () => context.read<CartBloc>().add(
+                        .quantityChanged(strollerId: line.strollerId, color: line.color, delta: -1),
+                      ),
+                      onIncreasePressed: () => context.read<CartBloc>().add(
+                        .quantityChanged(strollerId: line.strollerId, color: line.color, delta: 1),
+                      ),
                     ),
                   ),
-                ),
-                DeliveryCard(
-                  options: vm.deliveryOptions,
-                  onSelected: (method) =>
-                      context.read<CartBloc>().add(.deliverySelected(method: method)),
-                ),
-                CartSummary(goodsTotalByn: vm.goodsTotalByn, shippingByn: vm.shippingByn),
-              ],
-            ),
-          ],
+                  DeliveryCard(
+                    options: vm.deliveryOptions,
+                    onSelected: (method) =>
+                        context.read<CartBloc>().add(.deliverySelected(method: method)),
+                  ),
+                  CartSummary(goodsTotalByn: vm.goodsTotalByn, shippingByn: vm.shippingByn),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      CheckoutBar(
-        totalByn: vm.totalByn,
-        onCheckoutPressed: () => context.read<CartBloc>().add(const .checkoutPressed()),
-      ),
-    ],
-  );
+        CheckoutBar(
+          totalByn: vm.totalByn,
+          onCheckoutPressed: () => context.read<CartBloc>().add(const .checkoutPressed()),
+        ),
+      ],
+    );
+  }
 }
 
 class _EmptyView extends StatelessWidget {

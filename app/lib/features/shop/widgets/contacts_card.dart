@@ -9,20 +9,22 @@ class ContactsCard extends StatelessWidget {
   const ContactsCard({required this.vm, super.key});
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.card),
-    child: Padding(
-      padding: const .all(16),
-      child: Column(
-        spacing: 12,
-        children: [
-          _ContactRow(icon: Icons.place_outlined, text: vm.address),
-          _ContactRow(icon: Icons.phone_outlined, text: vm.phone),
-          _ContactRow(icon: Icons.schedule_outlined, text: vm.workingHours),
-        ],
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(color: context.colors.surface, borderRadius: AppRadius.card),
+      child: Padding(
+        padding: const .all(16),
+        child: Column(
+          spacing: 12,
+          children: [
+            _ContactRow(icon: Icons.place_outlined, text: vm.address),
+            _ContactRow(icon: Icons.phone_outlined, text: vm.phone),
+            _ContactRow(icon: Icons.schedule_outlined, text: vm.workingHours),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class _ContactRow extends StatelessWidget {
@@ -32,11 +34,13 @@ class _ContactRow extends StatelessWidget {
   const _ContactRow({required this.icon, required this.text});
 
   @override
-  Widget build(BuildContext context) => Row(
-    spacing: 12,
-    children: [
-      Icon(icon, size: 20, color: context.colors.accent),
-      Expanded(child: Text(text, style: context.textStyles.body)),
-    ],
-  );
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 12,
+      children: [
+        Icon(icon, size: 20, color: context.colors.accent),
+        Expanded(child: Text(text, style: context.textStyles.body)),
+      ],
+    );
+  }
 }

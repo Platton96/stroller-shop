@@ -113,24 +113,29 @@ To run independent calls concurrently, await a record (see [Parallel Requests](#
 
 **MUST use `AppBlocProvider`** (`lib/core/bloc/app_bloc_provider.dart`), not `BlocProvider`. It resolves the BLoC from DI and accepts `postCreate` and `param1`. Post a single `.init()` event in `postCreate`.
 
-**The provider lives in the `Screen` widget that owns the BLoC — never in the route table.** Keeping the provider in a `GoRoute.builder` and the `BlocBuilder` in a separate screen splits one feature's wiring across two files. The route builds the `Screen`; the `Screen.build` returns the `AppBlocProvider`, e.g. `Widget build(_) => AppBlocProvider<ProductBloc>(postCreate: (bloc) => bloc.add(const .init()), child: BlocBuilder<ProductBloc, ProductState>(builder: ...));`.
+**The provider lives in the `Screen` widget that owns the BLoC — never in the route table.** Keeping the provider in a `GoRoute.builder` and the `BlocBuilder` in a separate screen splits one feature's wiring across two files. The route builds the `Screen`; the `Screen.build` returns the `AppBlocProvider`, e.g. `Widget build(BuildContext context) { return AppBlocProvider<ProductBloc>(postCreate: (bloc) => bloc.add(const .init()), child: BlocBuilder<ProductBloc, ProductState>(builder: ...)); }`.
 
 **MUST NOT add a private `_<Name>View` widget whose only job is to sit between `AppBlocProvider` and `BlocBuilder`.** The `BlocBuilder`'s `builder` context is already below the provider, so `context.read<Bloc>()` works there — pass the `BlocBuilder` straight as the provider's `child`. Extract a private widget only for a real subtree (a state branch such as `_LoadedView`, a repeated row), not as a context hop.
 
 ```dart
 // bad — a view class that only forwards to BlocBuilder
-Widget build(BuildContext context) =>
-    AppBlocProvider<CartBloc>(postCreate: ..., child: const _CartView());
+Widget build(BuildContext context) {
+  return AppBlocProvider<CartBloc>(postCreate: ..., child: const _CartView());
+}
 
 class _CartView extends StatelessWidget {
-  Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(builder: ...);
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(builder: ...);
+  }
 }
 
 // good
-Widget build(BuildContext context) => AppBlocProvider<CartBloc>(
-  postCreate: (bloc) => bloc.add(const .init()),
-  child: BlocBuilder<CartBloc, CartState>(builder: (context, state) => ...),
-);
+Widget build(BuildContext context) {
+  return AppBlocProvider<CartBloc>(
+    postCreate: (bloc) => bloc.add(const .init()),
+    child: BlocBuilder<CartBloc, CartState>(builder: (context, state) => ...),
+  );
+}
 ``` With a single factory param, pass `param1: productId` alongside `postCreate`; with 2+ params pass the `*BlocParameter` object as `param1`.
 
 ## Event Transformers

@@ -15,19 +15,21 @@ class StrollerShopApp extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-    onGenerateTitle: (context) => S.of(context).appTitle,
-    debugShowCheckedModeBanner: false,
-    theme: AppTheme.light(),
-    locale: const Locale('ru'),
-    supportedLocales: S.supportedLocales,
-    localizationsDelegates: const [
-      S.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    scaffoldMessengerKey: scaffoldMessengerKey,
-    routerConfig: router,
-  );
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      onGenerateTitle: (context) => S.of(context).appTitle,
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light(),
+      locale: const Locale('ru'),
+      supportedLocales: S.supportedLocales,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      scaffoldMessengerKey: scaffoldMessengerKey,
+      routerConfig: router,
+    );
+  }
 }
