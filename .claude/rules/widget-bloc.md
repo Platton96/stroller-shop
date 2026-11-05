@@ -60,7 +60,6 @@ Every BLoC extends `BaseBloc<Event, State>` (`lib/core/bloc/base_bloc.dart`). It
 | Member | What it is | Details |
 |---|---|---|
 | `appNavigator` | `AppNavigator` — all navigation | `routing.md` |
-| `messageBus` | Cross-BLoC messaging | `message-bus.md` |
 | `toastService` | Success / error / info toasts | — |
 | `addDisposable(s)` | Auto-cancelled stream subscriptions | [Stream Subscriptions](#stream-subscriptions) |
 | `logError(e, [st])` | Writes to the app `logger` (suppressed in test env) | `error-handling.md` |
@@ -135,7 +134,7 @@ Always dispatch a single "applyXxxSelection" event that carries the full result 
 
 ## BLoC Communication
 
-Use `MessageBus` for decoupled cross-BLoC communication (see `message-bus.md`).
+Use a feature `Mediator<T>`, injected through the constructor, for decoupled cross-BLoC communication (see `mediator.md`).
 
 ## BLoC Constructor Order
 
@@ -143,7 +142,7 @@ Use `MessageBus` for decoupled cross-BLoC communication (see `message-bus.md`).
 
 ## Stream Listener Naming and Tear-Offs
 
-**Stream and `MessageBus` listeners MUST be named `_handle<Thing>` and accept the message as their sole parameter**, so they can be passed as tear-offs: `addDisposable(_repo.onUpdate.listen(_handleUpdate));` with `void _handleUpdate(UpdateMessage message) { ... }` — not an anonymous lambda wrapping a private method.
+**Stream and mediator listeners MUST be named `_handle<Thing>` and accept the message as their sole parameter**, so they can be passed as tear-offs: `addDisposable(_repo.onUpdate.listen(_handleUpdate));` with `void _handleUpdate(UpdateMessage message) { ... }` — not an anonymous lambda wrapping a private method.
 
 Does NOT apply when the listener must close over local state before subscribing (rare).
 

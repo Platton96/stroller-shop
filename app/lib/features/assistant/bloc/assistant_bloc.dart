@@ -1,11 +1,11 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart';
-import 'package:stroller_shop/features/assistant/messages/ask_assistant_message.dart';
+import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_data.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
 import 'package:stroller_shop/features/stroller_details/stroller_details_pages.dart';
-import 'package:stroller_shop/features/tabs/open_tab_message.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/assistant_repository.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
@@ -16,11 +16,16 @@ part 'assistant_state.dart';
 
 @injectable
 class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
-  AssistantBloc(this._assistantRepository, this._cartRepository, this._mapper)
-    : super(.initial(data: _mapper.toAssistantVM(AssistantData.initial()))) {
+  AssistantBloc(
+    this._assistantRepository,
+    this._cartRepository,
+    this._mapper,
+    this._askAssistantMediator,
+    this._openTabMediator,
+  ) : super(.initial(data: _mapper.toAssistantVM(AssistantData.initial()))) {
     addDisposables([
       _cartRepository.watchCount().listen(_handleCartCount),
-      messageBus.stream<AskAssistantMessage>().listen(_handleAskAssistant),
+      _askAssistantMediator.stream.listen(_handleAskAssistant),
     ]);
     on<AssistantEvent>(
       (event, emit) => switch (event) {
@@ -40,6 +45,8 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
   final AssistantRepository _assistantRepository;
   final CartRepository _cartRepository;
   final AssistantVMMapper _mapper;
+  final AskAssistantMediator _askAssistantMediator;
+  final OpenTabMediator _openTabMediator;
 
   var _data = AssistantData.initial();
   var _conversationId = '';
@@ -111,7 +118,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
   }
 
   void _handleOpenCartPressedEvent(Emitter<AssistantState> emit, _OpenCartPressedEvent event) =>
-      messageBus.send(const OpenTabMessage(.cart));
+      _openTabMediator.notify(.cart);
 
   void _handleCartCountChangedEvent(
     Emitter<AssistantState> emit,
@@ -123,8 +130,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
 
   void _handleCartCount(int count) => add(.cartCountChanged(count: count));
 
-  void _handleAskAssistant(AskAssistantMessage message) =>
-      add(.strollerAsked(stroller: message.value));
+  void _handleAskAssistant(Stroller stroller) => add(.strollerAsked(stroller: stroller));
 
   Future<void> _sendMessage(Emitter<AssistantState> emit, String text) async {
     final message = text.trim();

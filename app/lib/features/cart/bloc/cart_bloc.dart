@@ -2,7 +2,7 @@ import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/cart/mappers/cart_vm_mapper.dart';
 import 'package:stroller_shop/features/cart/models/cart_data.dart';
 import 'package:stroller_shop/features/cart/models/cart_vm.dart';
-import 'package:stroller_shop/features/tabs/open_tab_message.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
 import 'package:stroller_shop/repositories/shop_repository.dart';
@@ -13,7 +13,7 @@ part 'cart_state.dart';
 
 @injectable
 class CartBloc extends BaseBloc<CartEvent, CartState> {
-  CartBloc(this._cartRepository, this._shopRepository, this._mapper)
+  CartBloc(this._cartRepository, this._shopRepository, this._mapper, this._openTabMediator)
     : super(.initial(data: _mapper.toCartVM(CartData.initial()))) {
     addDisposable(_cartRepository.watchItems().listen(_handleItems));
     on<CartEvent>(
@@ -32,6 +32,7 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   final CartRepository _cartRepository;
   final ShopRepository _shopRepository;
   final CartVMMapper _mapper;
+  final OpenTabMediator _openTabMediator;
 
   var _data = CartData.initial();
 
@@ -81,7 +82,7 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   }
 
   void _handleCatalogPressedEvent(Emitter<CartState> emit, _CatalogPressedEvent event) =>
-      messageBus.send(const OpenTabMessage(.catalog));
+      _openTabMediator.notify(.catalog);
 
   void _handleItems(List<CartItem> items) => add(.itemsChanged(items: items));
 

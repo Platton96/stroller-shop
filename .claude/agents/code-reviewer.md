@@ -45,7 +45,7 @@ Determine which rule files are relevant from the changed file paths using the `p
 | Theme tokens, shared widgets, screens | `.claude/rules/ui-kit.md` |
 | Navigation, `Page` definitions | `.claude/rules/routing.md` |
 | `Semantics`/`MergeSemantics`/`ExcludeSemantics` | `.claude/rules/semantics.md` |
-| Cross-BLoC or cross-feature communication | `.claude/rules/message-bus.md` |
+| Cross-BLoC or cross-feature communication | `.claude/rules/mediator.md` |
 | New/changed test files | `.claude/rules/testing.md` |
 
 ### Step 3: Verify Against Checklists
@@ -63,7 +63,7 @@ Rule files without a checklist (e.g. `dart-coding.md`) are reviewed section by s
 **Architecture check (always applies):**
 - Data flow: UI → BLoC → Repository → Service → API
 - No layer violations (e.g., widgets importing DTOs or repositories, BLoCs importing services directly)
-- Navigation, toasts and message-bus access only through the `BaseBloc` members, never from widgets
+- Navigation and toasts only through the `BaseBloc` members, cross-BLoC notifications only through constructor-injected mediators, never from widgets
 - Proper separation of concerns
 
 **Testing check (always applies):**
