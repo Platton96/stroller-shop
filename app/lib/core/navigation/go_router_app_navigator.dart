@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stroller_shop/core/navigation/app_bottom_sheet.dart';
 import 'package:stroller_shop/core/navigation/app_navigator.dart';
 
 class GoRouterAppNavigator implements AppNavigator {
@@ -13,13 +14,7 @@ class GoRouterAppNavigator implements AppNavigator {
   @override
   Future<T?> showSheet<T>(WidgetBuilder builder) async {
     if (_router.routerDelegate.navigatorKey.currentContext case final context?) {
-      return showModalBottomSheet<T>(
-        context: context,
-        builder: builder,
-        isScrollControlled: true,
-        useSafeArea: true,
-        showDragHandle: true,
-      );
+      return showAppBottomSheet<T>(context, builder);
     }
 
     return null;

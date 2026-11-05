@@ -46,6 +46,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/google_fonts/
 
 dependency_overrides:
   source_helper: 1.3.13

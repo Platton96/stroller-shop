@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:stroller_shop/app/app.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:stroller_shop/di/service_locator.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Intl.defaultLocale = 'ru';
+  GoogleFonts.config.allowRuntimeFetching = false;
 
   final getIt = ServiceLocator.getIt;
   await configureDependencies(getIt);

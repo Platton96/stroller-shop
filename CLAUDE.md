@@ -33,7 +33,8 @@ fvm flutter gen-l10n
 fvm dart run build_runner build
 fvm dart format lib test
 fvm flutter analyze
-fvm flutter test
+fvm flutter test                                 # unit tests + screen goldens
+fvm flutter test --update-goldens test/golden    # after an intended visual change
 fvm flutter run    # uses the hosted backend; --dart-define=API_BASE_URL=http://localhost:8080 for a local one
 ```
 
