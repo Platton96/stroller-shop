@@ -230,7 +230,7 @@
   "specWheels": "Колёса",
   "specSuspension": "Амортизация",
   "specSeat": "Блок",
-  "specFolded": "В сложенном виде",
+  "specFolded": "Сложенная",
   "specAgeRange": "{from}–{to} мес",
   "@specAgeRange": {
     "placeholders": {

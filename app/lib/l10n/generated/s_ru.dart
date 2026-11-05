@@ -339,7 +339,7 @@ class SRu extends S {
   String get specSeat => 'Блок';
 
   @override
-  String get specFolded => 'В сложенном виде';
+  String get specFolded => 'Сложенная';
 
   @override
   String specAgeRange(int from, int to) {
