@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:stroller_shop/app/app.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
@@ -25,7 +26,7 @@ Future<void> main() async {
   runZonedGuarded(
     () => runApp(
       StrollerShopApp(
-        navigator: getIt.get<AppNavigator>(),
+        router: getIt.get<GoRouter>(),
         scaffoldMessengerKey: switch (toastService) {
           final SnackBarToastService service => service.messengerKey,
           _ => GlobalKey<ScaffoldMessengerState>(),

@@ -51,7 +51,7 @@ When `context.colors` or `context.textStyles` is used **3+ times** in a single `
 
 ## Sheets
 
-Sheets are `ModalBottomSheetPage`s pushed through `appNavigator` (`routing.md`), never `showModalBottomSheet`. Keep the safe-area bottom inset: don't zero out `MediaQuery.viewPaddingOf(context).bottom` handling, or the primary button clips behind the home indicator on iPhones.
+Sheets open through `appNavigator.showSheet(...)` from a BLoC (`routing.md`), never `showModalBottomSheet` in a widget. Keep the safe-area bottom inset: don't zero out `MediaQuery.viewPaddingOf(context).bottom` handling, or the primary button clips behind the home indicator on iPhones.
 
 ## Scaffold Layout: White Top + Grey Body
 

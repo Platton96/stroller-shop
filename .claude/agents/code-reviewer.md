@@ -43,7 +43,7 @@ Determine which rule files are relevant from the changed file paths using the `p
 | Widget composition, BLoC/event/state shape, `BaseBloc` usage | `.claude/rules/widget-bloc.md` |
 | Retrofit services, DTOs, repositories, domain objects | `.claude/rules/data-layer.md` |
 | Theme tokens, shared widgets, screens | `.claude/rules/ui-kit.md` |
-| Navigation, `Page` definitions | `.claude/rules/routing.md` |
+| Navigation, GoRouter routes | `.claude/rules/routing.md` |
 | `Semantics`/`MergeSemantics`/`ExcludeSemantics` | `.claude/rules/semantics.md` |
 | Cross-BLoC or cross-feature communication | `.claude/rules/mediator.md` |
 | New/changed test files | `.claude/rules/testing.md` |

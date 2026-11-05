@@ -1,10 +1,10 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
+import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart';
 import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_data.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
-import 'package:stroller_shop/features/stroller_details/stroller_details_pages.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/assistant_repository.dart';
@@ -106,7 +106,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
   );
 
   void _handleStrollerPressedEvent(Emitter<AssistantState> emit, _StrollerPressedEvent event) =>
-      unawaited(appNavigator.push(StrollerDetailsPage(strollerId: event.strollerId)));
+      unawaited(appNavigator.push<void>(AppRoutes.strollerDetails(event.strollerId)));
 
   void _handleAddToCartPressedEvent(Emitter<AssistantState> emit, _AddToCartPressedEvent event) {
     final stroller = _knownStrollers.firstWhereOrNull((item) => item.id == event.strollerId);

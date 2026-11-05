@@ -45,7 +45,7 @@ paths: ["**/*_bloc.dart","**/*_event.dart","**/*_state.dart","**/*_vm.dart","**/
 
 - **No `buildWhen` or `listenWhen`** — if needed, the BLoC is too broad; split it
 - **No reading BLoC state imperatively** (`context.read<Bloc>().state`) — state flows via `BlocBuilder`/`BlocListener`, passed as parameters
-- **Don't model "open a sheet / navigate" as a `StateData` flag observed by a `BlocConsumer` listener.** The BLoC already owns `appNavigator` — call `appNavigator.push(FilterSheetPage())` directly inside the handler and feed the awaited result back into state, e.g. `_handleFilterPressedEvent` awaits the sheet then `emit(.loaded(data: state.data.copyWith(filter: filter)))`. Encoding the intent as an `isFilterSheetOpen` bool watched by a widget `listener` re-implements navigation in the UI and forces a `listenWhen` rising-edge guard against double-firing. The handler is the single place that opens the sheet and stores the result.
+- **Don't model "open a sheet / navigate" as a `StateData` flag observed by a `BlocConsumer` listener.** The BLoC already owns `appNavigator` — call `appNavigator.showSheet(...)` directly inside the handler and feed the awaited result back into state, e.g. `_handleFilterPressedEvent` awaits the sheet then `emit(.loaded(data: state.data.copyWith(filter: filter)))`. Encoding the intent as an `isFilterSheetOpen` bool watched by a widget `listener` re-implements navigation in the UI and forces a `listenWhen` rising-edge guard against double-firing. The handler is the single place that opens the sheet and stores the result.
 
 ## Side Effects in Widgets
 
@@ -113,7 +113,7 @@ To run independent calls concurrently, await a record (see [Parallel Requests](#
 
 **MUST use `AppBlocProvider`** (`lib/core/bloc/app_bloc_provider.dart`), not `BlocProvider`. It resolves the BLoC from DI and accepts `postCreate` and `param1`. Post a single `.init()` event in `postCreate`.
 
-**The provider lives in the `Screen` widget that owns the BLoC — never in the pages layer.** Keeping the provider in a `Page` and the `BlocBuilder` in a separate screen splits one feature's wiring across two files. The page builds the `Screen`; the `Screen.build` returns the `AppBlocProvider`, e.g. `Widget build(_) => AppBlocProvider<ProductBloc>(postCreate: (bloc) => bloc.add(const .init()), child: const _ProductView());`. With a single factory param, pass `param1: productId` alongside `postCreate`; with 2+ params pass the `*BlocParameter` object as `param1`.
+**The provider lives in the `Screen` widget that owns the BLoC — never in the route table.** Keeping the provider in a `GoRoute.builder` and the `BlocBuilder` in a separate screen splits one feature's wiring across two files. The route builds the `Screen`; the `Screen.build` returns the `AppBlocProvider`, e.g. `Widget build(_) => AppBlocProvider<ProductBloc>(postCreate: (bloc) => bloc.add(const .init()), child: const _ProductView());`. With a single factory param, pass `param1: productId` alongside `postCreate`; with 2+ params pass the `*BlocParameter` object as `param1`.
 
 ## Event Transformers
 
@@ -206,7 +206,7 @@ final tasks = await tasksFuture;
 
 ## Services Integration
 
-- **Navigation**: `appNavigator.push(Page())`, `appNavigator.pop()`, `appNavigator.replace(Page())`, `appNavigator.replaceAll(Page())`
+- **Navigation**: `appNavigator.push(AppRoutes.x(...))`, `appNavigator.showSheet(...)`, `appNavigator.pop()`
 - **Toasts**: `toastService.showSuccess(...)`, `.showError(...)`, `.showInfo(...)`
 - **Error logging**: `logError(ex, st)` — writes to the app `logger`
 
