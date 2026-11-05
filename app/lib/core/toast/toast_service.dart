@@ -39,16 +39,3 @@ class SnackBarToastService implements ToastService {
       );
   }
 }
-
-class NoOpToastService implements ToastService {
-  const NoOpToastService();
-
-  @override
-  void showSuccess(String message) {}
-
-  @override
-  void showError(String message) {}
-
-  @override
-  void showInfo(String message) {}
-}

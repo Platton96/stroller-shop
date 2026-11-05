@@ -70,7 +70,7 @@ Every BLoC extends `BaseBloc<Event, State>` (`lib/core/bloc/base_bloc.dart`). It
 Built-in behavior:
 
 - **Every `on<E>` handler runs inside a try/catch** — exceptions route to `handleGeneralException`. This is why manual exception catching is banned.
-- **`close()` neutralizes the BLoC** — `appNavigator`/`toastService` are swapped to no-op implementations, every `addDisposable` subscription is cancelled, and `add()` drops events afterward — see [No Manual isClosed Guards](#no-manual-isclosed-guards).
+- **`close()` neutralizes the BLoC** — every `addDisposable` subscription is cancelled and `add()` drops events afterward — see [No Manual isClosed Guards](#no-manual-isclosed-guards).
 - The service members are wired once at startup through `BaseBlocCallbacks`; tests wire mocks via `setUpTestInfrastructure()` (`testing.md`).
 
 ## BLoC Structure
@@ -101,7 +101,7 @@ Does NOT apply when the bool *is* the domain value (`isEnabled` from a flag or s
 
 ## No Manual isClosed Guards
 
-**MUST NOT write `if (isClosed) return;` guards after `await`s — anywhere in a BLoC, including stream callbacks.** `BaseBloc.close()` swaps `appNavigator` / `toastService` to no-op implementations, cancels every `addDisposable` subscription, and the `add()` override silently drops events on a closed BLoC; a post-close `emit` is ignored by the canceled emitter. Every post-await side effect on a disposed BLoC is inert on its own; a manual guard is dead code — e.g. after `await _repository.save(...)`, go straight to `emit(.saved(...))` / `appNavigator.pop(result)` with no `if (isClosed) return;` in between. There is no location in a BLoC where a manual `isClosed` guard is needed.
+**MUST NOT write `if (isClosed) return;` guards after `await`s — anywhere in a BLoC, including stream callbacks.** `BaseBloc.close()` cancels every `addDisposable` subscription, and the `add()` override silently drops events on a closed BLoC; a post-close `emit` is ignored by the canceled emitter. Every post-await side effect on a disposed BLoC is inert on its own; a manual guard is dead code — e.g. after `await _repository.save(...)`, go straight to `emit(.saved(...))` / `appNavigator.pop(result)` with no `if (isClosed) return;` in between. There is no location in a BLoC where a manual `isClosed` guard is needed.
 
 ## No `.then()` in Handlers
 
