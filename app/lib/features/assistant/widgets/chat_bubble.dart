@@ -15,29 +15,48 @@ class ChatBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final (
-      Alignment alignment,
-      Color background,
-      BorderRadius radius,
-      double widthFactor,
-      TextStyle textStyle,
-    ) = switch (side) {
-      .user => (
-        .centerRight,
-        colors.textPrimary,
-        AppRadius.userBubble,
-        0.8,
-        context.textStyles.body.copyWith(color: colors.onAccent, height: 1.4),
+    final textStyle = context.textStyles.body.copyWith(height: 1.4);
+
+    return switch (side) {
+      .user => _Bubble(
+        alignment: .centerRight,
+        background: colors.textPrimary,
+        radius: AppRadius.userBubble,
+        widthFactor: 0.8,
+        textStyle: textStyle.copyWith(color: colors.onAccent),
+        child: child,
       ),
-      .assistant => (
-        .centerLeft,
-        colors.surface,
-        AppRadius.assistantBubble,
-        0.85,
-        context.textStyles.body.copyWith(height: 1.4),
+      .assistant => _Bubble(
+        alignment: .centerLeft,
+        background: colors.surface,
+        radius: AppRadius.assistantBubble,
+        widthFactor: 0.85,
+        textStyle: textStyle,
+        child: child,
       ),
     };
+  }
+}
 
+class _Bubble extends StatelessWidget {
+  final Alignment alignment;
+  final Color background;
+  final BorderRadius radius;
+  final double widthFactor;
+  final TextStyle textStyle;
+  final Widget child;
+
+  const _Bubble({
+    required this.alignment,
+    required this.background,
+    required this.radius,
+    required this.widthFactor,
+    required this.textStyle,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Align(
       alignment: alignment,
       child: LayoutBuilder(
