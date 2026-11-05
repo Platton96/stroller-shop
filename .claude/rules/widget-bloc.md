@@ -194,7 +194,15 @@ Public `Screen` provides the BLoC (the `AppBlocProvider` pattern shown above), p
 
 ## Parallel Requests
 
-Use Dart 3 records with `.wait` for concurrent repository calls: `final (balance, tasks) = await (_financeRepository.fetchBalance(), _taskRepository.fetchTasks()).wait;`.
+Start the calls, `await Future.wait([...])` on them, then read each typed result. `Future.wait` rethrows the original exception, so `handleGeneralException` receives the repository's `AppException` as is. Do NOT use record `.wait`: it wraps failures in `ParallelWaitError`, which `BaseBloc` does not unwrap.
+
+```dart
+final balanceFuture = _financeRepository.fetchBalance();
+final tasksFuture = _taskRepository.fetchTasks();
+await Future.wait([balanceFuture, tasksFuture]);
+final balance = await balanceFuture;
+final tasks = await tasksFuture;
+```
 
 ## Services Integration
 

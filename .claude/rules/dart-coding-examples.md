@@ -178,7 +178,7 @@ VM toVM(Domain d) => VM(id: d.id, ...); // not: { return VM(...); }
 // bad — what are $1/$2?
 doThing(result.$1, result.$2);
 // good — names restored by destructuring
-final (balance, tasks) = await (fetchBalance(), fetchTasks()).wait;
+final (:balance, :tasks) = summary;
 ```
 
 ## Filtering: `where` Over Collection-`for`
