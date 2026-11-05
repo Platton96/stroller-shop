@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Колясочная — промо</title>
+<style>
+@font-face{font-family:Manrope;src:url(../app/assets/google_fonts/Manrope-Regular.ttf);font-weight:400}
+@font-face{font-family:Manrope;src:url(../app/assets/google_fonts/Manrope-Medium.ttf);font-weight:500}
+@font-face{font-family:Manrope;src:url(../app/assets/google_fonts/Manrope-SemiBold.ttf);font-weight:600}
+@font-face{font-family:Manrope;src:url(../app/assets/google_fonts/Manrope-Bold.ttf);font-weight:700}
+@font-face{font-family:Manrope;src:url(../app/assets/google_fonts/Manrope-ExtraBold.ttf);font-weight:800}
+:root{--bg:#F6F2EC;--surface:#FFFFFF;--ph:#F1ECE5;--tp:#1E2422;--ts:#5F6660;--tb:#3B423F;--border:#E6DFD5;--accent:#23574F;--accentP:#163A35;--soft:#E3EDE9;--softB:#C9DAD4;--onAccentMuted:#D6E6E1;--hl:#F3C9A8;--rating:#E39A5F;--phi:#C4B8A8}
+*{box-sizing:border-box}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;font-family:Manrope,sans-serif;color:var(--tp);background:var(--bg)}
+.blob{position:absolute;border-radius:50%;filter:blur(90px)}
+#captions{position:absolute;left:0;right:0;top:0;height:400px}
+.cap{position:absolute;left:60px;right:60px;top:0;text-align:center}
+.tag{display:inline-flex;align-items:center;gap:12px;margin-top:92px;padding:10px 24px;border-radius:999px;background:var(--soft);border:2px solid var(--softB);color:var(--accent);font-weight:700;font-size:28px;letter-spacing:.02em}
+.tag svg{width:30px;height:30px}
+.title{margin-top:26px;font-weight:800;font-size:68px;line-height:1.08;letter-spacing:-.01em}
+.subtitle{margin-top:16px;font-weight:500;font-size:34px;color:var(--ts)}
+#phoneWrap{position:absolute;left:0;top:0;width:1080px;height:1920px;perspective:2600px}
+.phone{position:absolute;left:199px;top:408px;width:406px;height:860px;transform-origin:0 0;border-radius:62px;background:#15191A;padding:8px;box-shadow:0 30px 60px rgba(30,36,34,.28),0 0 0 2px #2c3233 inset}
+.phoneInner{position:absolute;inset:0;transform-origin:50% 50%}
+.screenBox{position:absolute;left:8px;top:8px;width:390px;height:844px;border-radius:54px;overflow:hidden;background:#fff}
+.layer{position:absolute;inset:0;overflow:hidden}
+.island{position:absolute;left:50%;top:11px;width:122px;height:35px;margin-left:-61px;border-radius:20px;background:#000;z-index:50}
+.homeBar{position:absolute;left:50%;bottom:8px;width:136px;height:5px;margin-left:-68px;border-radius:3px;background:#1E2422;z-index:50}
+.sb{position:absolute;left:0;right:0;top:0;height:50px;display:flex;justify-content:space-between;align-items:center;padding:6px 34px 0 42px;font:600 16px -apple-system,"SF Pro Text",sans-serif;z-index:40}
+.sbi{display:flex;gap:6px;align-items:center}
+.grow{overflow:hidden;flex:none}
+.tgChat>*,.aChat>*{flex-shrink:0}
+#overlay{position:absolute;inset:0;pointer-events:none}
+.finger{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(30,36,34,.28);border:3px solid rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:80}
+.ripple{position:absolute;border-radius:50%;border:3px solid rgba(35,87,79,.75);z-index:79}
+.pressed{filter:brightness(.88);transform:scale(.97)}
+
+.tg{position:absolute;inset:0;font-family:-apple-system,"SF Pro Text",sans-serif;background:linear-gradient(160deg,#d4e6c4 0%,#e8e3b8 50%,#cfe0c2 100%)}
+.tgPattern{position:absolute;inset:0;opacity:.18}
+.tgHead{position:absolute;left:0;right:0;top:0;height:104px;padding-top:50px;background:rgba(247,247,247,.96);border-bottom:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;padding-left:10px;z-index:30}
+.tgBack{color:#2f8ae5;font-size:17px;display:flex;align-items:center;gap:2px;width:70px}
+.tgTitle{flex:1;text-align:center;margin-right:30px}
+.tgName{font-weight:600;font-size:17px;color:#000}
+.tgSub{font-size:13px;color:#8a8a8e}
+.tgSub.typing{color:#2f8ae5}
+.tgAva{width:38px;height:38px;border-radius:50%;margin-right:12px;overflow:hidden}
+.tgChat{position:absolute;left:0;right:0;top:104px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 8px 8px;overflow:hidden}
+.msgRow{display:flex;padding-top:6px}
+.msgRow.out{justify-content:flex-end}
+.bub{max-width:300px;padding:7px 12px 8px;border-radius:18px;font-size:16px;line-height:1.3;color:#000;white-space:pre-line;box-shadow:0 1px 1px rgba(0,0,0,.12);position:relative}
+.bub.in{background:#fff;border-bottom-left-radius:6px}
+.bub.out{background:#e2fbc8;border-bottom-right-radius:6px}
+.bub .time{float:right;margin:8px 0 -4px 10px;font-size:11px;color:#8e9b8a}
+.bub.out .time{color:#5fae4f}
+.photoMsg{width:270px;border-radius:18px;border-bottom-left-radius:6px;overflow:hidden;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.photoMsg .img{height:170px;background:linear-gradient(160deg,#f6f2ec,#ebe3d8);display:flex;align-items:center;justify-content:center}
+.photoMsg .cap2{padding:7px 12px 8px;font-size:15px;line-height:1.3;white-space:pre-line}
+.ikb{display:flex;gap:4px;margin-top:4px;width:270px}
+.ikb div{flex:1;text-align:center;padding:9px 4px;border-radius:12px;background:rgba(68,98,60,.32);color:#fff;font-weight:600;font-size:14px}
+.typingBub{display:flex;gap:5px;padding:13px 14px}
+.typingBub i{width:8px;height:8px;border-radius:50%;background:#9aa49a;display:block}
+.tgInput{position:absolute;left:0;right:0;height:52px;background:rgba(247,247,247,.97);border-top:1px solid rgba(0,0,0,.08);display:flex;align-items:center;gap:8px;padding:0 8px;z-index:30}
+.tgMenu{height:34px;padding:0 12px;border-radius:17px;background:#2f8ae5;color:#fff;font-weight:600;font-size:14px;display:flex;align-items:center}
+.tgField{flex:1;height:36px;border-radius:18px;background:#fff;border:1px solid #dcdcdc;display:flex;align-items:center;padding:0 14px;font-size:16px;color:#000}
+.tgField.ph{color:#a0a0a5}
+.tgSend{width:36px;height:36px;border-radius:50%;background:#2f8ae5;display:flex;align-items:center;justify-content:center}
+.tgKb{position:absolute;left:0;right:0;background:#d1d4da;padding:8px 6px;display:flex;flex-direction:column;gap:7px;z-index:29}
+.tgKb div{height:42px;border-radius:9px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center;font-size:16px;color:#000}
+.tgHome{position:absolute;left:0;right:0;bottom:0;height:34px;background:rgba(247,247,247,.97);z-index:30}
+
+.app{position:absolute;inset:0;background:var(--bg);font-family:Manrope,sans-serif;color:var(--tp)}
+.appBody{position:absolute;left:0;right:0;top:50px;bottom:84px;overflow:hidden}
+.scroll{position:absolute;left:0;right:0;top:0}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:84px;background:#fff;border-top:1px solid var(--border);display:flex;padding:8px 6px 0;z-index:30}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--ts);position:relative}
+.tab.on{color:var(--accent)}
+.tabIcon{width:56px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center}
+.tab.on .tabIcon{background:var(--soft)}
+.badge{position:absolute;top:-2px;left:50%;margin-left:8px;min-width:18px;height:18px;border-radius:9px;background:#E39A5F;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.hdr{padding:10px 16px 0;display:flex;justify-content:space-between;align-items:center}
+.h1{font-weight:800;font-size:26px}
+.cap1{font-size:13px;color:var(--ts);font-weight:500;margin-top:2px}
+.iconBtn{width:44px;height:44px;border-radius:50%;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.search{margin:14px 16px 0;height:48px;border-radius:14px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--ts);font-size:15px}
+.promo{margin:14px 16px 0;border-radius:20px;background:var(--accent);padding:14px;display:flex;align-items:center;gap:12px;color:#fff}
+.promo .ic{width:44px;height:44px;border-radius:14px;background:var(--soft);display:flex;align-items:center;justify-content:center;flex:none}
+.promo b{display:block;font-size:16px;font-weight:700}
+.promo span{display:block;font-size:12.5px;color:var(--onAccentMuted);margin-top:3px;line-height:1.3}
+.chips{display:flex;gap:8px;padding:14px 16px 0;white-space:nowrap}
+.chip{padding:9px 14px;border-radius:999px;border:1px solid var(--border);background:#fff;font-weight:600;font-size:14px;color:var(--tb);flex:none}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.countRow{display:flex;justify-content:space-between;padding:16px 16px 10px;font-size:13px;color:var(--ts);font-weight:600}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px}
+.card{background:#fff;border-radius:20px;padding:8px 8px 12px;border:1px solid var(--border)}
+.card .im{height:128px;border-radius:14px;background:var(--ph);display:flex;align-items:center;justify-content:center;position:relative}
+.card .bd{position:absolute;left:6px;top:6px;padding:3px 7px;border-radius:8px;background:var(--soft);color:var(--accent);font-size:10.5px;font-weight:700}
+.card .br{font-size:12px;color:var(--ts);margin:8px 6px 0;font-weight:500}
+.card .md{font-size:15px;font-weight:700;margin:1px 6px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .mt{font-size:12px;color:var(--ts);margin:2px 6px 0}
+.card .pr{font-size:16px;font-weight:800;margin:8px 6px 0}
+.card .rt{color:var(--rating);font-size:12px;font-weight:700;float:right;margin-top:3px}
+
+.dImg{height:330px;background:var(--ph);display:flex;align-items:center;justify-content:center;position:relative}
+.back{position:absolute;left:16px;top:12px;height:40px;padding:0 14px 0 10px;border-radius:20px;background:#fff;display:flex;align-items:center;gap:4px;font-weight:700;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.dots i{width:7px;height:7px;border-radius:4px;background:var(--phi);display:block}
+.dots i.on{width:20px;background:var(--accent)}
+.dBody{padding:18px 16px 0}
+.dType{display:inline-block;padding:4px 10px;border-radius:8px;background:var(--soft);color:var(--accent);font-size:12px;font-weight:700}
+.dName{font-size:28px;font-weight:800;margin-top:10px;line-height:1.1}
+.dPrice{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+.dPrice b{font-size:24px;font-weight:800}
+.dPrice span{font-size:13px;color:var(--accent);font-weight:700}
+.colorRow{margin-top:16px;font-size:14px;font-weight:600;color:var(--tb)}
+.swatches{display:flex;gap:12px;margin-top:10px}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px var(--border)}
+.sw.on{box-shadow:0 0 0 2px var(--accent)}
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.spec{background:#fff;border:1px solid var(--border);border-radius:16px;padding:10px 12px}
+.spec small{display:block;font-size:12px;color:var(--ts);font-weight:500}
+.spec b{display:block;font-size:15px;font-weight:700;margin-top:3px}
+.feat{margin-top:18px;font-size:17px;font-weight:800}
+.fl{display:flex;gap:10px;align-items:center;margin-top:10px;font-size:14.5px;color:var(--tb);font-weight:500}
+.fl i{width:22px;height:22px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;flex:none}
+.dBar{position:absolute;left:0;right:0;bottom:0;padding:12px 16px 34px;background:#fff;border-top:1px solid var(--border);display:flex;gap:10px;z-index:30}
+.btn{height:52px;border-radius:16px;background:var(--accent);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;flex:1}
+.btn.ghost{background:var(--soft);color:var(--accent);flex:none;width:52px}
+
+.aHead{padding:10px 16px 12px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:var(--bg)}
+.aAva{width:44px;height:44px;border-radius:14px;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.aChat{position:absolute;left:0;right:0;top:67px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 16px 10px;overflow:hidden}
+.aRow{display:flex;padding-top:10px}
+.aRow.out{justify-content:flex-end}
+.aB{max-width:290px;padding:11px 14px;font-size:15px;line-height:1.38;font-weight:500}
+.aB.in{background:#fff;border:1px solid var(--border);border-radius:18px 18px 18px 4px;color:var(--tb)}
+.aB.out{background:var(--accent);color:#fff;border-radius:18px 18px 4px 18px}
+.starters{display:flex;flex-wrap:wrap;gap:8px;padding-top:12px}
+.starter{padding:9px 13px;border-radius:999px;border:1px solid var(--softB);background:var(--soft);color:var(--accent);font-weight:700;font-size:13.5px}
+.hList{display:flex;gap:10px;padding-top:10px}
+.aCard{width:200px;flex:none;background:#fff;border:1px solid var(--border);border-radius:20px;padding:8px 8px 10px}
+.aCard .im{height:104px;border-radius:14px;background:var(--ph);display:flex;align-items:center;justify-content:center}
+.aCard .md{font-size:14.5px;font-weight:700;margin:8px 4px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.aCard .mt{font-size:12px;color:var(--ts);margin:2px 4px 0}
+.aCard .pr{font-size:15px;font-weight:800;margin:6px 4px 0}
+.added{margin-top:10px;background:var(--soft);border:1px solid var(--softB);border-radius:20px;padding:14px;width:300px}
+.added .t{display:flex;gap:8px;align-items:center;font-weight:800;font-size:15px;color:var(--accent)}
+.added .l{font-size:13.5px;color:var(--tb);margin-top:6px;font-weight:600}
+.added .btn{height:42px;margin-top:12px;font-size:14.5px;border-radius:14px}
+.aInput{position:absolute;left:0;right:0;bottom:0;padding:10px 16px;display:flex;gap:10px;align-items:center;background:var(--bg);border-top:1px solid var(--border)}
+.aField{flex:1;min-height:46px;border-radius:23px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;padding:0 16px;font-size:15px;font-weight:500}
+.aField.ph{color:var(--ts)}
+.aSend{width:46px;height:46px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center}
+.caret{display:inline-block;width:2px;height:19px;background:var(--accent);margin-left:1px;vertical-align:-3px}
+
+.cLine{display:flex;gap:12px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:10px;margin:12px 16px 0}
+.cLine .im{width:84px;height:84px;border-radius:14px;background:var(--ph);display:flex;align-items:center;justify-content:center;flex:none}
+.cLine .md{font-weight:700;font-size:15px}
+.cLine .sub{font-size:12.5px;color:var(--ts);margin-top:2px;font-weight:500}
+.cLine .row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.cLine .pr{font-weight:800;font-size:16px}
+.step{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:12px;padding:3px 10px;font-weight:700;font-size:14px;color:var(--tb)}
+.aiTag{display:inline-block;margin-top:5px;padding:2px 8px;border-radius:8px;background:var(--soft);color:var(--accent);font-size:11px;font-weight:700}
+.box{background:#fff;border:1px solid var(--border);border-radius:20px;padding:14px;margin:12px 16px 0}
+.box h4{margin:0 0 6px;font-size:16px;font-weight:800}
+.opt{display:flex;align-items:center;gap:12px;padding:9px 0}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid var(--phi);flex:none;display:flex;align-items:center;justify-content:center}
+.radio.on{border-color:var(--accent)}
+.radio.on i{width:12px;height:12px;border-radius:50%;background:var(--accent);display:block}
+.opt b{display:block;font-size:14.5px;font-weight:700}
+.opt small{display:block;font-size:12px;color:var(--ts);font-weight:500;margin-top:1px}
+.opt .p{margin-left:auto;font-weight:700;font-size:13.5px;color:var(--accent);text-align:right}
+.sumRow{display:flex;justify-content:space-between;font-size:14.5px;color:var(--tb);font-weight:600;padding:4px 0}
+.sumRow.total{font-size:18px;font-weight:800;color:var(--tp);padding-top:10px;margin-top:6px;border-top:1px solid var(--border)}
+.toast{position:absolute;left:16px;right:16px;bottom:100px;background:#1E2422;color:#fff;border-radius:16px;padding:14px 16px;font-weight:700;font-size:15px;display:flex;gap:10px;align-items:center;z-index:60}
+
+.logoTile{border-radius:28%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 30px 60px rgba(35,87,79,.30)}
+.bigTitle{font-weight:800;font-size:120px;letter-spacing:-.02em;text-align:center}
+.bigSub{font-weight:500;font-size:40px;color:var(--ts);text-align:center;margin-top:18px}
+.pills{display:flex;gap:18px;justify-content:center;margin-top:56px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:14px;padding:20px 30px;border-radius:999px;background:#fff;border:2px solid var(--border);font-weight:700;font-size:32px;color:var(--tp);box-shadow:0 10px 30px rgba(30,36,34,.06)}
+.pill svg{width:40px;height:40px}
+.foot{position:absolute;left:0;right:0;bottom:120px;text-align:center;font-size:28px;color:var(--ts);font-weight:600}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg"></div>
+  <div id="captions"></div>
+  <div id="phoneWrap"><div class="phone" id="phone"><div class="phoneInner" id="phoneInner"><div class="screenBox" id="screen"></div><div class="island"></div></div></div></div>
+  <div id="overlay"></div>
+</div>
+<script>
+const PHONE_SCALE = 1.68;
+const FONT = 'Manrope';
+let D = null;
+let SCENES = [];
+let BY = {};
+let TAPS = [];
+let GLOWS = [];
+let EV = {};
+let NOW = 0;
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const range = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const backOut = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const lerp = (a, b, p) => a + (b - a) * p;
+const fmtInt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const fmtDec = x => String(x).replace('.', ',');
+const priceLabel = s => (s.price_note === 'approx' ? '≈ ' : '') + fmtInt(s.price_byn) + ' BYN';
+const nameOf = s => `${s.brand} ${s.model}`;
+const TYPE_LABELS = {modular_2in1: 'Модульная 2 в 1', modular_3in1: 'Модульная 3 в 1', stroll: 'Прогулочная', travel: 'Для путешествий', cane: 'Трость', twin: 'Для двойни', jogger: 'Спортивная'};
+const CHIP_TYPES = ['modular_2in1', 'modular_3in1', 'stroll', 'travel', 'cane', 'jogger', 'twin'];
+const meta = s => [s.weight_kg != null ? `${fmtDec(s.weight_kg)} кг` : null, s.age_from_months === 0 ? 'с рождения' : `с ${s.age_from_months} мес`].filter(Boolean).join(' · ');
+const NAMED_COLORS = {'black': '#2E3230', 'deep black': '#262A29', 'dusty pink': '#D9A6A0', 'stormy blue': '#5E7C96', 'grey': '#8D9491', 'soho grey': '#7D8582', 'mirage grey': '#A3AAA7', 'mocha': '#8C6E5A', 'sand': '#CDB894', 'green': '#5E7F5F', 'navy': '#2F4560', 'beige': '#D8C6A8', 'taupe': '#9A8B7C'};
+const PALETTE = ['#4E6B63', '#8C6E5A', '#5E7C96', '#B4836B', '#6F7D5C', '#7A6A8C'];
+function colorHex(name, i = 0) {
+  const key = String(name || '').toLowerCase();
+  const hit = Object.keys(NAMED_COLORS).find(k => key.includes(k));
+  return hit ? NAMED_COLORS[hit] : PALETTE[i % PALETTE.length];
+}
+function mix(hex, other, p) {
+  const a = hex.match(/\w\w/g).map(h => parseInt(h, 16));
+  const b = other.match(/\w\w/g).map(h => parseInt(h, 16));
+  return '#' + a.map((v, i) => Math.round(lerp(v, b[i], p)).toString(16).padStart(2, '0')).join('');
+}
+function pram(color, width, mono = false) {
+  const body = mono ? '#FFFFFF' : color;
+  const hood = mono ? '#D6E6E1' : mix(color, '#000000', .28);
+  const frame = mono ? '#FFFFFF' : '#2F3432';
+  const shadow = mono ? '' : '<ellipse cx="80" cy="113" rx="60" ry="5" fill="rgba(30,36,34,.10)"/>';
+  return `<svg viewBox="0 0 160 120" width="${width}" height="${width * .75}">${shadow}
+<path d="M38 52h80a6 6 0 0 1 6 6v2c0 18-15 30-33 30H62c-17 0-30-12-30-28v-4a6 6 0 0 1 6-6z" fill="${body}"/>
+<path d="M36 54c0-25 18-43 44-44v44z" fill="${hood}"/>
+<path d="M124 58l16-28" stroke="${frame}" stroke-width="7" stroke-linecap="round"/>
+<path d="M136 30h14" stroke="${frame}" stroke-width="7" stroke-linecap="round"/>
+<path d="M62 90l-14 13M100 90l14 13" stroke="${frame}" stroke-width="5" stroke-linecap="round"/>
+<circle cx="46" cy="104" r="10" fill="none" stroke="${frame}" stroke-width="6"/>
+<circle cx="116" cy="104" r="10" fill="none" stroke="${frame}" stroke-width="6"/>
+</svg>`;
+}
+const strollerColor = (s, colorName) => colorHex(colorName ?? s.colors?.[0], s.brand.length);
+const ICONS = {
+  telegram: c => `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="${c}"/><path d="M5.6 11.7l10.8-4.2c.5-.2 1 .1.8.9l-1.8 8.6c-.1.6-.5.8-1 .5l-2.8-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.2-.9z" fill="#fff"/></svg>`,
+  phone: c => `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10.5 18.5h3" stroke-linecap="round"/></svg>`,
+  search: c => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>`,
+  cart: (c, s = 22) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.3 11h10.2l2.1-8H6.4"/><circle cx="9.5" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>`,
+  sparkle: (c, s = 22) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2 5.5L19.5 10.5 14 12.5 12 18l-2-5.5L4.5 10.5 10 8.5z"/><path d="M19 16l.8 2 2 .8-2 .8L19 21.6l-.8-2-2-.8 2-.8z"/></svg>`,
+  grid: (c, s = 22) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg>`,
+  store: (c, s = 22) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linejoin="round"><path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v2a3 3 0 0 1-5.3 2A3 3 0 0 1 12 14a3 3 0 0 1-2.7-1A3 3 0 0 1 4 11z"/><path d="M5.5 14v6h13v-6"/></svg>`,
+  chevron: c => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>`,
+  back: c => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>`,
+  check: (c, s = 13) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`,
+  send: c => `<svg width="20" height="20" viewBox="0 0 24 24" fill="${c}"><path d="M3.4 20.6l17.9-7.7c.8-.4.8-1.5 0-1.8L3.4 3.4c-.7-.3-1.4.4-1.2 1.1L4.4 11l9.1 1-9.1 1-2.2 6.5c-.2.7.5 1.4 1.2 1.1z"/></svg>`,
+  sort: c => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg>`,
+};
+const statusIcons = c => `<span class="sbi"><svg width="18" height="12" viewBox="0 0 18 12" fill="${c}"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg width="16" height="12" viewBox="0 0 16 12" fill="${c}"><path d="M8 2.3c2.3 0 4.4.9 6 2.4l1.2-1.3C13.3 1.6 10.8.5 8 .5S2.7 1.6.8 3.4L2 4.7c1.6-1.5 3.7-2.4 6-2.4zm0 3.6c1.3 0 2.5.5 3.4 1.3l1.2-1.3C11.4 4.8 9.8 4.1 8 4.1s-3.4.7-4.6 1.8l1.2 1.3C5.5 6.4 6.7 5.9 8 5.9zm0 3.5c.5 0 1 .2 1.3.5L8 11.3 6.7 9.9c.3-.3.8-.5 1.3-.5z"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="${c}" opacity=".4"/><rect x="2" y="2" width="19" height="9" rx="2" fill="${c}"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2z" fill="${c}" opacity=".5"/></svg></span>`;
+const statusBar = (c = '#000') => `<div class="sb" style="color:${c}"><span>9:41</span>${statusIcons(c)}</div>`;
+
+function pressed(name) {
+  return TAPS.some(tp => tp.target === name && NOW >= tp.t - .02 && NOW <= tp.t + .16) ? ' pressed' : '';
+}
+function glow(name) {
+  const g = GLOWS.find(x => x.target === name && NOW >= x.t && NOW <= x.t + x.d);
+  if (!g) return '';
+  const p = range(NOW, g.t, g.t + g.d);
+  const a = Math.sin(p * Math.PI);
+  return `box-shadow:0 0 0 ${3 * a}px rgba(35,87,79,${.85 * a}),0 0 ${28 * a}px rgba(35,87,79,${.35 * a});`;
+}
+function grow(at, t, html, dur = .38) {
+  if (t < at) return '';
+  const p = range(t, at, at + dur);
+  return `<div class="grow" data-p="${easeOut(p)}" style="height:0"><div style="opacity:${clamp(p * 1.6)};transform:translateY(${(1 - easeOut(p)) * 14}px) scale(${lerp(.96, 1, easeOut(p))});transform-origin:${html.includes('class="msgRow out') || html.includes('class="aRow out') ? '100%' : '0%'} 100%">${html}</div></div>`;
+}
+function typed(text, t, a, b) {
+  if (t < a) return '';
+  return text.slice(0, Math.round(text.length * range(t, a, b)));
+}
+function typingDots(t) {
+  return [0, 1, 2].map(i => `<i style="opacity:${.35 + .65 * (0.5 + 0.5 * Math.sin(t * 8 - i * 0.9))}"></i>`).join('');
+}
+
+const BOT = {
+  greeting: 'Здравствуйте! Я консультант «Колясочной». Помогу подобрать коляску под возраст ребёнка, бюджет и ваши прогулки. Расскажите, что ищете?',
+  starters: ['Коляска с рождения', 'Лёгкая для самолёта', 'До 1000 BYN'],
+  answer: 'Для самолёта берите модели, которые проходят как ручная кладь: весят 6–7 кг и складываются одной рукой. Вот две из наличия:',
+  addedReply: 'Готово! Bugaboo Butterfly 2 уже в корзине. Подобрать к ней что-нибудь ещё?',
+};
+function botCaption(s) {
+  return `<b>${nameOf(s)}</b>\n${priceLabel(s)} · ${s.weight_kg} кг · ${s.in_stock ? 'в наличии' : 'под заказ'} · ★ ${s.rating.toFixed(1)}`;
+}
+function botCart(s) {
+  return `В корзине:\n• ${nameOf(s)}, ${s.colors[0]} × 1 — ${fmtInt(s.price_byn)} BYN\nИтого: ≈ ${fmtInt(s.price_byn)} BYN`;
+}
+function tgPhoto(s, tapName, t) {
+  return `<div class="msgRow"><div><div class="photoMsg"><div class="img">${pram(strollerColor(s), 170)}</div><div class="cap2">${botCaption(s)}</div></div><div class="ikb"><div class="${pressed('details-' + s.id)}">Подробнее</div><div data-tap="${tapName}" class="${pressed(tapName)}">В корзину</div></div></div></div>`;
+}
+function tgScreen(g) {
+  const e = EV.tg;
+  const yoyo = D.byId['stokke-yoyo3'];
+  const fly = D.byId['bugaboo-butterfly-2'];
+  const isTyping = (g >= e.typing1 && g < e.answer) || (g >= e.typing2 && g < e.added) || (g >= e.typing3 && g < e.cartMsg);
+  const kbP = easeOut(range(g, e.kbShow, e.kbShow + .35)) * (1 - easeOut(range(g, e.kbHide, e.kbHide + .3)));
+  const kbH = 3 * 42 + 2 * 7 + 16;
+  const kbOffset = kbH * kbP;
+  const input = g >= e.cartTypeA && g < e.cartSend + .05 ? typed('/cart', g, e.cartTypeA, e.cartTypeB) : '';
+  const msgs = [
+    grow(e.start, g, `<div class="msgRow out"><div class="bub out">/start<span class="time">9:41</span></div></div>`),
+    grow(e.greet, g, `<div class="msgRow"><div class="bub in">${BOT.greeting}<span class="time">9:41</span></div></div>`),
+    grow(e.ask, g, `<div class="msgRow out"><div class="bub out">Лёгкая для самолёта<span class="time">9:41</span></div></div>`),
+    grow(e.answer, g, `<div class="msgRow"><div class="bub in">${BOT.answer}<span class="time">9:41</span></div></div>`),
+    grow(e.card1, g, tgPhoto(yoyo, 'tg-cart-yoyo', g)),
+    grow(e.card2, g, tgPhoto(fly, 'tg-cart-fly', g)),
+    grow(e.added, g, `<div class="msgRow"><div class="bub in">${BOT.addedReply}<span class="time">9:42</span></div></div>`),
+    grow(e.cartAsk, g, `<div class="msgRow out"><div class="bub out">/cart<span class="time">9:42</span></div></div>`),
+    grow(e.cartMsg, g, `<div class="msgRow"><div class="bub in" style="${glow('tg-cart-msg')}">${botCart(fly)}<span class="time">9:42</span></div></div>`),
+    isTyping ? `<div class="msgRow"><div class="bub in typingBub">${typingDots(g)}</div></div>` : '',
+  ].join('');
+  const inputBottom = 34 + kbOffset;
+  return `<div class="tg">
+    <svg class="tgPattern" width="390" height="844"><defs><pattern id="pt" width="64" height="64" patternUnits="userSpaceOnUse"><circle cx="10" cy="12" r="3" fill="#5c7a4f"/><path d="M40 30l6 6-6 6-6-6z" fill="none" stroke="#5c7a4f" stroke-width="1.6"/><path d="M14 46c4-6 10-6 14 0" fill="none" stroke="#5c7a4f" stroke-width="1.6"/></pattern></defs><rect width="390" height="844" fill="url(#pt)"/></svg>
+    ${statusBar('#000')}
+    <div class="tgHead"><div class="tgBack">${ICONS.back('#2f8ae5')}Чаты</div><div class="tgTitle"><div class="tgName">Коляски консультант</div><div class="tgSub${isTyping ? ' typing' : ''}">${isTyping ? 'печатает…' : 'бот'}</div></div><div class="tgAva"><div class="logoTile" style="width:38px;height:38px;box-shadow:none">${pram('#fff', 30, true)}</div></div></div>
+    <div class="tgChat" style="bottom:${inputBottom + 52}px">${msgs}</div>
+    <div class="tgInput" style="bottom:${inputBottom}px"><div class="tgMenu">≡ Меню</div><div class="tgField${input ? '' : ' ph'}">${input || 'Сообщение'}</div><div class="tgSend${pressed('tg-send')}" data-tap="tg-send">${ICONS.send('#fff')}</div></div>
+    <div class="tgKb" style="bottom:34px;height:${kbH}px;transform:translateY(${kbH - kbOffset}px)">${BOT.starters.map((x, i) => `<div data-tap="kb-${i}" class="${pressed('kb-' + i)}">${x}</div>`).join('')}</div>
+    <div class="tgHome"></div>
+  </div>`;
+}
+
+function tabbar(active, cartCount) {
+  const tabs = [['catalog', 'Каталог', ICONS.grid], ['assistant', 'Помощник', ICONS.sparkle], ['cart', 'Корзина', ICONS.cart], ['shop', 'Магазин', ICONS.store]];
+  return `<div class="tabbar">${tabs.map(([id, label, icon]) => `<div class="tab${id === active ? ' on' : ''}"><div class="tabIcon">${icon(id === active ? '#23574F' : '#5F6660')}</div>${label}${id === 'cart' && cartCount ? `<div class="badge">${cartCount}</div>` : ''}</div>`).join('')}</div>`;
+}
+function appShell(body, active, cartCount, extra = '') {
+  return `<div class="app">${statusBar('#1E2422')}<div class="appBody">${body}</div>${tabbar(active, cartCount)}${extra}</div>`;
+}
+function catalogCard(s, i) {
+  return `<div class="card${pressed('card-' + s.id)}" data-tap="card-${s.id}"><div class="im">${s.cabin_luggage ? '<div class="bd">ручная кладь</div>' : ''}${pram(strollerColor(s), 112)}</div><div class="br">${s.brand}<span class="rt">★ ${s.rating.toFixed(1)}</span></div><div class="md">${s.model}</div><div class="mt">${meta(s)}</div><div class="pr">${priceLabel(s)}</div></div>`;
+}
+function catalogScreen(lt) {
+  const e = EV.catalog;
+  const isTravel = lt >= e.filter;
+  const list = isTravel ? D.strollers.filter(s => s.type === 'travel') : D.strollers;
+  const fade = isTravel ? easeOut(range(lt, e.filter, e.filter + .35)) : 1;
+  const y = 300 * easeInOut(range(lt, e.scrollA, e.scrollB)) * (1 - easeInOut(range(lt, e.backA, e.backB)));
+  const chipX = 228 * easeInOut(range(lt, e.chipsA, e.chipsB));
+  const count = list.length;
+  const countLabel = count % 10 === 1 && count % 100 !== 11 ? 'модель' : [2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100) ? 'модели' : 'моделей';
+  const chips = [['all', 'Все'], ...CHIP_TYPES.map(t => [t, TYPE_LABELS[t]])].map(([id, label]) => `<div class="chip${(isTravel ? id === 'travel' : id === 'all') ? ' on' : ''}${pressed('chip-' + id)}" data-tap="chip-${id}">${label}</div>`).join('');
+  const body = `<div class="scroll" style="transform:translateY(${-y}px)">
+    <div class="hdr"><div><div class="h1">Колясочная</div><div class="cap1">${D.shop.city} · самовывоз сегодня</div></div><div class="iconBtn">${ICONS.cart('#1E2422')}</div></div>
+    <div class="search">${ICONS.search('#5F6660')}Поиск по моделям</div>
+    <div class="promo"><div class="ic">${ICONS.sparkle('#23574F')}</div><div><b>Не знаете, какую выбрать?</b><span>Расскажите о ребёнке и прогулках — помощник подберёт и положит в корзину</span></div>${ICONS.chevron('#fff')}</div>
+    <div style="overflow:hidden"><div class="chips" style="transform:translateX(${-chipX}px)">${chips}</div></div>
+    <div class="countRow"><span>${count} ${countLabel}</span><span style="display:flex;gap:5px;align-items:center;color:#23574F">${ICONS.sort('#23574F')}по умолчанию</span></div>
+    <div class="grid" style="opacity:${fade};transform:translateY(${(1 - fade) * 16}px)">${list.slice(0, 8).map(catalogCard).join('')}</div>
+  </div>`;
+  return appShell(body, 'catalog', 0);
+}
+function detailsScreen(lt) {
+  const e = EV.details;
+  const s = D.byId['bugaboo-butterfly-2'];
+  const colorIndex = lt >= e.color ? s.colors.length - 1 : 0;
+  const colorName = s.colors[colorIndex];
+  const y = 290 * easeInOut(range(lt, e.scrollA, e.scrollB)) * (1 - easeInOut(range(lt, e.backA, e.backB)));
+  const colorFade = lt >= e.color ? easeOut(range(lt, e.color, e.color + .3)) : 1;
+  const f = s.folded_dimensions_cm;
+  const specs = [['Вес', `${fmtDec(s.weight_kg)} кг`], ['Возраст', s.age_from_months === 0 ? `0–${s.age_to_months} мес` : `${s.age_from_months}–${s.age_to_months} мес`], ['Нагрузка', `до ${s.max_child_weight_kg} кг`], ['В сложенном виде', `${fmtDec(f.l)}×${fmtDec(f.w)}×${fmtDec(f.h)} см`]];
+  const body = `<div class="scroll" style="transform:translateY(${-y}px)">
+    <div class="dImg"><div style="opacity:${colorFade};transform:scale(${lerp(.94, 1, colorFade)})">${pram(strollerColor(s, colorName), 250)}</div><div class="back">${ICONS.back('#1E2422')}Назад</div><div class="dots"><i class="on"></i><i></i><i></i></div></div>
+    <div class="dBody">
+      <span class="dType">${TYPE_LABELS[s.type]}</span> <span class="dType" style="background:#fff;border:1px solid var(--border)">ручная кладь</span>
+      <div class="dName">${nameOf(s)}</div>
+      <div class="dPrice"><b>${priceLabel(s)}</b><span>в наличии · ${s.stock_qty} шт</span><span style="color:var(--rating);margin-left:auto">★ ${s.rating.toFixed(1)}</span></div>
+      <div class="colorRow">Цвет: ${colorName}</div>
+      <div class="swatches">${s.colors.map((c, i) => `<div class="sw${i === colorIndex ? ' on' : ''}${pressed('color-' + i)}" data-tap="color-${i}" style="background:${colorHex(c, i)}"></div>`).join('')}</div>
+      <div class="specs">${specs.map(([k, v]) => `<div class="spec"><small>${k}</small><b>${v}</b></div>`).join('')}</div>
+      <div class="feat">Особенности</div>
+      ${s.features.map(x => `<div class="fl"><i>${ICONS.check('#23574F')}</i>${x}</div>`).join('')}
+    </div>
+  </div>`;
+  return `<div class="app">${statusBar('#1E2422')}<div class="appBody" style="bottom:0">${body}</div><div class="dBar"><div class="btn ghost">${ICONS.sparkle('#23574F')}</div><div class="btn${pressed('details-add')}" data-tap="details-add">${ICONS.cart('#fff', 20)}В корзину · ${priceLabel(s)}</div></div></div>`;
+}
+const ASSISTANT = {
+  greeting: 'Здравствуйте! Расскажите, для кого коляска и где будете гулять — подберу из нашего каталога.',
+  starters: ['Лёгкая для путешествий', 'Для зимы и бездорожья', 'До 1500 BYN'],
+  ask: 'Зима, снег, рядом лес. Бюджет до 3000 BYN',
+  answer: 'Для снега и лесных тропинок нужны большие надувные колёса и амортизация. Вот что есть в наличии:',
+  pick: 'Беру Thule, чёрную',
+};
+function assistantCard(s) {
+  return `<div class="aCard"><div class="im">${pram(strollerColor(s), 100)}</div><div class="md">${nameOf(s)}</div><div class="mt">${meta(s)}</div><div class="pr">${priceLabel(s)}</div></div>`;
+}
+function assistantScreen(lt) {
+  const e = EV.assistant;
+  const thule = D.byId['thule-urban-glide-3'];
+  const mb = D.byId['mountain-buggy-terrain'];
+  const isTyping = (lt >= e.typing1 && lt < e.answer) || (lt >= e.typing2 && lt < e.added);
+  let input = '';
+  if (lt >= e.typeA && lt < e.send) input = typed(ASSISTANT.ask, lt, e.typeA, e.typeB);
+  if (lt >= e.type2A && lt < e.send2) input = typed(ASSISTANT.pick, lt, e.type2A, e.type2B);
+  const startersFade = 1 - range(lt, e.send, e.send + .25);
+  const msgs = [
+    `<div class="aRow"><div class="aB in">${ASSISTANT.greeting}</div></div>`,
+    startersFade > 0 ? `<div class="starters" style="opacity:${startersFade}">${ASSISTANT.starters.map(x => `<div class="starter">${x}</div>`).join('')}</div>` : '',
+    grow(e.ask, lt, `<div class="aRow out"><div class="aB out">${ASSISTANT.ask}</div></div>`),
+    grow(e.answer, lt, `<div class="aRow"><div class="aB in">${ASSISTANT.answer}</div></div>`),
+    grow(e.cards, lt, `<div class="hList">${assistantCard(thule)}${assistantCard(mb)}</div>`),
+    grow(e.pick, lt, `<div class="aRow out"><div class="aB out">${ASSISTANT.pick}</div></div>`),
+    grow(e.added, lt, `<div class="added" style="${glow('assistant-added')}"><div class="t">${ICONS.check('#23574F', 18)}Добавил в корзину</div><div class="l">${nameOf(thule)} · ${thule.colors[0]} · ${priceLabel(thule)}</div><div class="btn${pressed('open-cart')}" data-tap="open-cart">Открыть корзину</div></div>`),
+    isTyping ? `<div class="aRow"><div class="aB in typingBub" style="display:flex;gap:5px;padding:15px 16px">${[0, 1, 2].map(i => `<i style="width:8px;height:8px;border-radius:50%;display:block;background:#23574F;opacity:${.25 + .6 * (0.5 + 0.5 * Math.sin(lt * 8 - i * .9))}"></i>`).join('')}</div></div>` : '',
+  ].join('');
+  const showCaret = input && Math.floor(lt * 2.5) % 2 === 0;
+  const body = `<div class="aHead"><div class="aAva">${ICONS.sparkle('#fff', 24)}</div><div><div style="font-weight:800;font-size:19px">Помощник</div><div class="cap1">подбирает по каталогу магазина</div></div></div>
+    <div class="aChat" style="bottom:67px">${msgs}</div>
+    <div class="aInput"><div class="aField${input ? '' : ' ph'}">${input ? input + (showCaret ? '<span class="caret"></span>' : '') : 'Напишите, что ищете…'}</div><div class="aSend${pressed('assistant-send')}" data-tap="assistant-send">${ICONS.send('#fff')}</div></div>`;
+  return appShell(body, 'assistant', lt >= e.added ? 2 : 1);
+}
+function cartScreen(lt) {
+  const e = EV.cart;
+  const fly = D.byId['bugaboo-butterfly-2'];
+  const thule = D.byId['thule-urban-glide-3'];
+  const goods = fly.price_byn + thule.price_byn;
+  const method = lt >= e.courier ? 'courier_brest' : 'pickup';
+  const delivery = D.shop.delivery.find(d => d.method === method);
+  const shipping = delivery.free_from_byn && goods >= delivery.free_from_byn ? 0 : delivery.price_byn;
+  const options = D.shop.delivery.map(d => {
+    const free = d.price_byn === 0 || (d.free_from_byn && goods >= d.free_from_byn);
+    return `<div class="opt${pressed('delivery-' + d.method)}" data-tap="delivery-${d.method}"><div class="radio${d.method === method ? ' on' : ''}"><i></i></div><div><b>${d.title}</b><small>${d.eta}</small></div><div class="p">${free ? 'бесплатно' : fmtInt(d.price_byn) + ' BYN'}</div></div>`;
+  }).join('');
+  const line = (s, color, isAi) => `<div class="cLine"><div class="im">${pram(strollerColor(s, color), 76)}</div><div style="flex:1"><div class="md">${nameOf(s)}</div><div class="sub">${color}</div>${isAi ? '<span class="aiTag">добавил помощник</span>' : ''}<div class="row"><div class="pr">${priceLabel(s)}</div><div class="step">−<span>1</span>+</div></div></div></div>`;
+  const toastP = easeOut(range(lt, e.done, e.done + .4));
+  const body = `<div class="hdr" style="padding-bottom:4px"><div><div class="h1">Корзина</div><div class="cap1">2 товара</div></div></div>
+    ${line(fly, fly.colors[fly.colors.length - 1], false)}
+    ${line(thule, thule.colors[0], true)}
+    <div class="box"><h4>Получение</h4>${options}</div>
+    <div class="box"><div class="sumRow"><span>Товары</span><span>${fmtInt(goods)} BYN</span></div><div class="sumRow"><span>Доставка</span><span>${shipping ? fmtInt(shipping) + ' BYN' : 'бесплатно'}</span></div><div class="sumRow total" style="${glow('cart-total')}border-radius:8px"><span>Итого</span><span>≈ ${fmtInt(goods + shipping)} BYN</span></div></div>`;
+  const checkout = `<div style="position:absolute;left:0;right:0;bottom:84px;padding:10px 16px;background:var(--bg);z-index:20"><div class="btn${pressed('checkout')}" data-tap="checkout">Оформить заказ</div></div>`;
+  const toast = lt >= e.done ? `<div class="toast" style="opacity:${toastP};transform:translateY(${(1 - toastP) * 30}px);bottom:160px">${ICONS.check('#9fd3c4', 20)}Заказ оформлен</div>` : '';
+  return appShell(body, 'cart', 2, checkout + toast);
+}
+
+function screenFor(id, t) {
+  const sc = BY[id];
+  const lt = t - sc.start;
+  if (id === 'botStart' || id === 'botPick' || id === 'botCart') return tgScreen(t - BY.botStart.start);
+  if (id === 'appCatalog') return catalogScreen(lt);
+  if (id === 'appDetails') return detailsScreen(lt);
+  if (id === 'appAssistant') return assistantScreen(lt);
+  if (id === 'appCart') return cartScreen(lt);
+  if (id === 'outro') return cartScreen(t - BY.appCart.start);
+  return tgScreen(0);
+}
+const TRANSITIONS = {botStart: ['rise', 1.1], botPick: ['none', 0], botCart: ['none', 0], appCatalog: ['flip', 1.0], appDetails: ['push', .5], appAssistant: ['fade', .45], appCart: ['push', .5], outro: ['sink', 1.0]};
+const TAGS = {botStart: 'telegram', botPick: 'telegram', botCart: 'telegram', appCatalog: 'app', appDetails: 'app', appAssistant: 'app', appCart: 'app'};
+
+function setup(data) {
+  D = data;
+  D.byId = Object.fromEntries(D.strollers.map(s => [s.id, s]));
+  let t = 0;
+  SCENES = D.scenes.map(s => { const sc = {...s, start: t}; t += s.duration; return sc; });
+  BY = Object.fromEntries(SCENES.map(s => [s.id, s]));
+  const rel = (id, x) => BY[id].start - BY.botStart.start + x;
+  const pick = BY.botPick.duration;
+  EV.tg = {
+    start: .9, greet: 1.6, kbShow: 2.6,
+    kbHide: rel('botPick', .05), ask: rel('botPick', .1), typing1: rel('botPick', .55), answer: rel('botPick', 2.0),
+    card1: rel('botPick', 3.2), card2: rel('botPick', Math.min(4.6, pick - 1.2)),
+    typing2: rel('botCart', 1.0), added: rel('botCart', 2.1), cartTypeA: rel('botCart', 3.0), cartTypeB: rel('botCart', 3.4), cartSend: rel('botCart', 3.6), cartAsk: rel('botCart', 3.65), typing3: rel('botCart', 3.9), cartMsg: rel('botCart', 4.5),
+  };
+  const absTg = x => BY.botStart.start + x;
+  const cat = BY.appCatalog.duration;
+  EV.catalog = {scrollA: 1.2, scrollB: 2.5, backA: 2.8, backB: 3.6, chipsA: 3.7, chipsB: 4.3, filter: 4.75, tap: cat - .55};
+  const det = BY.appDetails.duration;
+  EV.details = {scrollA: 1.0, scrollB: 2.4, backA: 2.9, backB: 3.6, color: 4.2, add: det - .6};
+  const ast = BY.appAssistant.duration;
+  EV.assistant = {typeA: .7, typeB: 2.4, send: 2.75, ask: 2.8, typing1: 3.1, answer: 4.3, cards: 5.0, type2A: 6.1, type2B: 6.8, send2: 7.05, pick: 7.1, typing2: 7.35, added: 8.2, open: ast - .5};
+  EV.cart = {courier: 1.8, checkout: 3.9, done: 4.15};
+  const s = id => BY[id].start;
+  TAPS = [
+    {t: s('botPick') - .5, target: 'kb-1'},
+    {t: absTg(rel('botCart', .7)), target: 'tg-cart-fly'},
+    {t: absTg(EV.tg.cartSend), target: 'tg-send'},
+    {t: s('appCatalog') + EV.catalog.filter - .15, target: 'chip-travel'},
+    {t: s('appCatalog') + EV.catalog.tap, target: 'card-bugaboo-butterfly-2'},
+    {t: s('appDetails') + EV.details.color - .15, target: 'color-' + (D.byId['bugaboo-butterfly-2'].colors.length - 1)},
+    {t: s('appDetails') + EV.details.add, target: 'details-add'},
+    {t: s('appAssistant') + EV.assistant.send, target: 'assistant-send'},
+    {t: s('appAssistant') + EV.assistant.send2, target: 'assistant-send'},
+    {t: s('appAssistant') + EV.assistant.open, target: 'open-cart'},
+    {t: s('appCart') + EV.cart.courier - .15, target: 'delivery-courier_brest'},
+    {t: s('appCart') + EV.cart.checkout, target: 'checkout'},
+  ];
+  GLOWS = [
+    {t: absTg(EV.tg.cartMsg + .5), d: 1.8, target: 'tg-cart-msg'},
+    {t: s('appAssistant') + EV.assistant.added + .35, d: 1.4, target: 'assistant-added'},
+    {t: s('appCart') + EV.cart.courier + .2, d: 1.5, target: 'cart-total'},
+  ];
+  return {total: t, taps: TAPS.map(x => x.t)};
+}
+
+function background(T) {
+  const blobs = [
+    ['#F3C9A8', .55, 760, 160 + 60 * Math.sin(T * .25), 220 + 50 * Math.cos(T * .2)],
+    ['#C9DAD4', .75, 820, 640 + 80 * Math.cos(T * .18), 1300 + 70 * Math.sin(T * .22)],
+    ['#E3EDE9', .9, 620, -120 + 60 * Math.sin(T * .3 + 1), 900 + 80 * Math.cos(T * .27)],
+  ];
+  document.getElementById('bg').innerHTML = blobs.map(([c, o, size, x, y]) => `<div class="blob" style="background:${c};opacity:${o};width:${size}px;height:${size}px;left:${x - size / 2 + 300}px;top:${y - size / 2}px"></div>`).join('');
+}
+function captionHtml(sc, style) {
+  const tag = TAGS[sc.id] === 'telegram' ? `${ICONS.telegram('#2AABEE')}Telegram-бот` : `${ICONS.phone('#23574F')}Приложение`;
+  return `<div class="cap" style="${style}"><div class="tag">${tag}</div><div class="title">${sc.title}</div><div class="subtitle">${sc.subtitle}</div></div>`;
+}
+function captions(T, i) {
+  const sc = SCENES[i];
+  const lt = T - sc.start;
+  const parts = [];
+  if (TAGS[sc.id]) {
+    const p = easeOut(range(lt, .12, .62));
+    parts.push(captionHtml(sc, `opacity:${p};transform:translateY(${(1 - p) * 40}px)`));
+  }
+  const prev = SCENES[i - 1];
+  if (prev && TAGS[prev.id] && lt < .35) {
+    const p = easeOut(range(lt, 0, .35));
+    parts.push(captionHtml(prev, `opacity:${1 - p};transform:translateY(${-p * 30}px)`));
+  }
+  document.getElementById('captions').innerHTML = parts.join('');
+}
+function introOverlay(lt, out) {
+  const logoP = backOut(range(lt, .25, .95));
+  const titleP = easeOut(range(lt, .8, 1.4));
+  const subP = easeOut(range(lt, 1.2, 1.8));
+  const pillsP = easeOut(range(lt, 1.8, 2.5));
+  const o = 1 - easeInOut(out);
+  return `<div style="position:absolute;inset:0;opacity:${o};transform:translateY(${-easeInOut(out) * 240}px)">
+    <div style="position:absolute;left:0;right:0;top:470px;display:flex;justify-content:center"><div class="logoTile" style="width:260px;height:260px;transform:scale(${logoP}) rotate(${(1 - clamp(logoP)) * -12}deg)">${pram('#fff', 200, true)}</div></div>
+    <div style="position:absolute;left:0;right:0;top:810px">
+      <div class="bigTitle" style="opacity:${titleP};transform:translateY(${(1 - titleP) * 40}px)">Колясочная</div>
+      <div class="bigSub" style="opacity:${subP};transform:translateY(${(1 - subP) * 30}px)">Подбор коляски с ИИ-консультантом</div>
+      <div class="pills" style="opacity:${pillsP};transform:translateY(${(1 - pillsP) * 30}px)"><div class="pill">${ICONS.telegram('#2AABEE')}${D.botHandle ? '@' + D.botHandle.replace(/^@/, '') : 'Telegram-бот'}</div><div class="pill">${ICONS.phone('#23574F')}iOS и Android</div></div>
+    </div>
+  </div>`;
+}
+function outroOverlay(lt) {
+  const logoP = backOut(range(lt, .5, 1.2));
+  const titleP = easeOut(range(lt, 1.0, 1.6));
+  const subP = easeOut(range(lt, 1.4, 2.0));
+  const pillsP = easeOut(range(lt, 1.9, 2.6));
+  const footP = easeOut(range(lt, 2.4, 3.0));
+  return `<div style="position:absolute;inset:0">
+    <div style="position:absolute;left:0;right:0;top:420px;display:flex;justify-content:center"><div class="logoTile" style="width:240px;height:240px;transform:scale(${logoP})">${pram('#fff', 184, true)}</div></div>
+    <div style="position:absolute;left:0;right:0;top:740px">
+      <div class="bigTitle" style="opacity:${titleP};transform:translateY(${(1 - titleP) * 40}px)">Колясочная</div>
+      <div class="bigSub" style="opacity:${subP};transform:translateY(${(1 - subP) * 30}px)">Подберём коляску за минуту</div>
+      <div class="pills" style="flex-direction:column;align-items:center;opacity:${pillsP};transform:translateY(${(1 - pillsP) * 30}px)"><div class="pill">${ICONS.telegram('#2AABEE')}${D.botHandle ? 'Telegram: @' + D.botHandle.replace(/^@/, '') : 'Бот в Telegram'}</div><div class="pill">${ICONS.phone('#23574F')}Приложение для iOS и Android</div></div>
+    </div>
+    <div class="foot" style="opacity:${footP}">${D.shop.city} · ${D.shop.working_hours}</div>
+  </div>`;
+}
+
+function setPhone(transform, opacity = 1) {
+  const phone = document.getElementById('phone');
+  phone.style.transform = `scale(${PHONE_SCALE}) ${transform}`;
+  phone.style.opacity = opacity;
+  phone.style.left = `${(1080 - 406 * PHONE_SCALE) / 2}px`;
+}
+function finishScreen() {
+  const screen = document.getElementById('screen');
+  screen.querySelectorAll('.grow').forEach(el => {
+    el.style.height = 'auto';
+    const h = el.scrollHeight;
+    el.style.height = `${h * parseFloat(el.dataset.p)}px`;
+  });
+}
+function drawTaps(T, layer) {
+  const screen = document.getElementById('screen');
+  const sr = screen.getBoundingClientRect();
+  const scale = sr.width / 390;
+  const out = [];
+  for (const tp of TAPS) {
+    if (T < tp.t - .55 || T > tp.t + .6) continue;
+    const el = layer.querySelector(`[data-tap="${tp.target}"]`);
+    if (!el) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width === 0) continue;
+    const x = (r.left + r.width / 2 - sr.left) / scale;
+    const y = (r.top + r.height / 2 - sr.top) / scale;
+    const approach = easeOut(range(T, tp.t - .55, tp.t - .1));
+    const press = T >= tp.t - .05 && T <= tp.t + .12 ? .82 : 1;
+    const fadeOut = 1 - range(T, tp.t + .25, tp.t + .6);
+    const fx = x + (1 - approach) * 40;
+    const fy = y + (1 - approach) * 70;
+    out.push(`<div class="finger" style="left:${fx}px;top:${fy}px;opacity:${approach * fadeOut};transform:scale(${press * lerp(1.25, 1, approach)})"></div>`);
+    if (T >= tp.t) {
+      const rp = range(T, tp.t, tp.t + .5);
+      const size = lerp(30, 110, easeOut(rp));
+      out.push(`<div class="ripple" style="left:${x - size / 2}px;top:${y - size / 2}px;width:${size}px;height:${size}px;opacity:${1 - rp}"></div>`);
+    }
+  }
+  return out.join('');
+}
+
+function renderAt(T) {
+  NOW = T;
+  let i = SCENES.findIndex(s => T < s.start + s.duration);
+  if (i < 0) i = SCENES.length - 1;
+  const sc = SCENES[i];
+  const lt = T - sc.start;
+  background(T);
+  captions(T, i);
+  const overlay = document.getElementById('overlay');
+  const screen = document.getElementById('screen');
+  const inner = document.getElementById('phoneInner');
+  inner.style.transform = '';
+  const [type, td] = TRANSITIONS[sc.id] || ['none', 0];
+  const p = td ? clamp(lt / td) : 1;
+  const prev = SCENES[i - 1];
+  const prevEnd = prev ? prev.start + prev.duration - 1e-3 : 0;
+  let layers = '';
+
+  if (sc.id === 'intro') {
+    setPhone('translateY(1200px)', 0);
+    overlay.innerHTML = introOverlay(lt, 0);
+    screen.innerHTML = '';
+    return;
+  }
+  if (sc.id === 'outro') {
+    const sp = easeInOut(p);
+    setPhone(`translateY(${sp * 1100}px) rotate(${sp * 6}deg)`, 1 - sp * .6);
+    layers = `<div class="layer">${screenFor('appCart', prevEnd)}</div>`;
+    screen.innerHTML = layers + '<div class="homeBar"></div>';
+    finishScreen();
+    overlay.innerHTML = outroOverlay(lt);
+    return;
+  }
+  overlay.innerHTML = sc.id === 'botStart' && lt < td ? introOverlay(prev.duration, easeInOut(p)) : '';
+
+  if (type === 'rise' && p < 1) {
+    const rp = easeOut(p);
+    setPhone(`translateY(${(1 - rp) * 1150}px) rotate(${(1 - rp) * -5}deg)`, 1);
+  } else {
+    setPhone('', 1);
+  }
+
+  const current = screenFor(sc.id, T);
+  if (p < 1 && type === 'push') {
+    const pp = easeInOut(p);
+    layers = `<div class="layer" style="transform:translateX(${-pp * 30}%);filter:brightness(${1 - pp * .12})">${screenFor(prev.id, prevEnd)}</div><div class="layer" data-current="1" style="transform:translateX(${(1 - pp) * 100}%);box-shadow:-10px 0 30px rgba(0,0,0,.12)">${current}</div>`;
+  } else if (p < 1 && type === 'fade') {
+    const pp = easeInOut(p);
+    layers = `<div class="layer">${screenFor(prev.id, prevEnd)}</div><div class="layer" data-current="1" style="opacity:${pp};transform:scale(${lerp(.98, 1, pp)})">${current}</div>`;
+  } else if (p < 1 && type === 'flip') {
+    const pp = easeInOut(p);
+    const isFirstHalf = pp < .5;
+    const angle = isFirstHalf ? pp * 180 : (pp - 1) * 180;
+    const s = 1 - Math.sin(pp * Math.PI) * .12;
+    inner.style.transform = `rotateY(${angle}deg) scale(${s})`;
+    layers = `<div class="layer" data-current="1">${isFirstHalf ? screenFor(prev.id, prevEnd) : current}</div>`;
+  } else {
+    layers = `<div class="layer" data-current="1">${current}</div>`;
+  }
+  screen.innerHTML = layers + '<div class="homeBar"></div>';
+  finishScreen();
+  const currentLayer = screen.querySelector('[data-current="1"]');
+  if (currentLayer && p >= 1) currentLayer.insertAdjacentHTML('beforeend', drawTaps(T, currentLayer));
+}
+window.setup = setup;
+window.renderAt = renderAt;
+</script>
+</body>
+</html>
