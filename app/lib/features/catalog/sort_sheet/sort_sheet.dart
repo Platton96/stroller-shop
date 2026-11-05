@@ -12,45 +12,40 @@ class SortSheet extends StatelessWidget {
   final StrollerSort selectedSort;
 
   @override
-  Widget build(BuildContext context) =>
-      AppBlocProvider<SortSheetBloc>(param1: selectedSort, child: const _SortSheetView());
-}
-
-class _SortSheetView extends StatelessWidget {
-  const _SortSheetView();
-
-  @override
-  Widget build(BuildContext context) => BlocBuilder<SortSheetBloc, SortSheetState>(
-    builder: (context, state) => SafeArea(
-      child: Column(
-        mainAxisSize: .min,
-        crossAxisAlignment: .stretch,
-        children: [
-          Padding(
-            padding: const .fromLTRB(20, 0, 20, 8),
-            child: Text(S.of(context).sortTitle, style: context.textStyles.title),
-          ),
-          RadioGroup<StrollerSort>(
-            groupValue: state.selectedSort,
-            onChanged: (sort) => switch (sort) {
-              final StrollerSort sort => context.read<SortSheetBloc>().add(
-                .sortSelected(sort: sort),
-              ),
-              null => null,
-            },
-            child: Column(
-              children: StrollerSort.values
-                  .map(
-                    (sort) => RadioListTile<StrollerSort>(
-                      value: sort,
-                      activeColor: context.colors.accent,
-                      title: Text(sort.title(S.of(context)), style: context.textStyles.body),
-                    ),
-                  )
-                  .toList(),
+  Widget build(BuildContext context) => AppBlocProvider<SortSheetBloc>(
+    param1: selectedSort,
+    child: BlocBuilder<SortSheetBloc, SortSheetState>(
+      builder: (context, state) => SafeArea(
+        child: Column(
+          mainAxisSize: .min,
+          crossAxisAlignment: .stretch,
+          children: [
+            Padding(
+              padding: const .fromLTRB(20, 0, 20, 8),
+              child: Text(S.of(context).sortTitle, style: context.textStyles.title),
             ),
-          ),
-        ],
+            RadioGroup<StrollerSort>(
+              groupValue: state.selectedSort,
+              onChanged: (sort) => switch (sort) {
+                final StrollerSort sort => context.read<SortSheetBloc>().add(
+                  .sortSelected(sort: sort),
+                ),
+                null => null,
+              },
+              child: Column(
+                children: StrollerSort.values
+                    .map(
+                      (sort) => RadioListTile<StrollerSort>(
+                        value: sort,
+                        activeColor: context.colors.accent,
+                        title: Text(sort.title(S.of(context)), style: context.textStyles.body),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     ),
   );

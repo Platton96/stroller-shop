@@ -17,27 +17,20 @@ class ShopScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppBlocProvider<ShopBloc>(
     postCreate: (bloc) => bloc.add(const .init()),
-    child: const _ShopView(),
-  );
-}
-
-class _ShopView extends StatelessWidget {
-  const _ShopView();
-
-  @override
-  Widget build(BuildContext context) => BlocBuilder<ShopBloc, ShopState>(
-    builder: (context, state) => SafeArea(
-      bottom: false,
-      child: switch (state) {
-        ShopInitialState() || ShopLoadingState() => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        ShopErrorState(:final exception) => ErrorView(
-          exception: exception,
-          onRetry: () => context.read<ShopBloc>().add(const .retryPressed()),
-        ),
-        ShopLoadedState(:final data) => _LoadedView(vm: data),
-      },
+    child: BlocBuilder<ShopBloc, ShopState>(
+      builder: (context, state) => SafeArea(
+        bottom: false,
+        child: switch (state) {
+          ShopInitialState() || ShopLoadingState() => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          ShopErrorState(:final exception) => ErrorView(
+            exception: exception,
+            onRetry: () => context.read<ShopBloc>().add(const .retryPressed()),
+          ),
+          ShopLoadedState(:final data) => _LoadedView(vm: data),
+        },
+      ),
     ),
   );
 }

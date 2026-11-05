@@ -19,28 +19,21 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppBlocProvider<CartBloc>(
     postCreate: (bloc) => bloc.add(const .init()),
-    child: const _CartView(),
-  );
-}
-
-class _CartView extends StatelessWidget {
-  const _CartView();
-
-  @override
-  Widget build(BuildContext context) => BlocBuilder<CartBloc, CartState>(
-    builder: (context, state) => SafeArea(
-      bottom: false,
-      child: switch (state) {
-        CartInitialState() || CartLoadingState() => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        CartErrorState(:final exception) => ErrorView(
-          exception: exception,
-          onRetry: () => context.read<CartBloc>().add(const .retryPressed()),
-        ),
-        CartLoadedState(:final data) when data.isEmpty => const _EmptyView(),
-        CartLoadedState(:final data) => _LoadedView(vm: data),
-      },
+    child: BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) => SafeArea(
+        bottom: false,
+        child: switch (state) {
+          CartInitialState() || CartLoadingState() => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          CartErrorState(:final exception) => ErrorView(
+            exception: exception,
+            onRetry: () => context.read<CartBloc>().add(const .retryPressed()),
+          ),
+          CartLoadedState(:final data) when data.isEmpty => const _EmptyView(),
+          CartLoadedState(:final data) => _LoadedView(vm: data),
+        },
+      ),
     ),
   );
 }

@@ -22,38 +22,31 @@ class StrollerDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) => AppBlocProvider<StrollerDetailsBloc>(
     param1: strollerId,
     postCreate: (bloc) => bloc.add(const .init()),
-    child: const _StrollerDetailsView(),
-  );
-}
-
-class _StrollerDetailsView extends StatelessWidget {
-  const _StrollerDetailsView();
-
-  @override
-  Widget build(BuildContext context) => BlocBuilder<StrollerDetailsBloc, StrollerDetailsState>(
-    builder: (context, state) => Scaffold(
-      body: switch (state) {
-        StrollerDetailsInitialState() || StrollerDetailsLoadingState() => const Stack(
-          children: [
-            Center(child: CircularProgressIndicator()),
-            _BackButton(),
-          ],
-        ),
-        StrollerDetailsErrorState(:final exception) => Stack(
-          children: [
-            ErrorView(
-              exception: exception,
-              onRetry: () => context.read<StrollerDetailsBloc>().add(const .retryPressed()),
-            ),
-            const _BackButton(),
-          ],
-        ),
-        StrollerDetailsLoadedState(:final data) => _LoadedContent(vm: data),
-      },
-      bottomNavigationBar: switch (state) {
-        StrollerDetailsLoadedState() => const _BottomBar(),
-        _ => null,
-      },
+    child: BlocBuilder<StrollerDetailsBloc, StrollerDetailsState>(
+      builder: (context, state) => Scaffold(
+        body: switch (state) {
+          StrollerDetailsInitialState() || StrollerDetailsLoadingState() => const Stack(
+            children: [
+              Center(child: CircularProgressIndicator()),
+              _BackButton(),
+            ],
+          ),
+          StrollerDetailsErrorState(:final exception) => Stack(
+            children: [
+              ErrorView(
+                exception: exception,
+                onRetry: () => context.read<StrollerDetailsBloc>().add(const .retryPressed()),
+              ),
+              const _BackButton(),
+            ],
+          ),
+          StrollerDetailsLoadedState(:final data) => _LoadedContent(vm: data),
+        },
+        bottomNavigationBar: switch (state) {
+          StrollerDetailsLoadedState() => const _BottomBar(),
+          _ => null,
+        },
+      ),
     ),
   );
 }
