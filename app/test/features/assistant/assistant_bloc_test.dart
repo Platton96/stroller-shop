@@ -2,12 +2,12 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:stroller_shop/core/exceptions/app_exception.dart';
+import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/assistant/bloc/assistant_bloc.dart';
 import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart';
 import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
 import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
-import 'package:stroller_shop/features/stroller_details/stroller_details_pages.dart';
 import 'package:stroller_shop/features/tabs/app_tab.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
@@ -25,7 +25,6 @@ class _MockCartRepository extends Mock implements CartRepository {}
 
 void main() {
   setUpAll(() {
-    registerFallbackValue(StrollerDetailsPage(strollerId: ''));
     registerFallbackValue(_stroller);
   });
 
@@ -298,7 +297,8 @@ void main() {
       'opens stroller details',
       build: createBloc,
       act: (bloc) => bloc.add(const .strollerPressed(strollerId: 's1')),
-      verify: (_) => verify(() => testAppNavigator.push<void>(any())).called(1),
+      verify: (_) =>
+          verify(() => testAppNavigator.push<void>(AppRoutes.strollerDetails('s1'))).called(1),
     );
   });
 

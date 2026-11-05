@@ -12,6 +12,7 @@
 
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:go_router/go_router.dart' as _i583;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:stroller_shop/core/bloc/base_bloc.dart' as _i9;
 import 'package:stroller_shop/core/navigation/app_navigator.dart' as _i940;
@@ -67,7 +68,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i310.StrollerDetailsVMMapper>(
       () => const _i310.StrollerDetailsVMMapper(),
     );
-    gh.lazySingleton<_i940.AppNavigator>(() => navigationModule.appNavigator());
+    gh.lazySingleton<_i583.GoRouter>(() => navigationModule.router());
     gh.lazySingleton<_i361.Dio>(() => networkModule.dio());
     gh.lazySingleton<_i942.AskAssistantMediator>(
       () => _i942.AskAssistantMediator(),
@@ -76,6 +77,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i176.CartRepository>(
       () => _i176.CartRepository(),
       dispose: (i) => i.dispose(),
+    );
+    gh.lazySingleton<_i940.AppNavigator>(
+      () => navigationModule.appNavigator(gh<_i583.GoRouter>()),
     );
     gh.factoryParam<_i500.SortSheetBloc, _i9.StrollerSort, dynamic>(
       (selectedSort, _) => _i500.SortSheetBloc(selectedSort),

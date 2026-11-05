@@ -1,9 +1,9 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
+import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog_data.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
-import 'package:stroller_shop/features/catalog/catalog_pages.dart';
-import 'package:stroller_shop/features/stroller_details/stroller_details_pages.dart';
+import 'package:stroller_shop/features/catalog/sort_sheet/sort_sheet.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
@@ -99,7 +99,10 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
       _reload(emit, _data.filter.copyWith(types: {?event.type}));
 
   Future<void> _handleSortPressedEvent(Emitter<CatalogState> emit, _SortPressedEvent event) async {
-    final sort = await appNavigator.push(SortSheetPage(selectedSort: _data.filter.sort));
+    final selectedSort = _data.filter.sort;
+    final sort = await appNavigator.showSheet<StrollerSort>(
+      (_) => SortSheet(selectedSort: selectedSort),
+    );
     if (sort != null && sort != _data.filter.sort) {
       await _reload(emit, _data.filter.copyWith(sort: sort));
     }
@@ -115,7 +118,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
   }
 
   void _handleStrollerPressedEvent(Emitter<CatalogState> emit, _StrollerPressedEvent event) =>
-      unawaited(appNavigator.push(StrollerDetailsPage(strollerId: event.strollerId)));
+      unawaited(appNavigator.push<void>(AppRoutes.strollerDetails(event.strollerId)));
 
   void _handleAddToCartPressedEvent(Emitter<CatalogState> emit, _AddToCartPressedEvent event) {
     final stroller = _data.strollers.firstWhereOrNull((item) => item.id == event.strollerId);

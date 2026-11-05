@@ -24,7 +24,6 @@ Generated files (`*.freezed.dart`, `*.g.dart`, `*.config.dart`) are never edited
 
 ```
 lib/features/<name>/
-  <name>_pages.dart
   <name>_screen.dart
   bloc/        <name>_bloc.dart, <name>_event.dart, <name>_state.dart
   models/      <name>_vm.dart (+ supplementary VMs)
@@ -40,7 +39,6 @@ Each screen has its own subtree; feature-level `mediators/` and `extensions/` st
 
 ```
 lib/features/<name>/
-  <name>_pages.dart
   mediators/
   extensions/
   <screen_a>/
@@ -61,9 +59,9 @@ lib/features/<name>/
 | Concept | Convention | Anti-pattern |
 |---|---|---|
 | BLoC directory | `bloc/` (singular) | `blocs/` |
-| Screen widget | `<screen_name>_screen.dart` | `<screen_name>_page.dart` (page = navigation entry, not the widget) |
+| Screen widget | `<screen_name>_screen.dart` | `<screen_name>_page.dart` |
 | Sheet widget | `<sheet_name>_sheet.dart` | `<sheet_name>_screen.dart` |
-| Page (navigation) | `<Name>Page` class in `<name>_pages.dart` | Inline page definitions inside screens |
+| Route | `GoRoute` in `lib/app/app_router.dart`, path in `AppRoutes` (`routing.md`) | Routes or path strings inside features |
 | VM | `<screen_or_feature>_vm.dart` for the root VM; supplementary VMs in `models/` | One mega-VM per feature |
 | VM mapper | `<screen_or_feature>_vm_mapper.dart` in `mappers/`; one file per VM | A single `mappers.dart` aggregating all |
 | Mediator | `<subject>_mediator.dart` in `mediators/` | Mediators inside `bloc/` or `core/` |
@@ -111,7 +109,7 @@ Tests mirror the feature folder: `app/test/features/<name>/bloc/`, `app/test/fea
 ## Checklist
 
 - [ ] Layout matches the screen count (flat for 1, nested for 2+)
-- [ ] Pages live in `<name>_pages.dart`
+- [ ] The screen is registered as a `GoRoute` and its path lives in `AppRoutes`
 - [ ] BLoC trio (`*_bloc.dart`, `*_event.dart`, `*_state.dart`) in `bloc/`; VM in `models/`; mapper in `mappers/`
 - [ ] No data-layer code (services, repositories, DTOs, domain models) inside the feature folder
 - [ ] File names mirror public class names; trivial classes are colocated
