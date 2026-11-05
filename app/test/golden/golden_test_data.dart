@@ -215,8 +215,7 @@ const goldenShopVM = ShopVM(
 
 const goldenGreetingVM = AssistantVM(
   reversedItems: [ChatItemVM.greeting()],
-  suggestions: [],
-  areStartersVisible: true,
+  suggestions: ['Лёгкая для путешествий', 'Для зимы и бездорожья', 'До 1500 BYN'],
   isSending: false,
   cartCount: 0,
 );
@@ -238,7 +237,6 @@ const goldenConversationVM = AssistantVM(
     ChatItemVM.greeting(),
   ],
   suggestions: ['Сравни их', 'А есть дешевле?'],
-  areStartersVisible: false,
   isSending: false,
   cartCount: 1,
 );
@@ -250,7 +248,6 @@ const goldenSendingVM = AssistantVM(
     ChatItemVM.greeting(),
   ],
   suggestions: [],
-  areStartersVisible: false,
   isSending: true,
   cartCount: 0,
 );
@@ -262,7 +259,6 @@ const goldenErrorChatVM = AssistantVM(
     ChatItemVM.greeting(),
   ],
   suggestions: [],
-  areStartersVisible: false,
   isSending: false,
   cartCount: 0,
 );

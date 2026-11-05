@@ -4,6 +4,7 @@ import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
 import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
+import 'package:stroller_shop/l10n/app_strings.dart';
 
 @injectable
 class AssistantVMMapper {
@@ -17,8 +18,14 @@ class AssistantVMMapper {
       ...chat.entries.reversed.map(_toChatItemVM),
       const ChatItemVM.greeting(),
     ],
-    suggestions: chat.suggestions,
-    areStartersVisible: !chat.entries.any((entry) => entry is UserMessageChatEntry),
+    suggestions: [
+      if (!chat.entries.any((entry) => entry is UserMessageChatEntry)) ...[
+        appStrings.assistantStarterTravel,
+        appStrings.assistantStarterWinter,
+        appStrings.assistantStarterBudget,
+      ],
+      ...chat.suggestions,
+    ],
     isSending: chat.isSending,
     cartCount: chat.cartCount,
   );

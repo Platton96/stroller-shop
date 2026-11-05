@@ -51,16 +51,7 @@ class _ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final strings = S.of(context);
-    final suggestions = [
-      if (vm.areStartersVisible) ...[
-        strings.assistantStarterTravel,
-        strings.assistantStarterWinter,
-        strings.assistantStarterBudget,
-      ],
-      ...vm.suggestions,
-    ];
-    final suggestionsCount = suggestions.isEmpty ? 0 : 1;
+    final suggestionsCount = vm.suggestions.isEmpty ? 0 : 1;
 
     return ListView.separated(
       reverse: true,
@@ -72,7 +63,7 @@ class _ChatList extends StatelessWidget {
           ? Padding(
               padding: _gutter,
               child: SuggestionList(
-                suggestions: suggestions,
+                suggestions: vm.suggestions,
                 onPressed: (text) =>
                     context.read<AssistantBloc>().add(.suggestionPressed(text: text)),
               ),

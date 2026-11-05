@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AssistantVM {
 
- List<ChatItemVM> get reversedItems; List<String> get suggestions; bool get areStartersVisible; bool get isSending; int get cartCount;
+ List<ChatItemVM> get reversedItems; List<String> get suggestions; bool get isSending; int get cartCount;
 /// Create a copy of AssistantVM
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $AssistantVMCopyWith<AssistantVM> get copyWith => _$AssistantVMCopyWithImpl<Assi
 @override
 bool operator ==(Object other) {
   final _this = this as AssistantVM;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssistantVM&&const DeepCollectionEquality().equals(other.reversedItems, _this.reversedItems)&&const DeepCollectionEquality().equals(other.suggestions, _this.suggestions)&&(identical(other.areStartersVisible, _this.areStartersVisible) || other.areStartersVisible == _this.areStartersVisible)&&(identical(other.isSending, _this.isSending) || other.isSending == _this.isSending)&&(identical(other.cartCount, _this.cartCount) || other.cartCount == _this.cartCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AssistantVM&&const DeepCollectionEquality().equals(other.reversedItems, _this.reversedItems)&&const DeepCollectionEquality().equals(other.suggestions, _this.suggestions)&&(identical(other.isSending, _this.isSending) || other.isSending == _this.isSending)&&(identical(other.cartCount, _this.cartCount) || other.cartCount == _this.cartCount));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AssistantVM;
-  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.reversedItems),const DeepCollectionEquality().hash(_this.suggestions),_this.areStartersVisible,_this.isSending,_this.cartCount);
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.reversedItems),const DeepCollectionEquality().hash(_this.suggestions),_this.isSending,_this.cartCount);
 }
 
 @override
 String toString() {
   final _this = this as AssistantVM;
-  return 'AssistantVM(reversedItems: ${_this.reversedItems}, suggestions: ${_this.suggestions}, areStartersVisible: ${_this.areStartersVisible}, isSending: ${_this.isSending}, cartCount: ${_this.cartCount})';
+  return 'AssistantVM(reversedItems: ${_this.reversedItems}, suggestions: ${_this.suggestions}, isSending: ${_this.isSending}, cartCount: ${_this.cartCount})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $AssistantVMCopyWith<$Res>  {
   factory $AssistantVMCopyWith(AssistantVM value, $Res Function(AssistantVM) _then) = _$AssistantVMCopyWithImpl;
 @useResult
 $Res call({
- List<ChatItemVM> reversedItems, List<String> suggestions, bool areStartersVisible, bool isSending, int cartCount
+ List<ChatItemVM> reversedItems, List<String> suggestions, bool isSending, int cartCount
 });
 
 
@@ -68,12 +68,11 @@ class _$AssistantVMCopyWithImpl<$Res>
 
 /// Create a copy of AssistantVM
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? reversedItems = null,Object? suggestions = null,Object? areStartersVisible = null,Object? isSending = null,Object? cartCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? reversedItems = null,Object? suggestions = null,Object? isSending = null,Object? cartCount = null,}) {
   return _then(AssistantVM(
 reversedItems: null == reversedItems ? _self.reversedItems : reversedItems // ignore: cast_nullable_to_non_nullable
 as List<ChatItemVM>,suggestions: null == suggestions ? _self.suggestions : suggestions // ignore: cast_nullable_to_non_nullable
-as List<String>,areStartersVisible: null == areStartersVisible ? _self.areStartersVisible : areStartersVisible // ignore: cast_nullable_to_non_nullable
-as bool,isSending: null == isSending ? _self.isSending : isSending // ignore: cast_nullable_to_non_nullable
+as List<String>,isSending: null == isSending ? _self.isSending : isSending // ignore: cast_nullable_to_non_nullable
 as bool,cartCount: null == cartCount ? _self.cartCount : cartCount // ignore: cast_nullable_to_non_nullable
 as int,
   ));
@@ -160,10 +159,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ChatItemVM> reversedItems,  List<String> suggestions,  bool areStartersVisible,  bool isSending,  int cartCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ChatItemVM> reversedItems,  List<String> suggestions,  bool isSending,  int cartCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AssistantVM() when $default != null:
-return $default(_that.reversedItems,_that.suggestions,_that.areStartersVisible,_that.isSending,_that.cartCount);case _:
+return $default(_that.reversedItems,_that.suggestions,_that.isSending,_that.cartCount);case _:
   return orElse();
 
 }
@@ -181,10 +180,10 @@ return $default(_that.reversedItems,_that.suggestions,_that.areStartersVisible,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ChatItemVM> reversedItems,  List<String> suggestions,  bool areStartersVisible,  bool isSending,  int cartCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ChatItemVM> reversedItems,  List<String> suggestions,  bool isSending,  int cartCount)  $default,) {final _that = this;
 switch (_that) {
 case _AssistantVM():
-return $default(_that.reversedItems,_that.suggestions,_that.areStartersVisible,_that.isSending,_that.cartCount);case _:
+return $default(_that.reversedItems,_that.suggestions,_that.isSending,_that.cartCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +200,10 @@ return $default(_that.reversedItems,_that.suggestions,_that.areStartersVisible,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ChatItemVM> reversedItems,  List<String> suggestions,  bool areStartersVisible,  bool isSending,  int cartCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ChatItemVM> reversedItems,  List<String> suggestions,  bool isSending,  int cartCount)?  $default,) {final _that = this;
 switch (_that) {
 case _AssistantVM() when $default != null:
-return $default(_that.reversedItems,_that.suggestions,_that.areStartersVisible,_that.isSending,_that.cartCount);case _:
+return $default(_that.reversedItems,_that.suggestions,_that.isSending,_that.cartCount);case _:
   return null;
 
 }
@@ -216,7 +215,7 @@ return $default(_that.reversedItems,_that.suggestions,_that.areStartersVisible,_
 
 
 class _AssistantVM implements AssistantVM {
-  const _AssistantVM({required  List<ChatItemVM> reversedItems, required  List<String> suggestions, required this.areStartersVisible, required this.isSending, required this.cartCount}): _reversedItems = reversedItems,_suggestions = suggestions;
+  const _AssistantVM({required  List<ChatItemVM> reversedItems, required  List<String> suggestions, required this.isSending, required this.cartCount}): _reversedItems = reversedItems,_suggestions = suggestions;
   
 
  final  List<ChatItemVM> _reversedItems;
@@ -233,7 +232,6 @@ class _AssistantVM implements AssistantVM {
   return EqualUnmodifiableListView(_suggestions);
 }
 
-@override final  bool areStartersVisible;
 @override final  bool isSending;
 @override final  int cartCount;
 
@@ -247,18 +245,18 @@ _$AssistantVMCopyWith<_AssistantVM> get copyWith => __$AssistantVMCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssistantVM&&const DeepCollectionEquality().equals(other.reversedItems, _reversedItems)&&const DeepCollectionEquality().equals(other.suggestions, _suggestions)&&(identical(other.areStartersVisible, areStartersVisible) || other.areStartersVisible == areStartersVisible)&&(identical(other.isSending, isSending) || other.isSending == isSending)&&(identical(other.cartCount, cartCount) || other.cartCount == cartCount));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AssistantVM&&const DeepCollectionEquality().equals(other.reversedItems, _reversedItems)&&const DeepCollectionEquality().equals(other.suggestions, _suggestions)&&(identical(other.isSending, isSending) || other.isSending == isSending)&&(identical(other.cartCount, cartCount) || other.cartCount == cartCount));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_reversedItems),const DeepCollectionEquality().hash(_suggestions),areStartersVisible,isSending,cartCount);
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_reversedItems),const DeepCollectionEquality().hash(_suggestions),isSending,cartCount);
 }
 
 @override
 String toString() {
-    return 'AssistantVM(reversedItems: $reversedItems, suggestions: $suggestions, areStartersVisible: $areStartersVisible, isSending: $isSending, cartCount: $cartCount)';
+    return 'AssistantVM(reversedItems: $reversedItems, suggestions: $suggestions, isSending: $isSending, cartCount: $cartCount)';
 }
 
 
@@ -269,7 +267,7 @@ abstract mixin class _$AssistantVMCopyWith<$Res> implements $AssistantVMCopyWith
   factory _$AssistantVMCopyWith(_AssistantVM value, $Res Function(_AssistantVM) _then) = __$AssistantVMCopyWithImpl;
 @override @useResult
 $Res call({
- List<ChatItemVM> reversedItems, List<String> suggestions, bool areStartersVisible, bool isSending, int cartCount
+ List<ChatItemVM> reversedItems, List<String> suggestions, bool isSending, int cartCount
 });
 
 
@@ -286,12 +284,11 @@ class __$AssistantVMCopyWithImpl<$Res>
 
 /// Create a copy of AssistantVM
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? reversedItems = null,Object? suggestions = null,Object? areStartersVisible = null,Object? isSending = null,Object? cartCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? reversedItems = null,Object? suggestions = null,Object? isSending = null,Object? cartCount = null,}) {
   return _then(_AssistantVM(
 reversedItems: null == reversedItems ? _self._reversedItems : reversedItems // ignore: cast_nullable_to_non_nullable
 as List<ChatItemVM>,suggestions: null == suggestions ? _self._suggestions : suggestions // ignore: cast_nullable_to_non_nullable
-as List<String>,areStartersVisible: null == areStartersVisible ? _self.areStartersVisible : areStartersVisible // ignore: cast_nullable_to_non_nullable
-as bool,isSending: null == isSending ? _self.isSending : isSending // ignore: cast_nullable_to_non_nullable
+as List<String>,isSending: null == isSending ? _self.isSending : isSending // ignore: cast_nullable_to_non_nullable
 as bool,cartCount: null == cartCount ? _self.cartCount : cartCount // ignore: cast_nullable_to_non_nullable
 as int,
   ));

@@ -8,7 +8,6 @@ abstract class AssistantVM with _$AssistantVM {
   const factory AssistantVM({
     required List<ChatItemVM> reversedItems,
     required List<String> suggestions,
-    required bool areStartersVisible,
     required bool isSending,
     required int cartCount,
   }) = _AssistantVM;
