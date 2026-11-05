@@ -32,9 +32,9 @@ class TabsScreen extends StatelessWidget {
 }
 
 class _TabBody extends StatelessWidget {
-  const _TabBody(this.tab);
-
   final AppTab tab;
+
+  const _TabBody(this.tab);
 
   @override
   Widget build(BuildContext context) => switch (tab) {
@@ -46,10 +46,10 @@ class _TabBody extends StatelessWidget {
 }
 
 class _BottomBar extends StatelessWidget {
-  const _BottomBar({required this.selectedTab, required this.cartCount});
-
   final AppTab selectedTab;
   final int cartCount;
+
+  const _BottomBar({required this.selectedTab, required this.cartCount});
 
   @override
   Widget build(BuildContext context) {

@@ -5,9 +5,9 @@ import 'package:stroller_shop/services/catalog/catalog_service.dart';
 
 @lazySingleton
 class CatalogRepository extends BaseRepository {
-  CatalogRepository(this._service);
-
   final CatalogService _service;
+
+  CatalogRepository(this._service);
 
   Future<List<StrollerTypeInfo>> fetchTypes() => guardApiCallWithMap(
     _service.getTypes,

@@ -5,10 +5,10 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class DeliveryCard extends StatelessWidget {
-  const DeliveryCard({required this.options, required this.onSelected, super.key});
-
   final List<DeliveryOptionVM> options;
   final ValueChanged<String> onSelected;
+
+  const DeliveryCard({required this.options, required this.onSelected, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,10 @@ class DeliveryCard extends StatelessWidget {
 }
 
 class _DeliveryOptionTile extends StatelessWidget {
-  const _DeliveryOptionTile({required this.vm, required this.onPressed});
-
   final DeliveryOptionVM vm;
   final VoidCallback onPressed;
+
+  const _DeliveryOptionTile({required this.vm, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

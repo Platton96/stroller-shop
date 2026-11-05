@@ -7,9 +7,9 @@ import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper
 
 @injectable
 class AssistantVMMapper {
-  const AssistantVMMapper(this._catalogMapper);
-
   final CatalogVMMapper _catalogMapper;
+
+  const AssistantVMMapper(this._catalogMapper);
 
   AssistantVM toAssistantVM(AssistantData data) => AssistantVM(
     reversedItems: [

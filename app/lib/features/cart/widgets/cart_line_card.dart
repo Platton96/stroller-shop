@@ -7,16 +7,16 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/stroller_image.dart';
 
 class CartLineCard extends StatelessWidget {
+  final CartLineVM vm;
+  final VoidCallback onDecreasePressed;
+  final VoidCallback onIncreasePressed;
+
   const CartLineCard({
     required this.vm,
     required this.onDecreasePressed,
     required this.onIncreasePressed,
     super.key,
   });
-
-  final CartLineVM vm;
-  final VoidCallback onDecreasePressed;
-  final VoidCallback onIncreasePressed;
 
   @override
   Widget build(BuildContext context) {

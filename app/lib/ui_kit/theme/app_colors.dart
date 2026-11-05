@@ -2,27 +2,6 @@ import 'package:flutter/material.dart';
 
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
-  const AppColors({
-    required this.background,
-    required this.surface,
-    required this.imagePlaceholder,
-    required this.textPrimary,
-    required this.textSecondary,
-    required this.textBody,
-    required this.border,
-    required this.accent,
-    required this.accentPressed,
-    required this.accentSoft,
-    required this.accentSoftBorder,
-    required this.onAccent,
-    required this.onAccentMuted,
-    required this.highlight,
-    required this.rating,
-    required this.placeholderIcon,
-    required this.indicatorInactive,
-    required this.error,
-  });
-
   static const light = AppColors(
     background: Color(0xFFF6F2EC),
     surface: Color(0xFFFFFFFF),
@@ -62,6 +41,27 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color placeholderIcon;
   final Color indicatorInactive;
   final Color error;
+
+  const AppColors({
+    required this.background,
+    required this.surface,
+    required this.imagePlaceholder,
+    required this.textPrimary,
+    required this.textSecondary,
+    required this.textBody,
+    required this.border,
+    required this.accent,
+    required this.accentPressed,
+    required this.accentSoft,
+    required this.accentSoftBorder,
+    required this.onAccent,
+    required this.onAccentMuted,
+    required this.highlight,
+    required this.rating,
+    required this.placeholderIcon,
+    required this.indicatorInactive,
+    required this.error,
+  });
 
   @override
   AppColors copyWith() => this;

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class StrollerImage extends StatelessWidget {
-  const StrollerImage({required this.imageUrl, required this.semanticLabel, super.key});
-
   final String imageUrl;
   final String semanticLabel;
+
+  const StrollerImage({required this.imageUrl, required this.semanticLabel, super.key});
 
   @override
   Widget build(BuildContext context) => imageUrl.isEmpty

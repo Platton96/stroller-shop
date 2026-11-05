@@ -4,6 +4,12 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class CartAddedCard extends StatelessWidget {
+  final String name;
+  final String color;
+  final int priceByn;
+  final bool isPriceApproximate;
+  final VoidCallback onOpenCartPressed;
+
   const CartAddedCard({
     required this.name,
     required this.color,
@@ -12,12 +18,6 @@ class CartAddedCard extends StatelessWidget {
     required this.onOpenCartPressed,
     super.key,
   });
-
-  final String name;
-  final String color;
-  final int priceByn;
-  final bool isPriceApproximate;
-  final VoidCallback onOpenCartPressed;
 
   @override
   Widget build(BuildContext context) {

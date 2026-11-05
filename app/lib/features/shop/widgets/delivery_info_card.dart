@@ -5,9 +5,9 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class DeliveryInfoCard extends StatelessWidget {
-  const DeliveryInfoCard({required this.options, super.key});
-
   final List<ShopDeliveryVM> options;
+
+  const DeliveryInfoCard({required this.options, super.key});
 
   @override
   Widget build(BuildContext context) => InfoCard(
@@ -20,9 +20,9 @@ class DeliveryInfoCard extends StatelessWidget {
 }
 
 class _DeliveryRow extends StatelessWidget {
-  const _DeliveryRow({required this.vm});
-
   final ShopDeliveryVM vm;
+
+  const _DeliveryRow({required this.vm});
 
   @override
   Widget build(BuildContext context) {

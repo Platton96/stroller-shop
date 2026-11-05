@@ -5,10 +5,10 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/app_button.dart';
 
 class ErrorView extends StatelessWidget {
-  const ErrorView({required this.exception, required this.onRetry, super.key});
-
   final Exception exception;
   final VoidCallback onRetry;
+
+  const ErrorView({required this.exception, required this.onRetry, super.key});
 
   @override
   Widget build(BuildContext context) {

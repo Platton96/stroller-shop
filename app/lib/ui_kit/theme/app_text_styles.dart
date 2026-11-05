@@ -4,6 +4,18 @@ import 'package:stroller_shop/ui_kit/theme/app_colors.dart';
 
 @immutable
 class AppTextStyles extends ThemeExtension<AppTextStyles> {
+  final TextStyle display;
+  final TextStyle headline;
+  final TextStyle title;
+  final TextStyle titleSmall;
+  final TextStyle body;
+  final TextStyle bodyStrong;
+  final TextStyle caption;
+  final TextStyle captionStrong;
+  final TextStyle label;
+  final TextStyle price;
+  final TextStyle priceLarge;
+
   const AppTextStyles({
     required this.display,
     required this.headline,
@@ -42,18 +54,6 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
       priceLarge: style(24, .w800),
     );
   }
-
-  final TextStyle display;
-  final TextStyle headline;
-  final TextStyle title;
-  final TextStyle titleSmall;
-  final TextStyle body;
-  final TextStyle bodyStrong;
-  final TextStyle caption;
-  final TextStyle captionStrong;
-  final TextStyle label;
-  final TextStyle price;
-  final TextStyle priceLarge;
 
   @override
   AppTextStyles copyWith() => this;

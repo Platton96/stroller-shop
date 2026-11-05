@@ -4,9 +4,9 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class PaymentCard extends StatelessWidget {
-  const PaymentCard({required this.methods, super.key});
-
   final List<String> methods;
+
+  const PaymentCard({required this.methods, super.key});
 
   @override
   Widget build(BuildContext context) => InfoCard(

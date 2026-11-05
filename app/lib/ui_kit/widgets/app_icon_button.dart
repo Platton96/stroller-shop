@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class AppIconButton extends StatelessWidget {
+  final IconData icon;
+  final String semanticLabel;
+  final VoidCallback onPressed;
+  final int badgeCount;
+
   const AppIconButton({
     required this.icon,
     required this.semanticLabel,
@@ -9,11 +14,6 @@ class AppIconButton extends StatelessWidget {
     this.badgeCount = 0,
     super.key,
   });
-
-  final IconData icon;
-  final String semanticLabel;
-  final VoidCallback onPressed;
-  final int badgeCount;
 
   @override
   Widget build(BuildContext context) {

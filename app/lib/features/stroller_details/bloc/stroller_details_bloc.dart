@@ -13,6 +13,16 @@ part 'stroller_details_state.dart';
 
 @injectable
 class StrollerDetailsBloc extends BaseBloc<StrollerDetailsEvent, StrollerDetailsState> {
+  final String _strollerId;
+  final CatalogRepository _catalogRepository;
+  final CartRepository _cartRepository;
+  final StrollerDetailsVMMapper _mapper;
+  final AskAssistantMediator _askAssistantMediator;
+  final OpenTabMediator _openTabMediator;
+
+  Stroller? _stroller;
+  var _selectedColor = '';
+
   StrollerDetailsBloc(
     @factoryParam this._strollerId,
     this._catalogRepository,
@@ -32,16 +42,6 @@ class StrollerDetailsBloc extends BaseBloc<StrollerDetailsEvent, StrollerDetails
       },
     );
   }
-
-  final String _strollerId;
-  final CatalogRepository _catalogRepository;
-  final CartRepository _cartRepository;
-  final StrollerDetailsVMMapper _mapper;
-  final AskAssistantMediator _askAssistantMediator;
-  final OpenTabMediator _openTabMediator;
-
-  Stroller? _stroller;
-  var _selectedColor = '';
 
   @override
   void handleGeneralException(

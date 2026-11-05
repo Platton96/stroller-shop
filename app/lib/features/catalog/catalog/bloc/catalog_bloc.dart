@@ -16,6 +16,16 @@ part 'catalog_state.dart';
 
 @injectable
 class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
+  static const _pageSize = 20;
+
+  final CatalogRepository _catalogRepository;
+  final ShopRepository _shopRepository;
+  final CartRepository _cartRepository;
+  final CatalogVMMapper _mapper;
+  final OpenTabMediator _openTabMediator;
+
+  var _data = CatalogData.initial();
+
   CatalogBloc(
     this._catalogRepository,
     this._shopRepository,
@@ -47,16 +57,6 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
       },
     );
   }
-
-  static const _pageSize = 20;
-
-  final CatalogRepository _catalogRepository;
-  final ShopRepository _shopRepository;
-  final CartRepository _cartRepository;
-  final CatalogVMMapper _mapper;
-  final OpenTabMediator _openTabMediator;
-
-  var _data = CatalogData.initial();
 
   @override
   void handleGeneralException(

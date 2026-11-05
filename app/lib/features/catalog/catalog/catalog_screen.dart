@@ -13,9 +13,9 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/error_view.dart';
 
 class CatalogScreen extends StatelessWidget {
-  const CatalogScreen({super.key});
-
   static const _loadMoreThreshold = 600.0;
+
+  const CatalogScreen({super.key});
 
   @override
   Widget build(BuildContext context) => AppBlocProvider<CatalogBloc>(
@@ -93,9 +93,9 @@ class CatalogScreen extends StatelessWidget {
 }
 
 class _SectionHeader extends StatelessWidget {
-  const _SectionHeader({required this.vm});
-
   final CatalogVM vm;
+
+  const _SectionHeader({required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +117,9 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _SliverStrollerGrid extends StatelessWidget {
-  const _SliverStrollerGrid({required this.vm});
-
   final CatalogVM vm;
+
+  const _SliverStrollerGrid({required this.vm});
 
   @override
   Widget build(BuildContext context) => SliverPadding(

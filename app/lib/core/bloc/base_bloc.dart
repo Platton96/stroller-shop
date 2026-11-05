@@ -39,12 +39,12 @@ mixin BaseBlocCallbacks {
 
 abstract class BaseBloc<Event, State> extends Bloc<Event, State>
     with BaseBlocCallbacks, BlocTransformers {
-  BaseBloc(super.initialState);
-
   static bool isTestEnvironment = false;
 
   final _subscriptions = <StreamSubscription<Object?>>[];
   bool _isClosed = false;
+
+  BaseBloc(super.initialState);
 
   @override
   void add(Event event) {

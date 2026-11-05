@@ -4,10 +4,10 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/app_icon_button.dart';
 
 class AssistantHeader extends StatelessWidget {
-  const AssistantHeader({required this.cartCount, required this.onCartPressed, super.key});
-
   final int cartCount;
   final VoidCallback onCartPressed;
+
+  const AssistantHeader({required this.cartCount, required this.onCartPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

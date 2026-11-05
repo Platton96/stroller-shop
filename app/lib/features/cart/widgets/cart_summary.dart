@@ -3,10 +3,10 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class CartSummary extends StatelessWidget {
-  const CartSummary({required this.goodsTotalByn, required this.shippingByn, super.key});
-
   final int goodsTotalByn;
   final int shippingByn;
+
+  const CartSummary({required this.goodsTotalByn, required this.shippingByn, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class CartSummary extends StatelessWidget {
 }
 
 class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({required this.label, required this.value});
-
   final String label;
   final String value;
+
+  const _SummaryRow({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) => Row(

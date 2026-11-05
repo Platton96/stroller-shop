@@ -9,6 +9,9 @@ part 'tabs_state.dart';
 
 @injectable
 class TabsBloc extends BaseBloc<TabsEvent, TabsState> {
+  final CartRepository _cartRepository;
+  final OpenTabMediator _openTabMediator;
+
   TabsBloc(this._cartRepository, this._openTabMediator)
     : super(const .initial(data: TabsVM(selectedTab: .catalog, cartCount: 0))) {
     addDisposables([
@@ -22,9 +25,6 @@ class TabsBloc extends BaseBloc<TabsEvent, TabsState> {
       },
     );
   }
-
-  final CartRepository _cartRepository;
-  final OpenTabMediator _openTabMediator;
 
   void _handleTabSelectedEvent(Emitter<TabsState> emit, _TabSelectedEvent event) =>
       emit(.ready(data: state.data.copyWith(selectedTab: event.tab)));

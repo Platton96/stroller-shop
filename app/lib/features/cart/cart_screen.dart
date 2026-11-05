@@ -39,9 +39,9 @@ class CartScreen extends StatelessWidget {
 }
 
 class _LoadedView extends StatelessWidget {
-  const _LoadedView({required this.vm});
-
   final CartVM vm;
+
+  const _LoadedView({required this.vm});
 
   @override
   Widget build(BuildContext context) => Column(

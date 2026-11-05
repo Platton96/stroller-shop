@@ -9,6 +9,9 @@ part 'shop_state.dart';
 
 @injectable
 class ShopBloc extends BaseBloc<ShopEvent, ShopState> {
+  final ShopRepository _shopRepository;
+  final ShopVMMapper _mapper;
+
   ShopBloc(this._shopRepository, this._mapper) : super(.initial(data: ShopVM.initial())) {
     on<ShopEvent>(
       (event, emit) => switch (event) {
@@ -17,9 +20,6 @@ class ShopBloc extends BaseBloc<ShopEvent, ShopState> {
       },
     );
   }
-
-  final ShopRepository _shopRepository;
-  final ShopVMMapper _mapper;
 
   @override
   void handleGeneralException(

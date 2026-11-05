@@ -3,10 +3,10 @@ import 'package:stroller_shop/features/shop/widgets/info_card.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class TextInfoCard extends StatelessWidget {
-  const TextInfoCard({required this.title, required this.text, super.key});
-
   final String title;
   final String text;
+
+  const TextInfoCard({required this.title, required this.text, super.key});
 
   @override
   Widget build(BuildContext context) => InfoCard(

@@ -6,10 +6,10 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class TypeChips extends StatelessWidget {
-  const TypeChips({required this.chips, required this.onSelected, super.key});
-
   final List<TypeChipVM> chips;
   final ValueSetter<StrollerType?> onSelected;
+
+  const TypeChips({required this.chips, required this.onSelected, super.key});
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -47,17 +47,17 @@ class TypeChips extends StatelessWidget {
 }
 
 class _Chip extends StatelessWidget {
+  final String label;
+  final int count;
+  final bool isSelected;
+  final VoidCallback onPressed;
+
   const _Chip({
     required this.label,
     required this.count,
     required this.isSelected,
     required this.onPressed,
   });
-
-  final String label;
-  final int count;
-  final bool isSelected;
-  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

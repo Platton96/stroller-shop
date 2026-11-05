@@ -4,16 +4,16 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class ColorPicker extends StatelessWidget {
+  final List<String> colors;
+  final String selectedColor;
+  final ValueChanged<String> onSelected;
+
   const ColorPicker({
     required this.colors,
     required this.selectedColor,
     required this.onSelected,
     super.key,
   });
-
-  final List<String> colors;
-  final String selectedColor;
-  final ValueChanged<String> onSelected;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -42,11 +42,11 @@ class ColorPicker extends StatelessWidget {
 }
 
 class _ColorChip extends StatelessWidget {
-  const _ColorChip({required this.label, required this.isSelected, required this.onPressed});
-
   final String label;
   final bool isSelected;
   final VoidCallback onPressed;
+
+  const _ColorChip({required this.label, required this.isSelected, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

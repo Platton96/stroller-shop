@@ -4,9 +4,9 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class AssistantPromoCard extends StatelessWidget {
-  const AssistantPromoCard({required this.onPressed, super.key});
-
   final VoidCallback onPressed;
+
+  const AssistantPromoCard({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

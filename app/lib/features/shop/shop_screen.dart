@@ -36,9 +36,9 @@ class ShopScreen extends StatelessWidget {
 }
 
 class _LoadedView extends StatelessWidget {
-  const _LoadedView({required this.vm});
-
   final ShopVM vm;
+
+  const _LoadedView({required this.vm});
 
   @override
   Widget build(BuildContext context) {

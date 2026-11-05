@@ -42,9 +42,9 @@ class AssistantScreen extends StatelessWidget {
 }
 
 class _ChatList extends StatelessWidget {
-  const _ChatList({required this.vm});
-
   final AssistantVM vm;
+
+  const _ChatList({required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +80,9 @@ class _ChatList extends StatelessWidget {
 }
 
 class _ChatItem extends StatelessWidget {
-  const _ChatItem({required this.item});
-
   final ChatItemVM item;
+
+  const _ChatItem({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +104,9 @@ class _ChatItem extends StatelessWidget {
 }
 
 class _MessageItem extends StatelessWidget {
-  const _MessageItem({required this.item});
-
   final ChatItemVM item;
+
+  const _MessageItem({required this.item});
 
   @override
   Widget build(BuildContext context) {

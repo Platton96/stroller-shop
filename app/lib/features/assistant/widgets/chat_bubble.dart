@@ -5,12 +5,12 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 enum ChatBubbleSide { user, assistant }
 
 class ChatBubble extends StatelessWidget {
+  final Widget child;
+  final ChatBubbleSide side;
+
   const ChatBubble.user({required this.child, super.key}) : side = .user;
 
   const ChatBubble.assistant({required this.child, super.key}) : side = .assistant;
-
-  final Widget child;
-  final ChatBubbleSide side;
 
   @override
   Widget build(BuildContext context) {

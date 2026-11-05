@@ -3,10 +3,10 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class SuggestionList extends StatelessWidget {
-  const SuggestionList({required this.suggestions, required this.onPressed, super.key});
-
   final List<String> suggestions;
   final ValueChanged<String> onPressed;
+
+  const SuggestionList({required this.suggestions, required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
