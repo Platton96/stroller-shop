@@ -260,6 +260,10 @@ extension on StatusObj? {
 | Domain model | Clean name | `Stroller`, `Order` |
 | Enum (API) | `*Obj` | `OrderStatusObj` |
 | Enum (Domain) | Clean name | `OrderStatus` |
+| UI model | `*VM` | `CartVM` |
+| BLoC-held aggregate (feature `models/`, mapped to a VM) | Clean name | `Cart`, `Catalog`, `AssistantChat` |
+
+Only three postfixes exist: `Obj` for DTOs, `VM` for view models, none for domain models and feature aggregates. **MUST NOT use `Data`, `Entity`, `Model`, `Info`-style postfixes** — `CartData` is `Cart`.
 
 ## Transform Patterns
 

@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/catalog_data.dart';
+import 'package:stroller_shop/features/catalog/catalog/models/catalog.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/type_chip_vm.dart';
@@ -10,14 +10,14 @@ import 'package:stroller_shop/objects/objects.dart';
 class CatalogVMMapper {
   const CatalogVMMapper();
 
-  CatalogVM toCatalogVM(CatalogData data) => CatalogVM(
-    city: data.city,
-    sort: data.filter.sort,
-    typeChips: _toTypeChips(data),
-    cards: data.strollers.map(toStrollerCardVM).toList(),
-    totalCount: data.total,
-    hasMore: data.strollers.length < data.total,
-    cartCount: data.cartCount,
+  CatalogVM toCatalogVM(Catalog catalog) => CatalogVM(
+    city: catalog.city,
+    sort: catalog.filter.sort,
+    typeChips: _toTypeChips(catalog),
+    cards: catalog.strollers.map(toStrollerCardVM).toList(),
+    totalCount: catalog.total,
+    hasMore: catalog.strollers.length < catalog.total,
+    cartCount: catalog.cartCount,
   );
 
   StrollerCardVM toStrollerCardVM(Stroller stroller) => StrollerCardVM(
@@ -32,15 +32,15 @@ class CatalogVMMapper {
     imageUrl: stroller.imageUrl,
   );
 
-  List<TypeChipVM> _toTypeChips(CatalogData data) {
-    final selectedTypes = data.filter.types;
+  List<TypeChipVM> _toTypeChips(Catalog catalog) {
+    final selectedTypes = catalog.filter.types;
 
     return [
       TypeChipVM.all(
-        count: data.types.map((info) => info.count).sum,
+        count: catalog.types.map((info) => info.count).sum,
         isSelected: selectedTypes.isEmpty,
       ),
-      ...data.types.map(
+      ...catalog.types.map(
         (info) => TypeChipVM.type(
           type: info.type,
           label: info.label,

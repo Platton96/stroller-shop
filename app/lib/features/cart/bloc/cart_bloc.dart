@@ -1,6 +1,6 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/cart/mappers/cart_vm_mapper.dart';
-import 'package:stroller_shop/features/cart/models/cart_data.dart';
+import 'package:stroller_shop/features/cart/models/cart.dart';
 import 'package:stroller_shop/features/cart/models/cart_vm.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
@@ -18,10 +18,10 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   final CartVMMapper _mapper;
   final OpenTabMediator _openTabMediator;
 
-  var _data = CartData.initial();
+  var _cart = Cart.initial();
 
   CartBloc(this._cartRepository, this._shopRepository, this._mapper, this._openTabMediator)
-    : super(.initial(data: _mapper.toCartVM(CartData.initial()))) {
+    : super(.initial(data: _mapper.toCartVM(Cart.initial()))) {
     addDisposable(_cartRepository.watchItems().listen(_handleItems));
     on<CartEvent>(
       (event, emit) => switch (event) {
@@ -46,7 +46,7 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   Future<void> _handleInitEvent(Emitter<CartState> emit, _InitEvent event) async {
     emit(.loading(data: state.data));
     final shop = await _shopRepository.fetchShop();
-    _data = _data.copyWith(
+    _cart = _cart.copyWith(
       deliveryOptions: shop.delivery,
       selectedDeliveryMethod: shop.delivery.firstOrNull?.method,
     );
@@ -57,12 +57,12 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
       _handleInitEvent(emit, const _InitEvent());
 
   void _handleItemsChangedEvent(Emitter<CartState> emit, _ItemsChangedEvent event) {
-    _data = _data.copyWith(items: event.items);
-    emit(state.copyWith(data: _mapper.toCartVM(_data)));
+    _cart = _cart.copyWith(items: event.items);
+    emit(state.copyWith(data: _mapper.toCartVM(_cart)));
   }
 
   void _handleQuantityChangedEvent(Emitter<CartState> emit, _QuantityChangedEvent event) {
-    final item = _data.items.firstWhereOrNull(
+    final item = _cart.items.firstWhereOrNull(
       (item) => item.stroller.id == event.strollerId && item.color == event.color,
     );
     if (item == null) {
@@ -72,8 +72,8 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   }
 
   void _handleDeliverySelectedEvent(Emitter<CartState> emit, _DeliverySelectedEvent event) {
-    _data = _data.copyWith(selectedDeliveryMethod: event.method);
-    emit(state.copyWith(data: _mapper.toCartVM(_data)));
+    _cart = _cart.copyWith(selectedDeliveryMethod: event.method);
+    emit(state.copyWith(data: _mapper.toCartVM(_cart)));
   }
 
   void _handleCheckoutPressedEvent(Emitter<CartState> emit, _CheckoutPressedEvent event) {
@@ -86,5 +86,5 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
 
   void _handleItems(List<CartItem> items) => add(.itemsChanged(items: items));
 
-  void _emitLoaded(Emitter<CartState> emit) => emit(.loaded(data: _mapper.toCartVM(_data)));
+  void _emitLoaded(Emitter<CartState> emit) => emit(.loaded(data: _mapper.toCartVM(_cart)));
 }

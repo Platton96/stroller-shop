@@ -70,13 +70,13 @@ Project-owned classes (`StrollerRepository`, `CatalogBloc`, `CatalogVMMapper`, .
 class CatalogVMMapper {
   const CatalogVMMapper();
 
-  CatalogVM toCatalogVM(CatalogData data) => CatalogVM(
-    items: data.strollers.map(_toItemVM).toList(),
+  CatalogVM toCatalogVM(Catalog catalog) => CatalogVM(
+    items: catalog.strollers.map(_toItemVM).toList(),
   );
 }
 
 // in the BLoC handler
-final vm = _vmMapper.toCatalogVM(data);
+final vm = _vmMapper.toCatalogVM(_catalog);
 emit(.loaded(data: vm));
 ```
 
