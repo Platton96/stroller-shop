@@ -1,3 +1,4 @@
+import 'package:stroller_shop/core/async/future_record_extension.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
@@ -67,13 +68,11 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
 
   Future<void> _handleInitEvent(Emitter<CatalogState> emit, _InitEvent event) async {
     emit(.loading(data: state.data));
-    final typesFuture = _catalogRepository.fetchTypes();
-    final shopFuture = _shopRepository.fetchShop();
-    final pageFuture = _fetchPage(offset: 0);
-    await Future.wait([typesFuture, shopFuture, pageFuture]);
-    final types = await typesFuture;
-    final shop = await shopFuture;
-    final page = await pageFuture;
+    final (types, shop, page) = await (
+      _catalogRepository.fetchTypes(),
+      _shopRepository.fetchShop(),
+      _fetchPage(offset: 0),
+    ).waitAll;
     _catalog = _catalog.copyWith(
       types: types,
       city: shop.city,
