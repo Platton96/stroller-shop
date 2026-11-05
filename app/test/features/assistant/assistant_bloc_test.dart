@@ -85,8 +85,11 @@ void main() {
         _hasItems(const [_greeting]),
       ],
       verify: (bloc) {
-        expect(bloc.state.data.areStartersVisible, isTrue);
-        expect(bloc.state.data.suggestions, isEmpty);
+        expect(bloc.state.data.suggestions, [
+          'Лёгкая для путешествий',
+          'Для зимы и бездорожья',
+          'До 1500 BYN',
+        ]);
       },
     );
   });
@@ -109,7 +112,6 @@ void main() {
       ],
       verify: (bloc) {
         expect(bloc.state.data.suggestions, ['Подробнее']);
-        expect(bloc.state.data.areStartersVisible, isFalse);
         verify(
           () => assistantRepository.sendMessage(
             conversationId: '',
