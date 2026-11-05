@@ -1,20 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stroller_shop/objects/objects.dart';
 
-part 'catalog_data.freezed.dart';
+part 'catalog.freezed.dart';
 
 @freezed
-abstract class CatalogData with _$CatalogData {
-  const factory CatalogData({
+abstract class Catalog with _$Catalog {
+  const factory Catalog({
     required StrollerFilter filter,
     required List<StrollerTypeInfo> types,
     required List<Stroller> strollers,
     required int total,
     required String city,
     required int cartCount,
-  }) = _CatalogData;
+  }) = _Catalog;
 
-  factory CatalogData.initial() => const CatalogData(
+  factory Catalog.initial() => const Catalog(
     filter: StrollerFilter(),
     types: [],
     strollers: [],

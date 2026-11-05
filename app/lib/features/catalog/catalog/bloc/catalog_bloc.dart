@@ -1,7 +1,7 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/catalog_data.dart';
+import 'package:stroller_shop/features/catalog/catalog/models/catalog.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
 import 'package:stroller_shop/features/catalog/sort_sheet/sort_sheet.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
@@ -24,7 +24,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
   final CatalogVMMapper _mapper;
   final OpenTabMediator _openTabMediator;
 
-  var _data = CatalogData.initial();
+  var _catalog = Catalog.initial();
 
   CatalogBloc(
     this._catalogRepository,
@@ -32,7 +32,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
     this._cartRepository,
     this._mapper,
     this._openTabMediator,
-  ) : super(.initial(data: _mapper.toCatalogVM(CatalogData.initial()))) {
+  ) : super(.initial(data: _mapper.toCatalogVM(Catalog.initial()))) {
     addDisposable(_cartRepository.watchCount().listen(_handleCartCount));
     on<_QueryChangedEvent>(
       (event, emit) => _handleQueryChangedEvent(emit, event),
@@ -74,7 +74,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
     final types = await typesFuture;
     final shop = await shopFuture;
     final page = await pageFuture;
-    _data = _data.copyWith(
+    _catalog = _catalog.copyWith(
       types: types,
       city: shop.city,
       strollers: page.items,
@@ -88,32 +88,35 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
 
   Future<void> _handleQueryChangedEvent(Emitter<CatalogState> emit, _QueryChangedEvent event) {
     final query = event.query.trim();
-    if (query == _data.filter.query) {
+    if (query == _catalog.filter.query) {
       return Future.value();
     }
 
-    return _reload(emit, _data.filter.copyWith(query: query));
+    return _reload(emit, _catalog.filter.copyWith(query: query));
   }
 
   Future<void> _handleTypeSelectedEvent(Emitter<CatalogState> emit, _TypeSelectedEvent event) =>
-      _reload(emit, _data.filter.copyWith(types: {?event.type}));
+      _reload(emit, _catalog.filter.copyWith(types: {?event.type}));
 
   Future<void> _handleSortPressedEvent(Emitter<CatalogState> emit, _SortPressedEvent event) async {
-    final selectedSort = _data.filter.sort;
+    final selectedSort = _catalog.filter.sort;
     final sort = await appNavigator.showSheet<StrollerSort>(
       (_) => SortSheet(selectedSort: selectedSort),
     );
-    if (sort != null && sort != _data.filter.sort) {
-      await _reload(emit, _data.filter.copyWith(sort: sort));
+    if (sort != null && sort != _catalog.filter.sort) {
+      await _reload(emit, _catalog.filter.copyWith(sort: sort));
     }
   }
 
   Future<void> _handleLoadMoreEvent(Emitter<CatalogState> emit, _LoadMoreEvent event) async {
-    if (state is! CatalogLoadedState || _data.strollers.length >= _data.total) {
+    if (state is! CatalogLoadedState || _catalog.strollers.length >= _catalog.total) {
       return;
     }
-    final page = await _fetchPage(offset: _data.strollers.length);
-    _data = _data.copyWith(strollers: [..._data.strollers, ...page.items], total: page.total);
+    final page = await _fetchPage(offset: _catalog.strollers.length);
+    _catalog = _catalog.copyWith(
+      strollers: [..._catalog.strollers, ...page.items],
+      total: page.total,
+    );
     _emitLoaded(emit);
   }
 
@@ -121,7 +124,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
       unawaited(appNavigator.push<void>(AppRoutes.strollerDetails(event.strollerId)));
 
   void _handleAddToCartPressedEvent(Emitter<CatalogState> emit, _AddToCartPressedEvent event) {
-    final stroller = _data.strollers.firstWhereOrNull((item) => item.id == event.strollerId);
+    final stroller = _catalog.strollers.firstWhereOrNull((item) => item.id == event.strollerId);
     if (stroller == null) {
       return;
     }
@@ -136,23 +139,24 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
       _openTabMediator.notify(.cart);
 
   void _handleCartCountChangedEvent(Emitter<CatalogState> emit, _CartCountChangedEvent event) {
-    _data = _data.copyWith(cartCount: event.count);
-    final data = _mapper.toCatalogVM(_data);
+    _catalog = _catalog.copyWith(cartCount: event.count);
+    final data = _mapper.toCatalogVM(_catalog);
     emit(state.copyWith(data: data));
   }
 
   void _handleCartCount(int count) => add(.cartCountChanged(count: count));
 
   Future<void> _reload(Emitter<CatalogState> emit, StrollerFilter filter) async {
-    _data = _data.copyWith(filter: filter);
-    emit(.loading(data: _mapper.toCatalogVM(_data)));
+    _catalog = _catalog.copyWith(filter: filter);
+    emit(.loading(data: _mapper.toCatalogVM(_catalog)));
     final page = await _fetchPage(offset: 0);
-    _data = _data.copyWith(strollers: page.items, total: page.total);
+    _catalog = _catalog.copyWith(strollers: page.items, total: page.total);
     _emitLoaded(emit);
   }
 
   Future<StrollersPage> _fetchPage({required int offset}) =>
-      _catalogRepository.fetchStrollers(filter: _data.filter, limit: _pageSize, offset: offset);
+      _catalogRepository.fetchStrollers(filter: _catalog.filter, limit: _pageSize, offset: offset);
 
-  void _emitLoaded(Emitter<CatalogState> emit) => emit(.loaded(data: _mapper.toCatalogVM(_data)));
+  void _emitLoaded(Emitter<CatalogState> emit) =>
+      emit(.loaded(data: _mapper.toCatalogVM(_catalog)));
 }

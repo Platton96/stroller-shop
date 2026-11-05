@@ -57,11 +57,11 @@ Bottom sheets are not routes: `appNavigator.showSheet<T>(builder)` opens a modal
 
 ```dart
 Future<void> _handleSortPressedEvent(Emitter<CatalogState> emit, _SortPressedEvent event) async {
-  final selectedSort = _data.filter.sort;
+  final selectedSort = _catalog.filter.sort;
   final sort = await appNavigator.showSheet<StrollerSort>(
     (_) => SortSheet(selectedSort: selectedSort),
   );
-  if (sort != null && sort != _data.filter.sort) { ... }
+  if (sort != null && sort != _catalog.filter.sort) { ... }
 }
 
 void _handleSortSelectedEvent(Emitter<SortSheetState> emit, _SortSelectedEvent event) =>

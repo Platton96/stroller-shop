@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stroller_shop/features/cart/models/cart_data.dart';
+import 'package:stroller_shop/features/cart/models/cart.dart';
 import 'package:stroller_shop/features/cart/models/cart_line_vm.dart';
 import 'package:stroller_shop/features/cart/models/cart_vm.dart';
 import 'package:stroller_shop/features/cart/models/delivery_option_vm.dart';
@@ -10,21 +10,21 @@ import 'package:stroller_shop/objects/objects.dart';
 class CartVMMapper {
   const CartVMMapper();
 
-  CartVM toCartVM(CartData data) {
-    final goodsTotal = data.items.map((item) => item.stroller.priceByn * item.quantity).sum;
-    final options = data.deliveryOptions
-        .map((option) => _toDeliveryOptionVM(option, data, goodsTotal))
+  CartVM toCartVM(Cart cart) {
+    final goodsTotal = cart.items.map((item) => item.stroller.priceByn * item.quantity).sum;
+    final options = cart.deliveryOptions
+        .map((option) => _toDeliveryOptionVM(option, cart, goodsTotal))
         .toList();
     final shipping = options.firstWhereOrNull((option) => option.isSelected)?.costByn ?? 0;
 
     return CartVM(
-      lines: data.items.map(_toCartLineVM).toList(),
+      lines: cart.items.map(_toCartLineVM).toList(),
       deliveryOptions: options,
-      itemsCount: data.items.map((item) => item.quantity).sum,
+      itemsCount: cart.items.map((item) => item.quantity).sum,
       goodsTotalByn: goodsTotal,
       shippingByn: shipping,
       totalByn: goodsTotal + shipping,
-      isEmpty: data.items.isEmpty,
+      isEmpty: cart.items.isEmpty,
     );
   }
 
@@ -39,7 +39,7 @@ class CartVMMapper {
     isAddedByAssistant: item.isAddedByAssistant,
   );
 
-  DeliveryOptionVM _toDeliveryOptionVM(DeliveryOption option, CartData data, int goodsTotal) {
+  DeliveryOptionVM _toDeliveryOptionVM(DeliveryOption option, Cart cart, int goodsTotal) {
     final freeFrom = option.freeFromByn;
     final isFree = freeFrom != null && goodsTotal >= freeFrom;
 
@@ -49,7 +49,7 @@ class CartVMMapper {
       eta: option.eta,
       freeFromByn: freeFrom,
       costByn: isFree ? 0 : option.priceByn,
-      isSelected: option.method == data.selectedDeliveryMethod,
+      isSelected: option.method == cart.selectedDeliveryMethod,
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:injectable/injectable.dart';
-import 'package:stroller_shop/features/assistant/models/assistant_data.dart';
+import 'package:stroller_shop/features/assistant/models/assistant_chat.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
 import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
@@ -11,16 +11,16 @@ class AssistantVMMapper {
 
   const AssistantVMMapper(this._catalogMapper);
 
-  AssistantVM toAssistantVM(AssistantData data) => AssistantVM(
+  AssistantVM toAssistantVM(AssistantChat chat) => AssistantVM(
     reversedItems: [
-      if (data.isSending) const ChatItemVM.typing(),
-      ...data.entries.reversed.map(_toChatItemVM),
+      if (chat.isSending) const ChatItemVM.typing(),
+      ...chat.entries.reversed.map(_toChatItemVM),
       const ChatItemVM.greeting(),
     ],
-    suggestions: data.suggestions,
-    areStartersVisible: !data.entries.any((entry) => entry is UserMessageChatEntry),
-    isSending: data.isSending,
-    cartCount: data.cartCount,
+    suggestions: chat.suggestions,
+    areStartersVisible: !chat.entries.any((entry) => entry is UserMessageChatEntry),
+    isSending: chat.isSending,
+    cartCount: chat.cartCount,
   );
 
   ChatItemVM _toChatItemVM(ChatEntry entry) => switch (entry) {

@@ -2,7 +2,7 @@ import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart';
 import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
-import 'package:stroller_shop/features/assistant/models/assistant_data.dart';
+import 'package:stroller_shop/features/assistant/models/assistant_chat.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
@@ -22,7 +22,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
   final AskAssistantMediator _askAssistantMediator;
   final OpenTabMediator _openTabMediator;
 
-  var _data = AssistantData.initial();
+  var _chat = AssistantChat.initial();
   var _conversationId = '';
   var _lastMessage = '';
 
@@ -32,7 +32,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     this._mapper,
     this._askAssistantMediator,
     this._openTabMediator,
-  ) : super(.initial(data: _mapper.toAssistantVM(AssistantData.initial()))) {
+  ) : super(.initial(data: _mapper.toAssistantVM(AssistantChat.initial()))) {
     addDisposables([
       _cartRepository.watchCount().listen(_handleCartCount),
       _askAssistantMediator.stream.listen(_handleAskAssistant),
@@ -53,9 +53,9 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
   }
 
   List<ChatEntry> get _entriesWithoutErrors =>
-      _data.entries.whereNot((entry) => entry is ErrorChatEntry).toList();
+      _chat.entries.whereNot((entry) => entry is ErrorChatEntry).toList();
 
-  Iterable<Stroller> get _knownStrollers => _data.entries.expand(_toStrollers);
+  Iterable<Stroller> get _knownStrollers => _chat.entries.expand(_toStrollers);
 
   @override
   void handleGeneralException(
@@ -63,10 +63,10 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     Emitter<AssistantState> emit,
     Exception exception,
   ) {
-    if (_data.isSending) {
-      _data = _data.copyWith(
+    if (_chat.isSending) {
+      _chat = _chat.copyWith(
         entries: [
-          ..._data.entries,
+          ..._chat.entries,
           ChatEntry.error(exception: exception),
         ],
         isSending: false,
@@ -91,7 +91,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     Emitter<AssistantState> emit,
     _RetryPressedEvent event,
   ) async {
-    if (_lastMessage.isEmpty || _data.isSending) {
+    if (_lastMessage.isEmpty || _chat.isSending) {
       return;
     }
     await _requestReply(emit, entries: _entriesWithoutErrors);
@@ -124,7 +124,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     Emitter<AssistantState> emit,
     _CartCountChangedEvent event,
   ) {
-    _data = _data.copyWith(cartCount: event.count);
+    _chat = _chat.copyWith(cartCount: event.count);
     _emitReady(emit);
   }
 
@@ -134,7 +134,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
 
   Future<void> _sendMessage(Emitter<AssistantState> emit, String text) async {
     final message = text.trim();
-    if (message.isEmpty || _data.isSending) {
+    if (message.isEmpty || _chat.isSending) {
       return;
     }
     _lastMessage = message;
@@ -151,7 +151,7 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     Emitter<AssistantState> emit, {
     required List<ChatEntry> entries,
   }) async {
-    _data = _data.copyWith(entries: entries, suggestions: const [], isSending: true);
+    _chat = _chat.copyWith(entries: entries, suggestions: const [], isSending: true);
     _emitReady(emit);
     final reply = await _assistantRepository.sendMessage(
       conversationId: _conversationId,
@@ -160,8 +160,8 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     );
     _conversationId = reply.conversationId;
     final cartAddedEntries = _applyActions(reply);
-    _data = _data.copyWith(
-      entries: [..._data.entries, ..._toReplyEntries(reply), ...cartAddedEntries],
+    _chat = _chat.copyWith(
+      entries: [..._chat.entries, ..._toReplyEntries(reply), ...cartAddedEntries],
       suggestions: reply.suggestions,
       isSending: false,
     );
@@ -203,5 +203,5 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
     ErrorChatEntry() => const [],
   };
 
-  void _emitReady(Emitter<AssistantState> emit) => emit(.ready(data: _mapper.toAssistantVM(_data)));
+  void _emitReady(Emitter<AssistantState> emit) => emit(.ready(data: _mapper.toAssistantVM(_chat)));
 }

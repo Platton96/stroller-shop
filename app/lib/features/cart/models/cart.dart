@@ -1,16 +1,16 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stroller_shop/objects/objects.dart';
 
-part 'cart_data.freezed.dart';
+part 'cart.freezed.dart';
 
 @freezed
-abstract class CartData with _$CartData {
-  const factory CartData({
+abstract class Cart with _$Cart {
+  const factory Cart({
     required List<CartItem> items,
     required List<DeliveryOption> deliveryOptions,
     required String? selectedDeliveryMethod,
-  }) = _CartData;
+  }) = _Cart;
 
-  factory CartData.initial() =>
-      const CartData(items: [], deliveryOptions: [], selectedDeliveryMethod: null);
+  factory Cart.initial() =>
+      const Cart(items: [], deliveryOptions: [], selectedDeliveryMethod: null);
 }

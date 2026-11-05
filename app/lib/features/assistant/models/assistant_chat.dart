@@ -1,17 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
 
-part 'assistant_data.freezed.dart';
+part 'assistant_chat.freezed.dart';
 
 @freezed
-abstract class AssistantData with _$AssistantData {
-  const factory AssistantData({
+abstract class AssistantChat with _$AssistantChat {
+  const factory AssistantChat({
     required List<ChatEntry> entries,
     required List<String> suggestions,
     required bool isSending,
     required int cartCount,
-  }) = _AssistantData;
+  }) = _AssistantChat;
 
-  factory AssistantData.initial() =>
-      const AssistantData(entries: [], suggestions: [], isSending: false, cartCount: 0);
+  factory AssistantChat.initial() =>
+      const AssistantChat(entries: [], suggestions: [], isSending: false, cartCount: 0);
 }
