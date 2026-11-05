@@ -1,8 +1,8 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
-import 'package:stroller_shop/features/assistant/messages/ask_assistant_message.dart';
+import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
 import 'package:stroller_shop/features/stroller_details/mappers/stroller_details_vm_mapper.dart';
 import 'package:stroller_shop/features/stroller_details/models/stroller_details_vm.dart';
-import 'package:stroller_shop/features/tabs/open_tab_message.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
 import 'package:stroller_shop/repositories/catalog_repository.dart';
@@ -18,6 +18,8 @@ class StrollerDetailsBloc extends BaseBloc<StrollerDetailsEvent, StrollerDetails
     this._catalogRepository,
     this._cartRepository,
     this._mapper,
+    this._askAssistantMediator,
+    this._openTabMediator,
   ) : super(const .initial()) {
     on<StrollerDetailsEvent>(
       (event, emit) => switch (event) {
@@ -35,6 +37,8 @@ class StrollerDetailsBloc extends BaseBloc<StrollerDetailsEvent, StrollerDetails
   final CatalogRepository _catalogRepository;
   final CartRepository _cartRepository;
   final StrollerDetailsVMMapper _mapper;
+  final AskAssistantMediator _askAssistantMediator;
+  final OpenTabMediator _openTabMediator;
 
   Stroller? _stroller;
   var _selectedColor = '';
@@ -81,9 +85,9 @@ class StrollerDetailsBloc extends BaseBloc<StrollerDetailsEvent, StrollerDetails
     _AskAssistantPressedEvent event,
   ) {
     if (_stroller case final stroller?) {
-      messageBus.send(AskAssistantMessage(stroller));
+      _askAssistantMediator.notify(stroller);
     }
-    messageBus.send(const OpenTabMessage(.assistant));
+    _openTabMediator.notify(.assistant);
     appNavigator.pop();
   }
 

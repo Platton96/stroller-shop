@@ -18,7 +18,7 @@ UI (widgets) → BLoC → Repository → Service → API
 | Objects (domain) | `lib/objects/` | Freezed domain models, barrel `lib/objects/objects.dart`; `Transformable` in `lib/objects/common/transformable.dart` |
 | Exceptions | `lib/core/exceptions/app_exception.dart` | Sealed freezed `AppException` |
 
-Data flows one way. A BLoC never imports a service or a DTO; a widget never imports a repository. Repositories take services, return `lib/objects/` types. Cross-feature contracts go through repositories or `MessageBus` (`message-bus.md`) — there is no interactor layer.
+Data flows one way. A BLoC never imports a service or a DTO; a widget never imports a repository. Repositories take services, return `lib/objects/` types. Cross-feature contracts go through repositories or a feature `Mediator` (`mediator.md`) — there is no interactor layer.
 
 ## Data Classes: Primary Constructor, Not Freezed
 

@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:stroller_shop/app/app.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/core/logging/logger.dart';
-import 'package:stroller_shop/core/message_bus/message_bus.dart';
 import 'package:stroller_shop/core/navigation/app_navigator.dart';
 import 'package:stroller_shop/core/toast/toast_service.dart';
 import 'package:stroller_shop/di/injection.dart';
@@ -18,7 +17,6 @@ Future<void> main() async {
 
   BaseBlocCallbacks.configure(
     appNavigator: getIt.get<AppNavigator>,
-    messageBus: getIt.get<MessageBus>,
     toastService: getIt.get<ToastService>,
   );
 

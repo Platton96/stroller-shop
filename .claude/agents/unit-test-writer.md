@@ -34,7 +34,7 @@ The Flutter app lives in `app/`; tests live in `app/test/` and mirror `app/lib/`
 - Use `bloc_test` 10 with `blocTest<BlocType, StateType>()` for all BLoC tests.
 - Use `mocktail` for mocking — create mock classes as private: `class _MockX extends Mock implements X {}`.
 - Use `fakeAsync` when testing time-dependent behavior; use `await pumpEventQueue()` to drain async work, never `Future.delayed`.
-- Call `setUpTestInfrastructure()` in `setUpAll`: it sets `BaseBloc.isTestEnvironment = true` and wires a mock `AppNavigator`, a mock `ToastService`, and a real `MessageBus` into `BaseBlocCallbacks`.
+- Call `setUpTestInfrastructure()` in `setUpAll`: it sets `BaseBloc.isTestEnvironment = true` and wires a mock `AppNavigator`, and a mock `ToastService` into `BaseBlocCallbacks`.
 
 ## Test Structure Rules
 - **File naming:** `*_test.dart`, mirroring the source file structure.
@@ -66,11 +66,10 @@ The Flutter app lives in `app/`; tests live in `app/test/` and mirror `app/lib/`
 - `fromJson` / `toJson` round-trips, defaults for missing or null fields, enum fallbacks, discriminator parsing for polymorphic DTOs.
 - `transform()` maps every field to the domain object.
 
-## MessageBus Testing Rules
-- Use the **real `MessageBus`** from the shared infrastructure, not a mock.
-- Close the BLoC before disposing the bus in `tearDown()`.
-- Test that producers send messages after updating their own state.
-- Test that consumers convert messages to internal events.
+## Mediator Testing Rules
+- Use a **real mediator** instance passed through the BLoC constructor, not a mock; close it in `tearDown`.
+- Test that producers notify after updating their own state.
+- Test that consumers convert notifications to internal events.
 
 ## Domain Object Testing
 - Test `copyWith` and any custom methods or getters; skip pure language tautologies (`testing.md`).

@@ -1,6 +1,6 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/tabs/app_tab.dart';
-import 'package:stroller_shop/features/tabs/open_tab_message.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
 
 part 'tabs_bloc.freezed.dart';
@@ -9,11 +9,11 @@ part 'tabs_state.dart';
 
 @injectable
 class TabsBloc extends BaseBloc<TabsEvent, TabsState> {
-  TabsBloc(this._cartRepository)
+  TabsBloc(this._cartRepository, this._openTabMediator)
     : super(const .initial(data: TabsVM(selectedTab: .catalog, cartCount: 0))) {
     addDisposables([
       _cartRepository.watchCount().listen(_handleCartCount),
-      messageBus.stream<OpenTabMessage>().listen(_handleOpenTab),
+      _openTabMediator.stream.listen(_handleOpenTab),
     ]);
     on<TabsEvent>(
       (event, emit) => switch (event) {
@@ -24,6 +24,7 @@ class TabsBloc extends BaseBloc<TabsEvent, TabsState> {
   }
 
   final CartRepository _cartRepository;
+  final OpenTabMediator _openTabMediator;
 
   void _handleTabSelectedEvent(Emitter<TabsState> emit, _TabSelectedEvent event) =>
       emit(.ready(data: state.data.copyWith(selectedTab: event.tab)));
@@ -33,5 +34,5 @@ class TabsBloc extends BaseBloc<TabsEvent, TabsState> {
 
   void _handleCartCount(int count) => add(.cartCountChanged(count: count));
 
-  void _handleOpenTab(OpenTabMessage message) => add(.tabSelected(tab: message.value));
+  void _handleOpenTab(AppTab tab) => add(.tabSelected(tab: tab));
 }

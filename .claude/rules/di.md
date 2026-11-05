@@ -17,7 +17,7 @@ paths: ["app/lib/di/**","**/*_repository.dart","**/*_service.dart","**/*_mapper.
 
 | Annotation | Use when | Don't use when |
 |---|---|---|
-| `@lazySingleton` | Shared, long-lived: repositories, services (Retrofit `@RestApi`), `MessageBus`, app-wide caches. | Screen-scoped state. |
+| `@lazySingleton` | Shared, long-lived: repositories, services (Retrofit `@RestApi`), feature mediators (`mediator.md`), app-wide caches. | Screen-scoped state. |
 | `@injectable` | Screen-scoped BLoCs, short-lived objects, per-screen mappers (any class with a finite per-screen lifetime). | Things you want to live across screens. |
 | `@singleton` | **NEVER.** Eager singletons are not used. | Always — use `@lazySingleton` instead. |
 | `@module` | **Only** for third-party objects whose construction we don't own: `Dio`, `FlutterSecureStorage`, `PackageInfo`, `Uuid`, `ImagePicker`. | Project-owned classes — annotate them directly. |

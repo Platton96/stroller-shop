@@ -4,6 +4,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:stroller_shop/core/exceptions/app_exception.dart';
 import 'package:stroller_shop/features/cart/bloc/cart_bloc.dart';
 import 'package:stroller_shop/features/cart/mappers/cart_vm_mapper.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/objects/objects.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
@@ -84,7 +85,8 @@ void main() {
     isAddedByAssistant: false,
   );
 
-  CartBloc createBloc() => CartBloc(cartRepository, shopRepository, const CartVMMapper());
+  CartBloc createBloc() =>
+      CartBloc(cartRepository, shopRepository, const CartVMMapper(), OpenTabMediator());
 
   setUp(() {
     setUpTestInfrastructure();

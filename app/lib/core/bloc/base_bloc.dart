@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stroller_shop/core/bloc/bloc_transformers.dart';
 import 'package:stroller_shop/core/exceptions/domain_ignore_from_crash_reporting.dart';
 import 'package:stroller_shop/core/logging/logger.dart';
-import 'package:stroller_shop/core/message_bus/message_bus.dart';
 import 'package:stroller_shop/core/navigation/app_navigator.dart';
 import 'package:stroller_shop/core/navigation/no_op_app_navigator.dart';
 import 'package:stroller_shop/core/toast/toast_service.dart';
@@ -20,25 +19,20 @@ export 'package:stroller_shop/core/bloc/bloc_error_state_interface.dart';
 export 'package:stroller_shop/objects/objects.dart';
 
 typedef AppNavigatorGetter = AppNavigator Function();
-typedef MessageBusGetter = MessageBus Function();
 typedef ToastServiceGetter = ToastService Function();
 
 mixin BaseBlocCallbacks {
   static late AppNavigatorGetter _acquireAppNavigator;
-  static late MessageBusGetter _acquireMessageBus;
   static late ToastServiceGetter _acquireToastService;
 
-  late final MessageBus messageBus = _acquireMessageBus();
   late AppNavigator appNavigator = _acquireAppNavigator();
   late ToastService toastService = _acquireToastService();
 
   static void configure({
     required AppNavigatorGetter appNavigator,
-    required MessageBusGetter messageBus,
     required ToastServiceGetter toastService,
   }) {
     _acquireAppNavigator = appNavigator;
-    _acquireMessageBus = messageBus;
     _acquireToastService = toastService;
   }
 }

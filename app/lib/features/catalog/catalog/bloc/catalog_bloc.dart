@@ -4,7 +4,7 @@ import 'package:stroller_shop/features/catalog/catalog/models/catalog_data.dart'
 import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog_pages.dart';
 import 'package:stroller_shop/features/stroller_details/stroller_details_pages.dart';
-import 'package:stroller_shop/features/tabs/open_tab_message.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
 import 'package:stroller_shop/repositories/catalog_repository.dart';
@@ -16,8 +16,13 @@ part 'catalog_state.dart';
 
 @injectable
 class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
-  CatalogBloc(this._catalogRepository, this._shopRepository, this._cartRepository, this._mapper)
-    : super(.initial(data: _mapper.toCatalogVM(CatalogData.initial()))) {
+  CatalogBloc(
+    this._catalogRepository,
+    this._shopRepository,
+    this._cartRepository,
+    this._mapper,
+    this._openTabMediator,
+  ) : super(.initial(data: _mapper.toCatalogVM(CatalogData.initial()))) {
     addDisposable(_cartRepository.watchCount().listen(_handleCartCount));
     on<_QueryChangedEvent>(
       (event, emit) => _handleQueryChangedEvent(emit, event),
@@ -49,6 +54,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
   final ShopRepository _shopRepository;
   final CartRepository _cartRepository;
   final CatalogVMMapper _mapper;
+  final OpenTabMediator _openTabMediator;
 
   var _data = CatalogData.initial();
 
@@ -119,10 +125,10 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
   }
 
   void _handleAssistantPressedEvent(Emitter<CatalogState> emit, _AssistantPressedEvent event) =>
-      messageBus.send(const OpenTabMessage(.assistant));
+      _openTabMediator.notify(.assistant);
 
   void _handleCartPressedEvent(Emitter<CatalogState> emit, _CartPressedEvent event) =>
-      messageBus.send(const OpenTabMessage(.cart));
+      _openTabMediator.notify(.cart);
 
   void _handleCartCountChangedEvent(Emitter<CatalogState> emit, _CartCountChangedEvent event) {
     _data = _data.copyWith(cartCount: event.count);

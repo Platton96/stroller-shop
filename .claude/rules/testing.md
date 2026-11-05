@@ -51,7 +51,7 @@ void main() {
 
 ## Shared Test Infrastructure
 
-`app/test/helpers/test_infrastructure.dart` provides `setUpTestInfrastructure()`. Call it in `setUpAll`. It sets `BaseBloc.isTestEnvironment = true` (so `logError` stays quiet) and configures `BaseBlocCallbacks` with a mock `AppNavigator`, a mock `ToastService`, and a **real** `MessageBus`. Read the helper for the exact exported names before use, and don't roll your own mocks for these.
+`app/test/helpers/test_infrastructure.dart` provides `setUpTestInfrastructure()`. Call it in `setUpAll`. It sets `BaseBloc.isTestEnvironment = true` (so `logError` stays quiet) and configures `BaseBlocCallbacks` with a mock `AppNavigator`, and a mock `ToastService`. Read the helper for the exact exported names before use, and don't roll your own mocks for these.
 
 - Assert navigation via the mock `AppNavigator` (`verify(() => mockAppNavigator.push(any()))`), toasts via the mock `ToastService`.
 - Platform channels (`Clipboard`, etc.) → `TestDefaultBinaryMessengerBinding`.
@@ -59,7 +59,7 @@ void main() {
 
 ## blocTest
 
-Do NOT add `wait:` to `blocTest` — it already awaits all emissions (including those from the constructor and from MessageBus listeners). Only add it if omitting it causes an actual failure.
+Do NOT add `wait:` to `blocTest` — it already awaits all emissions (including those from the constructor and from mediator listeners). Only add it if omitting it causes an actual failure.
 
 ## Draining Pending Microtasks
 
@@ -81,9 +81,9 @@ verify(() => mockRepo.fetchTokens()).called(1);
 
 **MUST NOT** call `TestWidgetsFlutterBinding.ensureInitialized()` in test files unless a test truly needs the binding and `setUpTestInfrastructure()` has not already initialized it. Using `TestWidgetsFlutterBinding.instance` or `TestDefaultBinaryMessengerBinding.instance` (e.g. for Clipboard / platform channel mocks) works directly once the binding exists.
 
-## MessageBus Testing
+## Mediator Testing
 
-Use a **real `MessageBus`** (not mock). Close BLoC before disposing MessageBus in `tearDown`. See `message-bus.md`.
+Use a **real mediator** (not mock), passed through the BLoC constructor. Close it in `tearDown`. See `mediator.md`.
 
 ## Repository and Service Tests
 

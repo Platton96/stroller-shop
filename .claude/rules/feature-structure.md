@@ -12,7 +12,7 @@ A feature is a folder, not a package: `app/lib/features/<name>/`. There is no pe
 - **`<name>_pages.dart`** — every `Page` definition for the feature (`routing.md`). Pages are never defined inline in screens.
 - **Screens, BLoCs, VMs, widgets** — in the layout below.
 
-Data access does not live in the feature: services are in `lib/services/`, repositories in `lib/repositories/`, domain models in `lib/objects/` (`data-layer.md`). A type used by more than one feature belongs in `lib/objects/`; shared widgets belong in `lib/ui_kit/widgets/`. Cross-feature communication goes through repositories or `MessageBus` (`message-bus.md`).
+Data access does not live in the feature: services are in `lib/services/`, repositories in `lib/repositories/`, domain models in `lib/objects/` (`data-layer.md`). A type used by more than one feature belongs in `lib/objects/`; shared widgets belong in `lib/ui_kit/widgets/`. Cross-feature communication goes through repositories or a feature `Mediator` in `mediators/` (`mediator.md`).
 
 Generated files (`*.freezed.dart`, `*.g.dart`, `*.config.dart`) are never edited by hand. Regenerate via `fvm dart run build_runner build` (from `app/`).
 
@@ -30,18 +30,18 @@ lib/features/<name>/
   models/      <name>_vm.dart (+ supplementary VMs)
   mappers/     <name>_vm_mapper.dart
   widgets/
-  messages/    (optional) or a single <x>_message.dart
+  mediators/   (optional) <subject>_mediator.dart
   extensions/  (optional)
 ```
 
 ### Layout B — Nested (two or more screens)
 
-Each screen has its own subtree; feature-level `messages/` and `extensions/` stay at the top.
+Each screen has its own subtree; feature-level `mediators/` and `extensions/` stay at the top.
 
 ```
 lib/features/<name>/
   <name>_pages.dart
-  messages/
+  mediators/
   extensions/
   <screen_a>/
     <screen_a>_screen.dart
@@ -66,7 +66,7 @@ lib/features/<name>/
 | Page (navigation) | `<Name>Page` class in `<name>_pages.dart` | Inline page definitions inside screens |
 | VM | `<screen_or_feature>_vm.dart` for the root VM; supplementary VMs in `models/` | One mega-VM per feature |
 | VM mapper | `<screen_or_feature>_vm_mapper.dart` in `mappers/`; one file per VM | A single `mappers.dart` aggregating all |
-| Message | `<event>_message.dart` in `messages/` | Messages inside `bloc/` |
+| Mediator | `<subject>_mediator.dart` in `mediators/` | Mediators inside `bloc/` or `core/` |
 
 ## Colocate Trivial Classes — No Separate File for ≈3 Lines
 

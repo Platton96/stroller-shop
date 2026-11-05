@@ -4,12 +4,12 @@ import 'package:mocktail/mocktail.dart';
 import 'package:stroller_shop/core/exceptions/app_exception.dart';
 import 'package:stroller_shop/features/assistant/bloc/assistant_bloc.dart';
 import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart';
-import 'package:stroller_shop/features/assistant/messages/ask_assistant_message.dart';
+import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
 import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
 import 'package:stroller_shop/features/stroller_details/stroller_details_pages.dart';
 import 'package:stroller_shop/features/tabs/app_tab.dart';
-import 'package:stroller_shop/features/tabs/open_tab_message.dart';
+import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/objects/objects.dart';
 import 'package:stroller_shop/repositories/assistant_repository.dart';
@@ -31,17 +31,23 @@ void main() {
 
   late _MockAssistantRepository assistantRepository;
   late _MockCartRepository cartRepository;
+  late AskAssistantMediator askAssistantMediator;
+  late OpenTabMediator openTabMediator;
 
   AssistantBloc createBloc() => AssistantBloc(
     assistantRepository,
     cartRepository,
     const AssistantVMMapper(CatalogVMMapper()),
+    askAssistantMediator,
+    openTabMediator,
   );
 
   setUp(() {
     setUpTestInfrastructure();
     assistantRepository = _MockAssistantRepository();
     cartRepository = _MockCartRepository();
+    askAssistantMediator = AskAssistantMediator();
+    openTabMediator = OpenTabMediator();
     when(() => cartRepository.watchCount()).thenAnswer((_) => const Stream<int>.empty());
     when(() => cartRepository.items).thenReturn(const []);
     when(
@@ -54,7 +60,9 @@ void main() {
     when(() => testAppNavigator.push<void>(any())).thenAnswer((_) async {});
   });
 
-  tearDown(() {
+  tearDown(() async {
+    await askAssistantMediator.close();
+    await openTabMediator.close();
     reset(assistantRepository);
     reset(cartRepository);
     reset(testAppNavigator);
@@ -261,12 +269,12 @@ void main() {
     );
   });
 
-  group('AskAssistantMessage', () {
+  group('AskAssistantMediator', () {
     blocTest<AssistantBloc, AssistantState>(
       'sends a question about the stroller',
       setUp: () => stubReply(_textReply),
       build: createBloc,
-      act: (_) => testMessageBus.send(const AskAssistantMessage(_stroller)),
+      act: (_) => askAssistantMediator.notify(_stroller),
       verify: (bloc) {
         final question = appStrings.assistantAskAboutStroller('Bugaboo Fox');
         verify(
@@ -332,13 +340,13 @@ void main() {
   group('openCartPressed', () {
     test('asks tabs to open the cart', () async {
       final bloc = createBloc();
-      final messages = <OpenTabMessage>[];
-      final subscription = testMessageBus.stream<OpenTabMessage>().listen(messages.add);
+      final tabs = <AppTab>[];
+      final subscription = openTabMediator.stream.listen(tabs.add);
 
       bloc.add(const .openCartPressed());
       await pumpEventQueue();
 
-      expect(messages.map((message) => message.value), [AppTab.cart]);
+      expect(tabs, [AppTab.cart]);
       await subscription.cancel();
       await bloc.close();
     });
