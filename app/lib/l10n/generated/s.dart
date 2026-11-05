@@ -611,7 +611,7 @@ abstract class S {
   /// No description provided for @specFolded.
   ///
   /// In ru, this message translates to:
-  /// **'В сложенном виде'**
+  /// **'Сложенная'**
   String get specFolded;
 
   /// No description provided for @specAgeRange.

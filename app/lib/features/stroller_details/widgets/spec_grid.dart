@@ -54,6 +54,8 @@ class _SpecTile extends StatelessWidget {
                 fontWeight: .w400,
                 color: context.colors.textSecondary,
               ),
+              maxLines: 1,
+              overflow: .ellipsis,
             ),
             Text(
               value,
