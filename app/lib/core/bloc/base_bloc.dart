@@ -91,11 +91,6 @@ abstract class BaseBloc<Event, State> extends Bloc<Event, State>
   ) async {
     try {
       await handler(event, emit);
-      // ignore: avoid_catching_errors
-    } on ParallelWaitError<Object?, Object?> catch (error, stackTrace) {
-      final exception = _firstException(error);
-      handleGeneralException(event, emit, exception);
-      logError(exception, stackTrace);
     } on Exception catch (exception, stackTrace) {
       handleGeneralException(event, emit, exception);
       logError(exception, stackTrace);
@@ -105,12 +100,4 @@ abstract class BaseBloc<Event, State> extends Bloc<Event, State>
       logError(exception, stackTrace);
     }
   }
-
-  Exception _firstException(ParallelWaitError<Object?, Object?> error) =>
-      switch (error.errors) {
-        final List<AsyncError?> errors =>
-          errors.nonNulls.map((asyncError) => asyncError.error).whereType<Exception>().firstOrNull,
-        _ => null,
-      } ??
-      Exception(error.toString());
 }

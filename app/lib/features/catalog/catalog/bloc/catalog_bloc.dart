@@ -67,11 +67,13 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
 
   Future<void> _handleInitEvent(Emitter<CatalogState> emit, _InitEvent event) async {
     emit(.loading(data: state.data));
-    final (types, shop, page) = await (
-      _catalogRepository.fetchTypes(),
-      _shopRepository.fetchShop(),
-      _fetchPage(offset: 0),
-    ).wait;
+    final typesFuture = _catalogRepository.fetchTypes();
+    final shopFuture = _shopRepository.fetchShop();
+    final pageFuture = _fetchPage(offset: 0);
+    await Future.wait([typesFuture, shopFuture, pageFuture]);
+    final types = await typesFuture;
+    final shop = await shopFuture;
+    final page = await pageFuture;
     _data = _data.copyWith(
       types: types,
       city: shop.city,
