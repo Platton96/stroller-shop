@@ -14,23 +14,18 @@ class TabsScreen extends StatelessWidget {
   const TabsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      AppBlocProvider<TabsBloc>(lazy: false, child: const _TabsView());
-}
-
-class _TabsView extends StatelessWidget {
-  const _TabsView();
-
-  @override
-  Widget build(BuildContext context) => BlocBuilder<TabsBloc, TabsState>(
-    builder: (context, state) => Scaffold(
-      body: IndexedStack(
-        index: state.data.selectedTab.index,
-        children: AppTab.values.map(_TabBody.new).toList(),
-      ),
-      bottomNavigationBar: _BottomBar(
-        selectedTab: state.data.selectedTab,
-        cartCount: state.data.cartCount,
+  Widget build(BuildContext context) => AppBlocProvider<TabsBloc>(
+    lazy: false,
+    child: BlocBuilder<TabsBloc, TabsState>(
+      builder: (context, state) => Scaffold(
+        body: IndexedStack(
+          index: state.data.selectedTab.index,
+          children: AppTab.values.map(_TabBody.new).toList(),
+        ),
+        bottomNavigationBar: _BottomBar(
+          selectedTab: state.data.selectedTab,
+          cartCount: state.data.cartCount,
+        ),
       ),
     ),
   );
