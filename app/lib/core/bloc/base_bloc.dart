@@ -5,7 +5,6 @@ import 'package:stroller_shop/core/bloc/bloc_transformers.dart';
 import 'package:stroller_shop/core/exceptions/domain_ignore_from_crash_reporting.dart';
 import 'package:stroller_shop/core/logging/logger.dart';
 import 'package:stroller_shop/core/navigation/app_navigator.dart';
-import 'package:stroller_shop/core/navigation/no_op_app_navigator.dart';
 import 'package:stroller_shop/core/toast/toast_service.dart';
 
 export 'dart:async';
@@ -63,8 +62,6 @@ abstract class BaseBloc<Event, State> extends Bloc<Event, State>
     for (final subscription in _subscriptions) {
       unawaited(subscription.cancel());
     }
-    appNavigator = const NoOpAppNavigator();
-    toastService = const NoOpToastService();
     _isClosed = true;
 
     return super.close();

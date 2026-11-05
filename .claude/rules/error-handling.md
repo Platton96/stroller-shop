@@ -123,7 +123,7 @@ try {
 
 ## Async-Gap Pitfalls
 
-After `await`, the BLoC may have been disposed. **No manual `isClosed` guard is needed** — `BaseBloc.close()` swaps `appNavigator` / `toastService` to no-op implementations and cancels `addDisposable` subscriptions, while a stray post-close `emit` / `add` is silently dropped. See `widget-bloc.md` "No Manual isClosed Guards".
+After `await`, the BLoC may have been disposed. **No manual `isClosed` guard is needed** — `BaseBloc.close()` cancels `addDisposable` subscriptions, while a stray post-close `emit` / `add` is silently dropped. See `widget-bloc.md` "No Manual isClosed Guards".
 
 If the user navigates away during a long fetch, the resulting exception should not surface as an error toast. Cancel the in-flight Dio request via the repository's `CancelToken` where the request is long-lived.
 
@@ -143,4 +143,4 @@ If the user navigates away during a long fetch, the resulting exception should n
 - [ ] New `try/catch` blocks catch `Exception` (or bare `catch`), never a new `on Error catch`
 - [ ] Control-flow exception classes carry `@Implements<DomainIgnoreFromCrashReporting>()`
 - [ ] `logError` only at boundaries the guard chain doesn't cover
-- [ ] No manual `isClosed` guards anywhere — `BaseBloc.close()` no-ops navigator/toast and drops post-close `add`/`emit`
+- [ ] No manual `isClosed` guards anywhere — `BaseBloc.close()` cancels subscriptions and drops post-close `add`/`emit`
