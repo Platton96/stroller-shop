@@ -93,7 +93,7 @@ Use a **real mediator** (not mock), passed through the BLoC constructor. Close i
 
 ## Widget Tests
 
-Widget tests (`testWidgets` / `WidgetTester` / `pumpWidget`) and golden tests are **not used yet**. Keep logic out of widgets so it is covered by BLoC, mapper, and repository tests; do not introduce widget or golden test infrastructure unless asked.
+Screens are covered by **golden tests** (`golden-testing.md`): every screen ships with goldens for each visually distinct state. Plain `testWidgets` interaction tests are not used — keep logic out of widgets so it is covered by BLoC, mapper, and repository tests.
 
 ## Mock Class Visibility
 
@@ -146,7 +146,8 @@ Name the extracted constants with a leading underscore — they're private to th
 Run from `app/`:
 
 - Single file: `fvm flutter test test/features/catalog/bloc/catalog_bloc_test.dart`
-- Whole suite: `fvm flutter test`
+- Whole suite: `fvm flutter test` (unit tests and goldens)
+- Goldens only: `fvm flutter test test/golden`; regenerate with `--update-goldens`
 - With coverage: `fvm flutter test --coverage`
 - Always run `fvm flutter analyze` as well; test files must have zero issues.
 

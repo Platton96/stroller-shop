@@ -47,6 +47,7 @@ Determine which rule files are relevant from the changed file paths using the `p
 | `Semantics`/`MergeSemantics`/`ExcludeSemantics` | `.claude/rules/semantics.md` |
 | Cross-BLoC or cross-feature communication | `.claude/rules/mediator.md` |
 | New/changed test files | `.claude/rules/testing.md` |
+| New screen or visual change, golden tests | `.claude/rules/golden-testing.md` |
 
 ### Step 3: Verify Against Checklists
 

@@ -76,7 +76,7 @@ The Flutter app lives in `app/`; tests live in `app/test/` and mirror `app/lib/`
 - Use Dart 3 pattern matching in test assertions when appropriate.
 
 ## Not in Scope
-Widget tests and golden tests are not set up in this project yet. Do not write `testWidgets` or golden tests unless the user explicitly asks.
+Screen golden tests follow `.claude/rules/golden-testing.md`; write them only when asked or when a new screen is added. No plain `testWidgets` interaction tests.
 
 ## Quality Checklist (verify before finishing)
 - [ ] All happy paths covered.
