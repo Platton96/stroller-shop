@@ -3,10 +3,10 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class InfoCard extends StatelessWidget {
-  const InfoCard({required this.title, required this.child, super.key});
-
   final String title;
   final Widget child;
+
+  const InfoCard({required this.title, required this.child, super.key});
 
   @override
   Widget build(BuildContext context) => DecoratedBox(

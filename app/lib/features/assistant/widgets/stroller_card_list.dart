@@ -3,16 +3,16 @@ import 'package:stroller_shop/features/assistant/widgets/assistant_stroller_card
 import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
 
 class StrollerCardList extends StatelessWidget {
+  final List<StrollerCardVM> cards;
+  final ValueChanged<String> onPressed;
+  final ValueChanged<String> onAddToCartPressed;
+
   const StrollerCardList({
     required this.cards,
     required this.onPressed,
     required this.onAddToCartPressed,
     super.key,
   });
-
-  final List<StrollerCardVM> cards;
-  final ValueChanged<String> onPressed;
-  final ValueChanged<String> onAddToCartPressed;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(

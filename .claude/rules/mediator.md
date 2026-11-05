@@ -33,8 +33,8 @@ class OpenTabMediator extends Mediator<AppTab> {}
 
 // bad — a wrapper class around the payload
 class OpenTabMessage {
-  const OpenTabMessage(this.tab);
   final AppTab tab;
+  const OpenTabMessage(this.tab);
 }
 class OpenTabMediator extends Mediator<OpenTabMessage> {}
 ```
@@ -46,10 +46,10 @@ class OpenTabMediator extends Mediator<OpenTabMessage> {}
 ```dart
 @injectable
 class CartBloc extends BaseBloc<CartEvent, CartState> {
-  CartBloc(this._cartRepository, this._openTabMediator) : super(const .initial()) { ... }
-
   final CartRepository _cartRepository;
   final OpenTabMediator _openTabMediator;
+
+  CartBloc(this._cartRepository, this._openTabMediator) : super(const .initial()) { ... }
 
   void _handleCatalogPressedEvent(Emitter<CartState> emit, _CatalogPressedEvent event) =>
       _openTabMediator.notify(.catalog);

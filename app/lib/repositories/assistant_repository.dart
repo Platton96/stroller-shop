@@ -6,11 +6,11 @@ import 'package:stroller_shop/services/assistant/assistant_service.dart';
 
 @lazySingleton
 class AssistantRepository extends BaseRepository {
-  AssistantRepository(this._service);
-
   static const _receiveTimeout = Duration(seconds: 90);
 
   final AssistantService _service;
+
+  AssistantRepository(this._service);
 
   Future<ChatReply> sendMessage({
     required String conversationId,

@@ -22,6 +22,24 @@ Same for `toString()` and exception messages: no ticket numbers, no developer hi
 
 Strict sequence: 1. static constants/fields → 2. instance fields (constant → private → public; **all above constructor**) → 3. constructor(s) → 4. getters/setters (public → private; **above all methods**) → 5. public methods (incl. `@override`; State lifecycle: `initState` → `build` → `dispose`) → 6. protected → 7. private.
 
+**Fields always open the class body, the constructor comes right after them** — in every class, mixin and enhanced enum: widgets, BLoCs, repositories, mappers, mediators. The `sort_constructors_first` lint enforces the opposite order and is deliberately off in `analysis_options.yaml`; never re-enable it.
+
+```dart
+// bad — constructor above the fields
+class CartBloc extends BaseBloc<CartEvent, CartState> {
+  CartBloc(this._cartRepository) : super(const .initial());
+
+  final CartRepository _cartRepository;
+}
+
+// good
+class CartBloc extends BaseBloc<CartEvent, CartState> {
+  final CartRepository _cartRepository;
+
+  CartBloc(this._cartRepository) : super(const .initial());
+}
+```
+
 Not for generated or test files.
 
 ## Top-Level Declaration Ordering

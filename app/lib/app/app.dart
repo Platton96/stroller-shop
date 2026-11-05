@@ -5,14 +5,14 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class StrollerShopApp extends StatelessWidget {
+  final GoRouter router;
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
+
   const StrollerShopApp({
     required this.router,
     required this.scaffoldMessengerKey,
     super.key,
   });
-
-  final GoRouter router;
-  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey;
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(

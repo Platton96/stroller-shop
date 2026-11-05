@@ -8,16 +8,16 @@ import 'package:stroller_shop/ui_kit/widgets/add_to_cart_button.dart';
 import 'package:stroller_shop/ui_kit/widgets/stroller_image.dart';
 
 class StrollerCard extends StatelessWidget {
+  final StrollerCardVM vm;
+  final VoidCallback onPressed;
+  final VoidCallback onAddToCartPressed;
+
   const StrollerCard({
     required this.vm,
     required this.onPressed,
     required this.onAddToCartPressed,
     super.key,
   });
-
-  final StrollerCardVM vm;
-  final VoidCallback onPressed;
-  final VoidCallback onAddToCartPressed;
 
   @override
   Widget build(BuildContext context) {

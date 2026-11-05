@@ -113,8 +113,8 @@ final label = switch (order) { Order(:final total) when total <= 0 => emptyLabel
 ```dart
 enum StrollerKind {
   lightweight(Icons.directions_walk), allTerrain(Icons.terrain);
-  const StrollerKind(this.icon);
   final IconData icon;
+  const StrollerKind(this.icon);
   String title(S l10n) => switch (this) { .lightweight => l10n.kindLightweight, .allTerrain => l10n.kindAllTerrain };
 }
 ```

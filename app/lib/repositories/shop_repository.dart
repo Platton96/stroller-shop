@@ -5,10 +5,10 @@ import 'package:stroller_shop/services/shop/shop_service.dart';
 
 @lazySingleton
 class ShopRepository extends BaseRepository {
-  ShopRepository(this._service);
-
   final ShopService _service;
   Shop? _cachedShop;
+
+  ShopRepository(this._service);
 
   Future<Shop> fetchShop() async {
     if (_cachedShop case final cachedShop?) {

@@ -16,6 +16,16 @@ part 'assistant_state.dart';
 
 @injectable
 class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
+  final AssistantRepository _assistantRepository;
+  final CartRepository _cartRepository;
+  final AssistantVMMapper _mapper;
+  final AskAssistantMediator _askAssistantMediator;
+  final OpenTabMediator _openTabMediator;
+
+  var _data = AssistantData.initial();
+  var _conversationId = '';
+  var _lastMessage = '';
+
   AssistantBloc(
     this._assistantRepository,
     this._cartRepository,
@@ -41,16 +51,6 @@ class AssistantBloc extends BaseBloc<AssistantEvent, AssistantState> {
       },
     );
   }
-
-  final AssistantRepository _assistantRepository;
-  final CartRepository _cartRepository;
-  final AssistantVMMapper _mapper;
-  final AskAssistantMediator _askAssistantMediator;
-  final OpenTabMediator _openTabMediator;
-
-  var _data = AssistantData.initial();
-  var _conversationId = '';
-  var _lastMessage = '';
 
   List<ChatEntry> get _entriesWithoutErrors =>
       _data.entries.whereNot((entry) => entry is ErrorChatEntry).toList();

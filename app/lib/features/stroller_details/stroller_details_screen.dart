@@ -14,9 +14,9 @@ import 'package:stroller_shop/ui_kit/widgets/error_view.dart';
 import 'package:stroller_shop/ui_kit/widgets/stroller_image.dart';
 
 class StrollerDetailsScreen extends StatelessWidget {
-  const StrollerDetailsScreen({required this.strollerId, super.key});
-
   final String strollerId;
+
+  const StrollerDetailsScreen({required this.strollerId, super.key});
 
   @override
   Widget build(BuildContext context) => AppBlocProvider<StrollerDetailsBloc>(
@@ -52,9 +52,9 @@ class StrollerDetailsScreen extends StatelessWidget {
 }
 
 class _LoadedContent extends StatelessWidget {
-  const _LoadedContent({required this.vm});
-
   final StrollerDetailsVM vm;
+
+  const _LoadedContent({required this.vm});
 
   @override
   Widget build(BuildContext context) {
@@ -159,9 +159,9 @@ class _LoadedContent extends StatelessWidget {
 }
 
 class _Features extends StatelessWidget {
-  const _Features({required this.features});
-
   final List<String> features;
+
+  const _Features({required this.features});
 
   @override
   Widget build(BuildContext context) {

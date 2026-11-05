@@ -4,9 +4,9 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class ContactsCard extends StatelessWidget {
-  const ContactsCard({required this.vm, super.key});
-
   final ShopVM vm;
+
+  const ContactsCard({required this.vm, super.key});
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -26,10 +26,10 @@ class ContactsCard extends StatelessWidget {
 }
 
 class _ContactRow extends StatelessWidget {
-  const _ContactRow({required this.icon, required this.text});
-
   final IconData icon;
   final String text;
+
+  const _ContactRow({required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) => Row(

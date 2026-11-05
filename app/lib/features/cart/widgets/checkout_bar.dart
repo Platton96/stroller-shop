@@ -4,10 +4,10 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/app_button.dart';
 
 class CheckoutBar extends StatelessWidget {
-  const CheckoutBar({required this.totalByn, required this.onCheckoutPressed, super.key});
-
   final int totalByn;
   final VoidCallback onCheckoutPressed;
+
+  const CheckoutBar({required this.totalByn, required this.onCheckoutPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

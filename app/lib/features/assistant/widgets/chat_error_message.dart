@@ -4,10 +4,10 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class ChatErrorMessage extends StatelessWidget {
-  const ChatErrorMessage({required this.message, required this.onRetryPressed, super.key});
-
   final String message;
   final VoidCallback onRetryPressed;
+
+  const ChatErrorMessage({required this.message, required this.onRetryPressed, super.key});
 
   @override
   Widget build(BuildContext context) {

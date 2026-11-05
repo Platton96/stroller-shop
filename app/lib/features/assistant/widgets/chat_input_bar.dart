@@ -4,10 +4,10 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class ChatInputBar extends StatefulWidget {
-  const ChatInputBar({required this.isEnabled, required this.onSubmitted, super.key});
-
   final bool isEnabled;
   final ValueChanged<String> onSubmitted;
+
+  const ChatInputBar({required this.isEnabled, required this.onSubmitted, super.key});
 
   @override
   State<ChatInputBar> createState() => _ChatInputBarState();

@@ -3,6 +3,11 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class QuantityStepper extends StatelessWidget {
+  final String name;
+  final int quantity;
+  final VoidCallback onDecreasePressed;
+  final VoidCallback onIncreasePressed;
+
   const QuantityStepper({
     required this.name,
     required this.quantity,
@@ -10,11 +15,6 @@ class QuantityStepper extends StatelessWidget {
     required this.onIncreasePressed,
     super.key,
   });
-
-  final String name;
-  final int quantity;
-  final VoidCallback onDecreasePressed;
-  final VoidCallback onIncreasePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +53,11 @@ class QuantityStepper extends StatelessWidget {
 }
 
 class _StepButton extends StatelessWidget {
-  const _StepButton({required this.icon, required this.semanticLabel, required this.onPressed});
-
   final IconData icon;
   final String semanticLabel;
   final VoidCallback onPressed;
+
+  const _StepButton({required this.icon, required this.semanticLabel, required this.onPressed});
 
   @override
   Widget build(BuildContext context) => Semantics(

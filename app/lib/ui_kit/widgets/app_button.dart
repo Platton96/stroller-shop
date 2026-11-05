@@ -5,15 +5,15 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 enum AppButtonStyle { primary, secondary }
 
 class AppButton extends StatelessWidget {
+  final String label;
+  final VoidCallback? onPressed;
+  final AppButtonStyle style;
+
   const AppButton.primary({required this.label, required this.onPressed, super.key})
     : style = .primary;
 
   const AppButton.secondary({required this.label, required this.onPressed, super.key})
     : style = .secondary;
-
-  final String label;
-  final VoidCallback? onPressed;
-  final AppButtonStyle style;
 
   @override
   Widget build(BuildContext context) {

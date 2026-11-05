@@ -5,6 +5,11 @@ import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/app_icon_button.dart';
 
 class CatalogHeader extends StatelessWidget {
+  final String city;
+  final int cartCount;
+  final VoidCallback onCartPressed;
+  final ValueChanged<String> onQueryChanged;
+
   const CatalogHeader({
     required this.city,
     required this.cartCount,
@@ -12,11 +17,6 @@ class CatalogHeader extends StatelessWidget {
     required this.onQueryChanged,
     super.key,
   });
-
-  final String city;
-  final int cartCount;
-  final VoidCallback onCartPressed;
-  final ValueChanged<String> onQueryChanged;
 
   @override
   Widget build(BuildContext context) {

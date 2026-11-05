@@ -13,6 +13,13 @@ part 'cart_state.dart';
 
 @injectable
 class CartBloc extends BaseBloc<CartEvent, CartState> {
+  final CartRepository _cartRepository;
+  final ShopRepository _shopRepository;
+  final CartVMMapper _mapper;
+  final OpenTabMediator _openTabMediator;
+
+  var _data = CartData.initial();
+
   CartBloc(this._cartRepository, this._shopRepository, this._mapper, this._openTabMediator)
     : super(.initial(data: _mapper.toCartVM(CartData.initial()))) {
     addDisposable(_cartRepository.watchItems().listen(_handleItems));
@@ -28,13 +35,6 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
       },
     );
   }
-
-  final CartRepository _cartRepository;
-  final ShopRepository _shopRepository;
-  final CartVMMapper _mapper;
-  final OpenTabMediator _openTabMediator;
-
-  var _data = CartData.initial();
 
   @override
   void handleGeneralException(

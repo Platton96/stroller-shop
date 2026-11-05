@@ -3,9 +3,9 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class SearchNote extends StatelessWidget {
-  const SearchNote({required this.summary, super.key});
-
   final String summary;
+
+  const SearchNote({required this.summary, super.key});
 
   @override
   Widget build(BuildContext context) {

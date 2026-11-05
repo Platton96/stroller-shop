@@ -5,9 +5,9 @@ import 'package:stroller_shop/ui_kit/theme/app_radius.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class SpecGrid extends StatelessWidget {
-  const SpecGrid({required this.specs, super.key});
-
   final List<SpecVM> specs;
+
+  const SpecGrid({required this.specs, super.key});
 
   @override
   Widget build(BuildContext context) => GridView.builder(
@@ -30,10 +30,10 @@ class SpecGrid extends StatelessWidget {
 }
 
 class _SpecTile extends StatelessWidget {
-  const _SpecTile({required this.title, required this.value});
-
   final String title;
   final String value;
+
+  const _SpecTile({required this.title, required this.value});
 
   @override
   Widget build(BuildContext context) => DecoratedBox(

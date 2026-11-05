@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:stroller_shop/core/navigation/app_navigator.dart';
 
 class GoRouterAppNavigator implements AppNavigator {
-  const GoRouterAppNavigator(this._router);
-
   final GoRouter _router;
+
+  const GoRouterAppNavigator(this._router);
 
   @override
   Future<T?> push<T extends Object?>(String location) => _router.push<T>(location);

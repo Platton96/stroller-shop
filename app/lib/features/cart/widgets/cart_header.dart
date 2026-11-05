@@ -3,9 +3,9 @@ import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
 class CartHeader extends StatelessWidget {
-  const CartHeader({required this.itemsCount, super.key});
-
   final int itemsCount;
+
+  const CartHeader({required this.itemsCount, super.key});
 
   @override
   Widget build(BuildContext context) {
