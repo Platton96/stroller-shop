@@ -218,14 +218,13 @@ Public `Screen` provides the BLoC (the `AppBlocProvider` pattern shown above), p
 
 ## Parallel Requests
 
-Start the calls, `await Future.wait([...])` on them, then read each typed result. `Future.wait` rethrows the original exception, so `handleGeneralException` receives the repository's `AppException` as is. Do NOT use record `.wait`: it wraps failures in `ParallelWaitError`, which `BaseBloc` does not unwrap.
+Put the calls in a record, await `.waitAll` (`lib/core/async/future_record_extension.dart`) and destructure the typed results. `.waitAll` rethrows the original exception, so `handleGeneralException` receives the repository's `AppException` as is. Do NOT use the SDK record `.wait`: it wraps failures in `ParallelWaitError`, which `BaseBloc` does not unwrap. A record of a new length → add the matching extension next to the existing ones.
 
 ```dart
-final balanceFuture = _financeRepository.fetchBalance();
-final tasksFuture = _taskRepository.fetchTasks();
-await Future.wait([balanceFuture, tasksFuture]);
-final balance = await balanceFuture;
-final tasks = await tasksFuture;
+final (balance, tasks) = await (
+  _financeRepository.fetchBalance(),
+  _taskRepository.fetchTasks(),
+).waitAll;
 ```
 
 ## Services Integration
