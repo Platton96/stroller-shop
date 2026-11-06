@@ -22,7 +22,7 @@ The Flutter app lives in `app/` (code in `app/lib/`, tests in `app/test/`); the 
 
 ### Step 1: Understand Context
 - Identify which files were recently created or modified.
-- Determine which layer/feature they belong to (`lib/services`, `lib/repositories`, `lib/objects`, `lib/core`, `lib/di`, `lib/ui_kit`, `lib/features/<name>`).
+- Determine which layer/feature they belong to (`lib/services`, `lib/repositories`, `lib/entities`, `lib/core`, `lib/di`, `lib/ui_kit`, `lib/features/<name>`).
 - Understand the intent of the changes.
 
 ### Step 2: Load Authoritative Rule Files

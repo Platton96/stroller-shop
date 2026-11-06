@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stroller_shop/features/shop/models/shop_delivery_vm.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_delivery_vm.dart';
 import 'package:stroller_shop/features/shop/widgets/info_card.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';

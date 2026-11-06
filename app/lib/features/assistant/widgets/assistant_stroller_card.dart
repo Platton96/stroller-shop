@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
 import 'package:stroller_shop/features/catalog/extensions/stroller_card_vm_extension.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_radius.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stroller_shop/core/bloc/app_bloc_provider.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/shop/bloc/shop_bloc.dart';
-import 'package:stroller_shop/features/shop/models/shop_vm.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_vm.dart';
 import 'package:stroller_shop/features/shop/widgets/contacts_card.dart';
 import 'package:stroller_shop/features/shop/widgets/delivery_info_card.dart';
 import 'package:stroller_shop/features/shop/widgets/payment_card.dart';

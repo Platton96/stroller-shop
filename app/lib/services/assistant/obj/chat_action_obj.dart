@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/services/assistant/obj/chat_action_type_obj.dart';
 
 part 'chat_action_obj.g.dart';

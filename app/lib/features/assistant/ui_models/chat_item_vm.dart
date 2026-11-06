@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
 
 part 'chat_item_vm.freezed.dart';
 

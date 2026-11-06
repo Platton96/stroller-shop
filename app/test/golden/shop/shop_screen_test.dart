@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stroller_shop/features/shop/bloc/shop_bloc.dart';
-import 'package:stroller_shop/features/shop/models/shop_vm.dart';
 import 'package:stroller_shop/features/shop/shop_screen.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_vm.dart';
 
 import '../../helpers/golden/golden_setup.dart';
 import '../golden_test_data.dart';

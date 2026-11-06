@@ -1,6 +1,6 @@
 ---
 description: Data classes (primary constructors + json_serializable), Retrofit services, repositories, domain objects. Where DTOs vs domain models live and how they connect.
-paths: ["app/lib/services/**","app/lib/repositories/**","app/lib/objects/**","**/*_repository.dart","**/*_service.dart","**/*_obj.dart"]
+paths: ["app/lib/services/**","app/lib/repositories/**","app/lib/entities/**","**/*_repository.dart","**/*_service.dart","**/*_obj.dart"]
 ---
 
 # Data Layer Rules
@@ -15,10 +15,10 @@ UI (widgets) → BLoC → Repository → Service → API
 |---|---|---|
 | Services | `lib/services/<domain>/` | `<domain>_service.dart` (Retrofit `@RestApi`), `obj/` (`*Obj` DTOs, API enums), `response/` (`*ResponseObj`) |
 | Repositories | `lib/repositories/` | Concrete `@lazySingleton` classes extending `BaseRepository` |
-| Objects (domain) | `lib/objects/` | Freezed domain models, barrel `lib/objects/objects.dart`; `Transformable` in `lib/objects/common/transformable.dart` |
+| Entities (domain) | `lib/entities/` | Freezed domain models, barrel `lib/entities/entities.dart`; `Transformable` in `lib/entities/common/transformable.dart` |
 | Exceptions | `lib/core/exceptions/app_exception.dart` | Sealed freezed `AppException` |
 
-Data flows one way. A BLoC never imports a service or a DTO; a widget never imports a repository. Repositories take services, return `lib/objects/` types. Cross-feature contracts go through repositories or a feature `Mediator` (`mediator.md`) — there is no interactor layer.
+Data flows one way. A BLoC never imports a service or a DTO; a widget never imports a repository. Repositories take services, return `lib/entities/` types. Cross-feature contracts go through repositories or a feature `Mediator` (`mediator.md`) — there is no interactor layer.
 
 ## Data Classes: Primary Constructor, Not Freezed
 
@@ -52,7 +52,7 @@ abstract class StrollerObj with _$StrollerObj {
 - Methods and getters go in the class body after the `fromJson` factory — no `const Name._();` private constructor is needed
 - Run `fvm dart run build_runner build` (from `app/`) after changes
 
-**Exception:** BLoC states, BLoC events, `*_vm.dart` view models, and `lib/objects/` domain models keep `@freezed`.
+**Exception:** BLoC states, BLoC events, `*_vm.dart` view models, and `lib/entities/` domain models keep `@freezed`.
 
 ## DTOs Carry No Equality
 
@@ -190,7 +190,7 @@ extension on StrollerSort {
   - `guardApiCall()` — when `ResponseObj` implements `Transformable<Domain>`
   - `guardApiCallWithMap()` — custom DTO → domain mapping; prefer `ResponseObj.fromJson(data).transform()` inside the map callback
   - `guardApiCallVoid()` — no response body
-- **Return domain models** from `lib/objects/`, never DTOs
+- **Return domain models** from `lib/entities/`, never DTOs
 - **No manual `try/catch`** — guards map `DioException` to `AppException` (`error-handling.md`)
 - **No manual field parsing** — create a proper `Transformable` DTO instead of accessing `Map<String, dynamic>` keys directly
 - Platform plugins: wrap in a repository in `lib/repositories/`, return domain models, handle permissions internally. UI widgets MUST NOT import platform packages directly (`geolocator`, `camera`, `local_auth`, etc.). Exceptions: visual-component packages and simple one-liner actions (`url_launcher`, `share_plus`).
@@ -241,9 +241,9 @@ extension on StatusObj? {
 }
 ```
 
-## Domain Models (`lib/objects/`)
+## Domain Models (`lib/entities/`)
 
-- Freezed, immutable; exported through `lib/objects/objects.dart`
+- Freezed, immutable; exported through `lib/entities/entities.dart`
 - All fields MUST use `required` — ensures `transform()` won't miss mapping any field (compile-time error)
 - Domain enums include `undefined` as first case for unknown API values
 - No `fromJson`/`toJson` — domain models are not serialized
@@ -296,7 +296,7 @@ DI doctrine lives in `.claude/rules/di.md`. Quick reference for the data layer:
 1. Find an existing repository in `lib/repositories/` as a reference.
 2. Create `<name>_repository.dart` — extend `BaseRepository`, inject the service via the constructor.
 3. Wrap every API call in `guardApiCall` / `guardApiCallWithMap` / `guardApiCallVoid`.
-4. Map DTOs → domain models in `lib/objects/`. Create new domain models if needed and export them from `objects.dart`.
+4. Map DTOs → domain models in `lib/entities/`. Create new domain models if needed and export them from `entities.dart`.
 5. Add `@lazySingleton`; add `@disposeMethod` on `dispose()` if applicable.
 6. Run `fvm dart run build_runner build` from `app/`.
 

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:stroller_shop/core/exceptions/app_exception.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/repositories/assistant_repository.dart';
 import 'package:stroller_shop/services/assistant/assistant_service.dart';
 

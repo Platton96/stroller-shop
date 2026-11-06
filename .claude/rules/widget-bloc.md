@@ -65,7 +65,7 @@ Every BLoC extends `BaseBloc<Event, State>` (`lib/core/bloc/base_bloc.dart`). It
 | `logError(e, [st])` | Writes to the app `logger` (suppressed in test env) | `error-handling.md` |
 | `handleGeneralException` | Override point for handler exceptions | `error-handling.md` |
 
-`base_bloc.dart` also re-exports `flutter_bloc`, `freezed_annotation`, `injectable`, `bloc_concurrency`, `collection`, and `objects` — a BLoC file needs few imports of its own.
+`base_bloc.dart` also re-exports `flutter_bloc`, `freezed_annotation`, `injectable`, `bloc_concurrency`, `collection`, and `entities` — a BLoC file needs few imports of its own.
 
 Built-in behavior:
 
@@ -185,7 +185,7 @@ Navigation via `appNavigator` in BLoC handlers (see `routing.md`).
 ## VM Patterns
 
 - **Class suffix**: `VM` (`ExampleVM`, `BalanceVM`); **file suffix**: `_vm.dart`
-- **Location**: the feature's `models/` folder — NOT inside state files
+- **Location**: the feature's `ui_models/` folder — NOT inside state files, and NOT in `models/`, which holds only the BLoC-held domain aggregates (`Cart`, `Catalog`)
 - **Error fields**: typed (enum or sealed variant), never a localized `String` — a BLoC has no `BuildContext`, so the widget turns the typed error into `S.of(context).xxx`. See `form-validation.md`.
 - **Validation getters**: Can add to VM with `const` modifier for computed logic that depends only on the VM's own fields
 - **Every derived value on a VM is computed by the mapper, never by a getter on the VM itself** — a `get config => ...` / `get isSubmitEnabled => ...` on the model recomputes on each read and hides the derivation from tests. Declare the derived values as plain `required` fields and have `{Bloc}VMMapper.to{Feature}VM(data)` fill them in; the BLoC routes every `copyWith` through one `_emitForm(emit, data)` helper so nothing can emit an unmapped VM. Config lookups belong in the mapper too, not in the model or the widget.
@@ -218,13 +218,13 @@ Public `Screen` provides the BLoC (the `AppBlocProvider` pattern shown above), p
 
 ## Parallel Requests
 
-Put the calls in a record, await `.waitAll` (`lib/core/async/future_record_extension.dart`) and destructure the typed results. `.waitAll` rethrows the original exception, so `handleGeneralException` receives the repository's `AppException` as is. Do NOT use the SDK record `.wait`: it wraps failures in `ParallelWaitError`, which `BaseBloc` does not unwrap. A record of a new length → add the matching extension next to the existing ones.
+Put the calls in a record, await the SDK record `.wait` and destructure the typed results. On failure `.wait` throws `ParallelWaitError`; `BaseBloc` unwraps it and passes the first original exception to `handleGeneralException`, so the error screen gets the repository's `AppException` as is. No custom `Future` extensions.
 
 ```dart
 final (balance, tasks) = await (
   _financeRepository.fetchBalance(),
   _taskRepository.fetchTasks(),
-).waitAll;
+).wait;
 ```
 
 ## Services Integration

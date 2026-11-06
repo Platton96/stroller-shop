@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stroller_shop/core/bloc/app_bloc_provider.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/stroller_details/bloc/stroller_details_bloc.dart';
-import 'package:stroller_shop/features/stroller_details/models/stroller_details_vm.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/stroller_details_vm.dart';
 import 'package:stroller_shop/features/stroller_details/widgets/color_picker.dart';
 import 'package:stroller_shop/features/stroller_details/widgets/spec_grid.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';

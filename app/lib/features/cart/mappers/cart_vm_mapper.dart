@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/features/cart/models/cart.dart';
-import 'package:stroller_shop/features/cart/models/cart_line_vm.dart';
-import 'package:stroller_shop/features/cart/models/cart_vm.dart';
-import 'package:stroller_shop/features/cart/models/delivery_option_vm.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_line_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/delivery_option_vm.dart';
 
 @injectable
 class CartVMMapper {

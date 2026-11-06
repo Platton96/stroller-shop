@@ -3,15 +3,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:stroller_shop/core/exceptions/app_exception.dart';
 import 'package:stroller_shop/core/navigation/app_routes.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/features/assistant/bloc/assistant_bloc.dart';
 import 'package:stroller_shop/features/assistant/mappers/assistant_vm_mapper.dart';
 import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
-import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/chat_item_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
 import 'package:stroller_shop/features/tabs/app_tab.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
-import 'package:stroller_shop/objects/objects.dart';
 import 'package:stroller_shop/repositories/assistant_repository.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
 

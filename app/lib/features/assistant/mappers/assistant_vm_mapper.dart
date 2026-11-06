@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:stroller_shop/features/assistant/models/assistant_chat.dart';
-import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
 import 'package:stroller_shop/features/assistant/models/chat_entry.dart';
-import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/assistant_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/chat_item_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 

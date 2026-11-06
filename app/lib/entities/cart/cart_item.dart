@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stroller_shop/objects/catalog/stroller.dart';
+import 'package:stroller_shop/entities/catalog/stroller.dart';
 
 part 'cart_item.freezed.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stroller_shop/features/assistant/widgets/assistant_stroller_card.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
 
 class StrollerCardList extends StatelessWidget {
   final List<StrollerCardVM> cards;

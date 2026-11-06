@@ -1,6 +1,6 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/shop/mappers/shop_vm_mapper.dart';
-import 'package:stroller_shop/features/shop/models/shop_vm.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_vm.dart';
 import 'package:stroller_shop/repositories/shop_repository.dart';
 
 part 'shop_bloc.freezed.dart';

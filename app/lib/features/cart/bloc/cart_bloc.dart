@@ -1,7 +1,7 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/cart/mappers/cart_vm_mapper.dart';
 import 'package:stroller_shop/features/cart/models/cart.dart';
-import 'package:stroller_shop/features/cart/models/cart_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_vm.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';

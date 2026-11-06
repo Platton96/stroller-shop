@@ -12,7 +12,7 @@ A feature is a folder, not a package: `app/lib/features/<name>/`. There is no pe
 - **`<name>_pages.dart`** — every `Page` definition for the feature (`routing.md`). Pages are never defined inline in screens.
 - **Screens, BLoCs, VMs, widgets** — in the layout below.
 
-Data access does not live in the feature: services are in `lib/services/`, repositories in `lib/repositories/`, domain models in `lib/objects/` (`data-layer.md`). A type used by more than one feature belongs in `lib/objects/`; shared widgets belong in `lib/ui_kit/widgets/`. Cross-feature communication goes through repositories or a feature `Mediator` in `mediators/` (`mediator.md`).
+Data access does not live in the feature: services are in `lib/services/`, repositories in `lib/repositories/`, domain models in `lib/entities/` (`data-layer.md`). A type used by more than one feature belongs in `lib/entities/`; shared widgets belong in `lib/ui_kit/widgets/`. Cross-feature communication goes through repositories or a feature `Mediator` in `mediators/` (`mediator.md`).
 
 Generated files (`*.freezed.dart`, `*.g.dart`, `*.config.dart`) are never edited by hand. Regenerate via `fvm dart run build_runner build` (from `app/`).
 
@@ -26,7 +26,8 @@ Generated files (`*.freezed.dart`, `*.g.dart`, `*.config.dart`) are never edited
 lib/features/<name>/
   <name>_screen.dart
   bloc/        <name>_bloc.dart, <name>_event.dart, <name>_state.dart
-  models/      <name>_vm.dart (+ supplementary VMs)
+  ui_models/   <name>_vm.dart (+ supplementary VMs)
+  models/      (optional) BLoC-held domain aggregates mapped to the VM
   mappers/     <name>_vm_mapper.dart
   widgets/
   mediators/   (optional) <subject>_mediator.dart
@@ -43,10 +44,10 @@ lib/features/<name>/
   extensions/
   <screen_a>/
     <screen_a>_screen.dart
-    bloc/  models/  mappers/  widgets/
+    bloc/  ui_models/  models/  mappers/  widgets/
   <screen_b>/
     <screen_b>_screen.dart
-    bloc/  models/  mappers/  widgets/
+    bloc/  ui_models/  models/  mappers/  widgets/
 ```
 
 | Screens | Layout | Notes |
@@ -62,9 +63,10 @@ lib/features/<name>/
 | Screen widget | `<screen_name>_screen.dart` | `<screen_name>_page.dart` |
 | Sheet widget | `<sheet_name>_sheet.dart` | `<sheet_name>_screen.dart` |
 | Route | `GoRoute` in `lib/app/app_router.dart`, path in `AppRoutes` (`routing.md`) | Routes or path strings inside features |
-| VM | `<screen_or_feature>_vm.dart` for the root VM; supplementary VMs in `models/` | One mega-VM per feature |
+| VM | `<screen_or_feature>_vm.dart` for the root VM; supplementary VMs in `ui_models/` | One mega-VM per feature |
 | VM mapper | `<screen_or_feature>_vm_mapper.dart` in `mappers/`; one file per VM | A single `mappers.dart` aggregating all |
 | Mediator | `<subject>_mediator.dart` in `mediators/` | Mediators inside `bloc/` or `core/` |
+| Extension | `<type>_extension.dart` in `extensions/`, named `<Type>Extension` | `extension on X` at the bottom of a widget or screen file |
 
 ## Colocate Trivial Classes — No Separate File for ≈3 Lines
 
@@ -110,6 +112,6 @@ Tests mirror the feature folder: `app/test/features/<name>/bloc/`, `app/test/fea
 
 - [ ] Layout matches the screen count (flat for 1, nested for 2+)
 - [ ] The screen is registered as a `GoRoute` and its path lives in `AppRoutes`
-- [ ] BLoC trio (`*_bloc.dart`, `*_event.dart`, `*_state.dart`) in `bloc/`; VM in `models/`; mapper in `mappers/`
+- [ ] BLoC trio (`*_bloc.dart`, `*_event.dart`, `*_state.dart`) in `bloc/`; VMs in `ui_models/`, BLoC aggregates in `models/`; mapper in `mappers/`
 - [ ] No data-layer code (services, repositories, DTOs, domain models) inside the feature folder
 - [ ] File names mirror public class names; trivial classes are colocated

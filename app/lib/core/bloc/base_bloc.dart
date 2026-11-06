@@ -15,7 +15,7 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:freezed_annotation/freezed_annotation.dart';
 export 'package:injectable/injectable.dart' hide Environment, test;
 export 'package:stroller_shop/core/bloc/bloc_error_state_interface.dart';
-export 'package:stroller_shop/objects/objects.dart';
+export 'package:stroller_shop/entities/entities.dart';
 
 typedef AppNavigatorGetter = AppNavigator Function();
 typedef ToastServiceGetter = ToastService Function();
@@ -88,6 +88,11 @@ abstract class BaseBloc<Event, State> extends Bloc<Event, State>
   ) async {
     try {
       await handler(event, emit);
+      // ignore: avoid_catching_errors
+    } on ParallelWaitError<Object?, Object?> catch (error, stackTrace) {
+      final exception = _firstException(error);
+      handleGeneralException(event, emit, exception);
+      logError(exception, stackTrace);
     } on Exception catch (exception, stackTrace) {
       handleGeneralException(event, emit, exception);
       logError(exception, stackTrace);
@@ -97,4 +102,17 @@ abstract class BaseBloc<Event, State> extends Bloc<Event, State>
       logError(exception, stackTrace);
     }
   }
+
+  Exception _firstException(ParallelWaitError<Object?, Object?> error) =>
+      switch (error.errors) {
+        (final AsyncError? first, final AsyncError? second) => [first, second],
+        (final AsyncError? first, final AsyncError? second, final AsyncError? third) => [
+          first,
+          second,
+          third,
+        ],
+        final List<AsyncError?> errors => errors,
+        _ => <AsyncError?>[],
+      }.nonNulls.map((asyncError) => asyncError.error).whereType<Exception>().firstOrNull ??
+      Exception(error.toString());
 }

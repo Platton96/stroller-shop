@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:stroller_shop/features/stroller_details/models/spec_vm.dart';
-import 'package:stroller_shop/features/stroller_details/models/stroller_details_vm.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/spec_vm.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/stroller_details_vm.dart';
 
 @injectable
 class StrollerDetailsVMMapper {

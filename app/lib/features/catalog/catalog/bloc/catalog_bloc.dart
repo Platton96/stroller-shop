@@ -1,9 +1,8 @@
-import 'package:stroller_shop/core/async/future_record_extension.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/core/navigation/app_routes.dart';
 import 'package:stroller_shop/features/catalog/catalog/mappers/catalog_vm_mapper.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/catalog_vm.dart';
 import 'package:stroller_shop/features/catalog/sort_sheet/sort_sheet.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
@@ -72,7 +71,7 @@ class CatalogBloc extends BaseBloc<CatalogEvent, CatalogState> {
       _catalogRepository.fetchTypes(),
       _shopRepository.fetchShop(),
       _fetchPage(offset: 0),
-    ).waitAll;
+    ).wait;
     _catalog = _catalog.copyWith(
       types: types,
       city: shop.city,

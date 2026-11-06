@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/features/catalog/catalog/models/catalog.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/type_chip_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/catalog_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/type_chip_vm.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
-import 'package:stroller_shop/objects/objects.dart';
 
 @injectable
 class CatalogVMMapper {

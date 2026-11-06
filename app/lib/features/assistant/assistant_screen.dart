@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stroller_shop/core/bloc/app_bloc_provider.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/assistant/bloc/assistant_bloc.dart';
-import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
-import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/assistant_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/chat_item_vm.dart';
 import 'package:stroller_shop/features/assistant/widgets/assistant_header.dart';
 import 'package:stroller_shop/features/assistant/widgets/cart_added_card.dart';
 import 'package:stroller_shop/features/assistant/widgets/chat_bubble.dart';
@@ -13,7 +13,7 @@ import 'package:stroller_shop/features/assistant/widgets/search_note.dart';
 import 'package:stroller_shop/features/assistant/widgets/stroller_card_list.dart';
 import 'package:stroller_shop/features/assistant/widgets/suggestion_list.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
-import 'package:stroller_shop/ui_kit/widgets/error_view.dart';
+import 'package:stroller_shop/ui_kit/extensions/exception_extension.dart';
 
 const EdgeInsets _gutter = .symmetric(horizontal: 16);
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stroller_shop/core/exceptions/app_exception.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
+import 'package:stroller_shop/ui_kit/extensions/exception_extension.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 import 'package:stroller_shop/ui_kit/widgets/app_button.dart';
 
@@ -34,14 +34,4 @@ class ErrorView extends StatelessWidget {
       ),
     );
   }
-}
-
-extension ExceptionMessage on Exception {
-  String localizedMessage(S strings) => switch (this) {
-    NoConnectionException() => strings.errorNoConnection,
-    NotFoundException() => strings.errorNotFound,
-    UnavailableException() => strings.errorUnavailable,
-    ServerException(:final statusCode) => strings.errorServer(statusCode),
-    _ => strings.errorUnexpected,
-  };
 }
