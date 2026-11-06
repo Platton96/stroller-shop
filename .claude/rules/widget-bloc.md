@@ -45,7 +45,7 @@ paths: ["**/*_bloc.dart","**/*_event.dart","**/*_state.dart","**/*_vm.dart","**/
 
 - **No `buildWhen` or `listenWhen`** — if needed, the BLoC is too broad; split it
 - **No reading BLoC state imperatively** (`context.read<Bloc>().state`) — state flows via `BlocBuilder`/`BlocListener`, passed as parameters
-- **Don't model "open a sheet / navigate" as a `StateData` flag observed by a `BlocConsumer` listener.** The BLoC already owns `appNavigator` — call `appNavigator.push(FilterSheetPage())` directly inside the handler and feed the awaited result back into state, e.g. `_handleFilterPressedEvent` awaits the sheet then `emit(.loaded(data: state.data.copyWith(filter: filter)))`. Encoding the intent as an `isFilterSheetOpen` bool watched by a widget `listener` re-implements navigation in the UI and forces a `listenWhen` rising-edge guard against double-firing. The handler is the single place that opens the sheet and stores the result.
+- **Don't model "open a sheet / navigate" as a `StateData` flag observed by a `BlocConsumer` listener.** The BLoC already owns `appNavigator` — call `appNavigator.showSheet(...)` directly inside the handler and feed the awaited result back into state, e.g. `_handleFilterPressedEvent` awaits the sheet then `emit(.loaded(data: state.data.copyWith(filter: filter)))`. Encoding the intent as an `isFilterSheetOpen` bool watched by a widget `listener` re-implements navigation in the UI and forces a `listenWhen` rising-edge guard against double-firing. The handler is the single place that opens the sheet and stores the result.
 
 ## Side Effects in Widgets
 
@@ -60,18 +60,17 @@ Every BLoC extends `BaseBloc<Event, State>` (`lib/core/bloc/base_bloc.dart`). It
 | Member | What it is | Details |
 |---|---|---|
 | `appNavigator` | `AppNavigator` — all navigation | `routing.md` |
-| `messageBus` | Cross-BLoC messaging | `message-bus.md` |
 | `toastService` | Success / error / info toasts | — |
 | `addDisposable(s)` | Auto-cancelled stream subscriptions | [Stream Subscriptions](#stream-subscriptions) |
 | `logError(e, [st])` | Writes to the app `logger` (suppressed in test env) | `error-handling.md` |
 | `handleGeneralException` | Override point for handler exceptions | `error-handling.md` |
 
-`base_bloc.dart` also re-exports `flutter_bloc`, `freezed_annotation`, `injectable`, `bloc_concurrency`, `collection`, and `objects` — a BLoC file needs few imports of its own.
+`base_bloc.dart` also re-exports `flutter_bloc`, `freezed_annotation`, `injectable`, `bloc_concurrency`, `collection`, and `entities` — a BLoC file needs few imports of its own.
 
 Built-in behavior:
 
 - **Every `on<E>` handler runs inside a try/catch** — exceptions route to `handleGeneralException`. This is why manual exception catching is banned.
-- **`close()` neutralizes the BLoC** — `appNavigator`/`toastService` are swapped to no-op implementations, every `addDisposable` subscription is cancelled, and `add()` drops events afterward — see [No Manual isClosed Guards](#no-manual-isclosed-guards).
+- **`close()` neutralizes the BLoC** — every `addDisposable` subscription is cancelled and `add()` drops events afterward — see [No Manual isClosed Guards](#no-manual-isclosed-guards).
 - The service members are wired once at startup through `BaseBlocCallbacks`; tests wire mocks via `setUpTestInfrastructure()` (`testing.md`).
 
 ## BLoC Structure
@@ -102,7 +101,7 @@ Does NOT apply when the bool *is* the domain value (`isEnabled` from a flag or s
 
 ## No Manual isClosed Guards
 
-**MUST NOT write `if (isClosed) return;` guards after `await`s — anywhere in a BLoC, including stream callbacks.** `BaseBloc.close()` swaps `appNavigator` / `toastService` to no-op implementations, cancels every `addDisposable` subscription, and the `add()` override silently drops events on a closed BLoC; a post-close `emit` is ignored by the canceled emitter. Every post-await side effect on a disposed BLoC is inert on its own; a manual guard is dead code — e.g. after `await _repository.save(...)`, go straight to `emit(.saved(...))` / `appNavigator.pop(result)` with no `if (isClosed) return;` in between. There is no location in a BLoC where a manual `isClosed` guard is needed.
+**MUST NOT write `if (isClosed) return;` guards after `await`s — anywhere in a BLoC, including stream callbacks.** `BaseBloc.close()` cancels every `addDisposable` subscription, and the `add()` override silently drops events on a closed BLoC; a post-close `emit` is ignored by the canceled emitter. Every post-await side effect on a disposed BLoC is inert on its own; a manual guard is dead code — e.g. after `await _repository.save(...)`, go straight to `emit(.saved(...))` / `appNavigator.pop(result)` with no `if (isClosed) return;` in between. There is no location in a BLoC where a manual `isClosed` guard is needed.
 
 ## No `.then()` in Handlers
 
@@ -114,7 +113,30 @@ To run independent calls concurrently, await a record (see [Parallel Requests](#
 
 **MUST use `AppBlocProvider`** (`lib/core/bloc/app_bloc_provider.dart`), not `BlocProvider`. It resolves the BLoC from DI and accepts `postCreate` and `param1`. Post a single `.init()` event in `postCreate`.
 
-**The provider lives in the `Screen` widget that owns the BLoC — never in the pages layer.** Keeping the provider in a `Page` and the `BlocBuilder` in a separate screen splits one feature's wiring across two files. The page builds the `Screen`; the `Screen.build` returns the `AppBlocProvider`, e.g. `Widget build(_) => AppBlocProvider<ProductBloc>(postCreate: (bloc) => bloc.add(const .init()), child: const _ProductView());`. With a single factory param, pass `param1: productId` alongside `postCreate`; with 2+ params pass the `*BlocParameter` object as `param1`.
+**The provider lives in the `Screen` widget that owns the BLoC — never in the route table.** Keeping the provider in a `GoRoute.builder` and the `BlocBuilder` in a separate screen splits one feature's wiring across two files. The route builds the `Screen`; the `Screen.build` returns the `AppBlocProvider`, e.g. `Widget build(BuildContext context) { return AppBlocProvider<ProductBloc>(postCreate: (bloc) => bloc.add(const .init()), child: BlocBuilder<ProductBloc, ProductState>(builder: ...)); }`.
+
+**MUST NOT add a private `_<Name>View` widget whose only job is to sit between `AppBlocProvider` and `BlocBuilder`.** The `BlocBuilder`'s `builder` context is already below the provider, so `context.read<Bloc>()` works there — pass the `BlocBuilder` straight as the provider's `child`. Extract a private widget only for a real subtree (a state branch such as `_LoadedView`, a repeated row), not as a context hop.
+
+```dart
+// bad — a view class that only forwards to BlocBuilder
+Widget build(BuildContext context) {
+  return AppBlocProvider<CartBloc>(postCreate: ..., child: const _CartView());
+}
+
+class _CartView extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(builder: ...);
+  }
+}
+
+// good
+Widget build(BuildContext context) {
+  return AppBlocProvider<CartBloc>(
+    postCreate: (bloc) => bloc.add(const .init()),
+    child: BlocBuilder<CartBloc, CartState>(builder: (context, state) => ...),
+  );
+}
+``` With a single factory param, pass `param1: productId` alongside `postCreate`; with 2+ params pass the `*BlocParameter` object as `param1`.
 
 ## Event Transformers
 
@@ -135,7 +157,7 @@ Always dispatch a single "applyXxxSelection" event that carries the full result 
 
 ## BLoC Communication
 
-Use `MessageBus` for decoupled cross-BLoC communication (see `message-bus.md`).
+Use a feature `Mediator<T>`, injected through the constructor, for decoupled cross-BLoC communication (see `mediator.md`).
 
 ## BLoC Constructor Order
 
@@ -143,7 +165,7 @@ Use `MessageBus` for decoupled cross-BLoC communication (see `message-bus.md`).
 
 ## Stream Listener Naming and Tear-Offs
 
-**Stream and `MessageBus` listeners MUST be named `_handle<Thing>` and accept the message as their sole parameter**, so they can be passed as tear-offs: `addDisposable(_repo.onUpdate.listen(_handleUpdate));` with `void _handleUpdate(UpdateMessage message) { ... }` — not an anonymous lambda wrapping a private method.
+**Stream and mediator listeners MUST be named `_handle<Thing>` and accept the message as their sole parameter**, so they can be passed as tear-offs: `addDisposable(_repo.onUpdate.listen(_handleUpdate));` with `void _handleUpdate(UpdateMessage message) { ... }` — not an anonymous lambda wrapping a private method.
 
 Does NOT apply when the listener must close over local state before subscribing (rare).
 
@@ -163,10 +185,11 @@ Navigation via `appNavigator` in BLoC handlers (see `routing.md`).
 ## VM Patterns
 
 - **Class suffix**: `VM` (`ExampleVM`, `BalanceVM`); **file suffix**: `_vm.dart`
-- **Location**: the feature's `models/` folder — NOT inside state files
+- **Location**: the feature's `ui_models/` folder — NOT inside state files, and NOT in `models/`, which holds only the BLoC-held domain aggregates (`Cart`, `Catalog`)
 - **Error fields**: typed (enum or sealed variant), never a localized `String` — a BLoC has no `BuildContext`, so the widget turns the typed error into `S.of(context).xxx`. See `form-validation.md`.
 - **Validation getters**: Can add to VM with `const` modifier for computed logic that depends only on the VM's own fields
 - **Every derived value on a VM is computed by the mapper, never by a getter on the VM itself** — a `get config => ...` / `get isSubmitEnabled => ...` on the model recomputes on each read and hides the derivation from tests. Declare the derived values as plain `required` fields and have `{Bloc}VMMapper.to{Feature}VM(data)` fill them in; the BLoC routes every `copyWith` through one `_emitForm(emit, data)` helper so nothing can emit an unmapped VM. Config lookups belong in the mapper too, not in the model or the widget.
+- **The mapper builds every list the widget renders, ready to show** — fixed items mixed into a server list (starter suggestions, an "All" chip) are added by the mapper, with their localized text from `appStrings` (`lib/l10n/app_strings.dart`); the VM is flat, so the widget reads `chip.label` / `vm.suggestions` without a `switch` or an `if` to assemble them.
 - **Display-derived math belongs in the mapper, not the widget** — precompute chart heights, sorted/filtered lists, and totals in `{Bloc}VMMapper` and expose them as fields on the VM. The widget reads, never recomputes on each build
 - **MUST NOT include widget/UI-kit names in VM, mapper, file, or field names** — name after the data/concept, not the render target. `Widget`, `Sheet`, `Badge`, `Tab`, `Body`, `Card`, `Panel`, `Tile`, `Row`, `Column`, `Header`, `Footer` belong to widgets, not VMs: `PriceVM` not `PriceWidgetVM`; `StockVM` not `StockSheetVM`; field `priceVM` not `priceWidgetVM`. Widgets get renamed/replaced; the data shouldn't follow.
 
@@ -195,11 +218,18 @@ Public `Screen` provides the BLoC (the `AppBlocProvider` pattern shown above), p
 
 ## Parallel Requests
 
-Use Dart 3 records with `.wait` for concurrent repository calls: `final (balance, tasks) = await (_financeRepository.fetchBalance(), _taskRepository.fetchTasks()).wait;`.
+Put the calls in a record, await the SDK record `.wait` and destructure the typed results. On failure `.wait` throws `ParallelWaitError`; `BaseBloc` unwraps it and passes the first original exception to `handleGeneralException`, so the error screen gets the repository's `AppException` as is. No custom `Future` extensions.
+
+```dart
+final (balance, tasks) = await (
+  _financeRepository.fetchBalance(),
+  _taskRepository.fetchTasks(),
+).wait;
+```
 
 ## Services Integration
 
-- **Navigation**: `appNavigator.push(Page())`, `appNavigator.pop()`, `appNavigator.replace(Page())`, `appNavigator.replaceAll(Page())`
+- **Navigation**: `appNavigator.push(AppRoutes.x(...))`, `appNavigator.showSheet(...)`, `appNavigator.pop()`
 - **Toasts**: `toastService.showSuccess(...)`, `.showError(...)`, `.showInfo(...)`
 - **Error logging**: `logError(ex, st)` — writes to the app `logger`
 

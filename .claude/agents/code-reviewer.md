@@ -22,7 +22,7 @@ The Flutter app lives in `app/` (code in `app/lib/`, tests in `app/test/`); the 
 
 ### Step 1: Understand Context
 - Identify which files were recently created or modified.
-- Determine which layer/feature they belong to (`lib/services`, `lib/repositories`, `lib/objects`, `lib/core`, `lib/di`, `lib/ui_kit`, `lib/features/<name>`).
+- Determine which layer/feature they belong to (`lib/services`, `lib/repositories`, `lib/entities`, `lib/core`, `lib/di`, `lib/ui_kit`, `lib/features/<name>`).
 - Understand the intent of the changes.
 
 ### Step 2: Load Authoritative Rule Files
@@ -43,10 +43,11 @@ Determine which rule files are relevant from the changed file paths using the `p
 | Widget composition, BLoC/event/state shape, `BaseBloc` usage | `.claude/rules/widget-bloc.md` |
 | Retrofit services, DTOs, repositories, domain objects | `.claude/rules/data-layer.md` |
 | Theme tokens, shared widgets, screens | `.claude/rules/ui-kit.md` |
-| Navigation, `Page` definitions | `.claude/rules/routing.md` |
+| Navigation, GoRouter routes | `.claude/rules/routing.md` |
 | `Semantics`/`MergeSemantics`/`ExcludeSemantics` | `.claude/rules/semantics.md` |
-| Cross-BLoC or cross-feature communication | `.claude/rules/message-bus.md` |
+| Cross-BLoC or cross-feature communication | `.claude/rules/mediator.md` |
 | New/changed test files | `.claude/rules/testing.md` |
+| New screen or visual change, golden tests | `.claude/rules/golden-testing.md` |
 
 ### Step 3: Verify Against Checklists
 
@@ -63,7 +64,7 @@ Rule files without a checklist (e.g. `dart-coding.md`) are reviewed section by s
 **Architecture check (always applies):**
 - Data flow: UI → BLoC → Repository → Service → API
 - No layer violations (e.g., widgets importing DTOs or repositories, BLoCs importing services directly)
-- Navigation, toasts and message-bus access only through the `BaseBloc` members, never from widgets
+- Navigation and toasts only through the `BaseBloc` members, cross-BLoC notifications only through constructor-injected mediators, never from widgets
 - Proper separation of concerns
 
 **Testing check (always applies):**

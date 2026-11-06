@@ -22,6 +22,24 @@ Same for `toString()` and exception messages: no ticket numbers, no developer hi
 
 Strict sequence: 1. static constants/fields → 2. instance fields (constant → private → public; **all above constructor**) → 3. constructor(s) → 4. getters/setters (public → private; **above all methods**) → 5. public methods (incl. `@override`; State lifecycle: `initState` → `build` → `dispose`) → 6. protected → 7. private.
 
+**Fields always open the class body, the constructor comes right after them** — in every class, mixin and enhanced enum: widgets, BLoCs, repositories, mappers, mediators. The `sort_constructors_first` lint enforces the opposite order and is deliberately off in `analysis_options.yaml`; never re-enable it.
+
+```dart
+// bad — constructor above the fields
+class CartBloc extends BaseBloc<CartEvent, CartState> {
+  CartBloc(this._cartRepository) : super(const .initial());
+
+  final CartRepository _cartRepository;
+}
+
+// good
+class CartBloc extends BaseBloc<CartEvent, CartState> {
+  final CartRepository _cartRepository;
+
+  CartBloc(this._cartRepository) : super(const .initial());
+}
+```
+
 Not for generated or test files.
 
 ## Top-Level Declaration Ordering
@@ -40,7 +58,7 @@ Use the most concise constructor: `.all(n)` → `.symmetric(h, v)` → `.only(..
 
 - Mutually exclusive conditions → `if/else if/else`, not sequential `if (...) return`.
 - Divergent branches with different side effects → extract each into a named private method.
-- **Same call in 2+ branches differing in one argument → hoist the varying value, call once.** Applies to any repeated call — constructor, factory, widget, `emit(...)`, `list.add(...)`, an `S.of(context).xxx` string. Two branches → ternary on the varying arg; 3+ branches or a `switch` → assign the varying value(s) per branch (a `switch` expression yielding a record when several args vary), then one call after. A repeated widget subtree → extract a private `StatelessWidget`, not a build-method helper. Duplication spanning **sibling methods** (e.g. the same `emit(.loaded(...))` in four handlers) → extract one private helper they all call.
+- **Same call in 2+ branches differing in one argument → hoist the varying value, call once.** Applies to any repeated call — constructor, factory, widget, `emit(...)`, `list.add(...)`, an `S.of(context).xxx` string. Two branches → ternary on the varying arg; 3+ branches or a `switch` → assign the varying value(s) per branch (a `switch` expression yielding a record when several args vary), then one call after. A repeated widget subtree → extract a private `StatelessWidget`, not a build-method helper. A widget whose look differs per branch in several values (alignment, color, radius, text style) → a private widget with those values as parameters, constructed once per `switch` arm — not a `switch` destructured into a multi-value record. Duplication spanning **sibling methods** (e.g. the same `emit(.loaded(...))` in four handlers) → extract one private helper they all call.
 - **MUST NOT hoist a shared call past control flow that changes when it runs** — a `return`/`break`/`continue` in one branch, or a `try` block whose success path falls through into the code you would hoist below. Collapse only when every branch reaches the single call on every path with identical timing/side-effects; otherwise leave the calls in place.
 - No inverted guard before a long main path: a one-statement early-exit is fine; if the main path is the long branch, use `if (ready) { main() } else { recover() }`.
 
@@ -96,6 +114,20 @@ A handler with no `await` drops `async`/`Future<void>` and becomes `void`. The `
 
 Single-expression methods/getters MUST use `=>`, not a block with a single `return`. Not when the body has multiple statements, a `try/catch`, or a local `final` kept for readability.
 
+**Exception — widget `build` methods.** Every `build` (`StatelessWidget`, `State`, any widget class) MUST use a block body with `return`, even when it is a single expression. A local `final` or a `debugPrint` can then be added without reshaping the whole method, and every widget reads the same way. The `prefer_expression_function_bodies` lint is off for this reason; never re-enable it. Builder callbacks passed as arguments (`builder: (context, state) => ...`) stay `=>`.
+
+```dart
+// bad
+@override
+Widget build(BuildContext context) => Text(title);
+
+// good
+@override
+Widget build(BuildContext context) {
+  return Text(title);
+}
+```
+
 ## No Single-Use Wrapper Variables
 
 Inline expressions used only once, unless: used 2+ times, captures a value before an async gap, or inlining hurts readability.
@@ -118,7 +150,7 @@ When a `Map<K, V>` is keyed by a closed set (an enum) and every key has a valid 
 
 ## Freezed Only for BLoC State and Domain Models
 
-**MUST NOT use `@freezed` for serialized data classes** — DTOs, request bodies, and API response objects (`lib/services/**`) are plain classes with a Dart primary constructor plus `@JsonSerializable`. Freezed stays for BLoC states/events, `*_vm.dart` view models, and domain models in `lib/objects/`, where generated `copyWith`/`==` drive rebuild dedup. DTOs carry no value equality by design. Details: `data-layer.md`.
+**MUST NOT use `@freezed` for serialized data classes** — DTOs, request bodies, and API response objects (`lib/services/**`) are plain classes with a Dart primary constructor plus `@JsonSerializable`. Freezed stays for BLoC states/events, `*_vm.dart` view models, and domain models in `lib/entities/`, where generated `copyWith`/`==` drive rebuild dedup. DTOs carry no value equality by design. Details: `data-layer.md`.
 
 ## No Duplicate Models
 

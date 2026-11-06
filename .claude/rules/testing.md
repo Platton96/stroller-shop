@@ -51,7 +51,7 @@ void main() {
 
 ## Shared Test Infrastructure
 
-`app/test/helpers/test_infrastructure.dart` provides `setUpTestInfrastructure()`. Call it in `setUpAll`. It sets `BaseBloc.isTestEnvironment = true` (so `logError` stays quiet) and configures `BaseBlocCallbacks` with a mock `AppNavigator`, a mock `ToastService`, and a **real** `MessageBus`. Read the helper for the exact exported names before use, and don't roll your own mocks for these.
+`app/test/helpers/test_infrastructure.dart` provides `setUpTestInfrastructure()`. Call it in `setUpAll`. It sets `BaseBloc.isTestEnvironment = true` (so `logError` stays quiet) and configures `BaseBlocCallbacks` with a mock `AppNavigator`, and a mock `ToastService`. Read the helper for the exact exported names before use, and don't roll your own mocks for these.
 
 - Assert navigation via the mock `AppNavigator` (`verify(() => mockAppNavigator.push(any()))`), toasts via the mock `ToastService`.
 - Platform channels (`Clipboard`, etc.) → `TestDefaultBinaryMessengerBinding`.
@@ -59,7 +59,7 @@ void main() {
 
 ## blocTest
 
-Do NOT add `wait:` to `blocTest` — it already awaits all emissions (including those from the constructor and from MessageBus listeners). Only add it if omitting it causes an actual failure.
+Do NOT add `wait:` to `blocTest` — it already awaits all emissions (including those from the constructor and from mediator listeners). Only add it if omitting it causes an actual failure.
 
 ## Draining Pending Microtasks
 
@@ -81,9 +81,9 @@ verify(() => mockRepo.fetchTokens()).called(1);
 
 **MUST NOT** call `TestWidgetsFlutterBinding.ensureInitialized()` in test files unless a test truly needs the binding and `setUpTestInfrastructure()` has not already initialized it. Using `TestWidgetsFlutterBinding.instance` or `TestDefaultBinaryMessengerBinding.instance` (e.g. for Clipboard / platform channel mocks) works directly once the binding exists.
 
-## MessageBus Testing
+## Mediator Testing
 
-Use a **real `MessageBus`** (not mock). Close BLoC before disposing MessageBus in `tearDown`. See `message-bus.md`.
+Use a **real mediator** (not mock), passed through the BLoC constructor. Close it in `tearDown`. See `mediator.md`.
 
 ## Repository and Service Tests
 
@@ -93,7 +93,7 @@ Use a **real `MessageBus`** (not mock). Close BLoC before disposing MessageBus i
 
 ## Widget Tests
 
-Widget tests (`testWidgets` / `WidgetTester` / `pumpWidget`) and golden tests are **not used yet**. Keep logic out of widgets so it is covered by BLoC, mapper, and repository tests; do not introduce widget or golden test infrastructure unless asked.
+Screens are covered by **golden tests** (`golden-testing.md`): every screen ships with goldens for each visually distinct state. Plain `testWidgets` interaction tests are not used — keep logic out of widgets so it is covered by BLoC, mapper, and repository tests.
 
 ## Mock Class Visibility
 
@@ -146,7 +146,8 @@ Name the extracted constants with a leading underscore — they're private to th
 Run from `app/`:
 
 - Single file: `fvm flutter test test/features/catalog/bloc/catalog_bloc_test.dart`
-- Whole suite: `fvm flutter test`
+- Whole suite: `fvm flutter test` (unit tests and goldens)
+- Goldens only: `fvm flutter test test/golden`; regenerate with `--update-goldens`
 - With coverage: `fvm flutter test --coverage`
 - Always run `fvm flutter analyze` as well; test files must have zero issues.
 

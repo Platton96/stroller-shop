@@ -11,17 +11,17 @@ paths: ["app/lib/di/**","**/*_repository.dart","**/*_service.dart","**/*_mapper.
 - **Generator:** `injectable_generator` (build_runner). Reads `@injectable` / `@lazySingleton` annotations across `lib/` and emits one wiring file.
 - **Single entry point:** `lib/di/injection.dart` declares the only `@InjectableInit()` and exposes `configureDependencies(getIt)`; the generated `injection.config.dart` sits beside it. There are no micro-packages, no `ExternalModule`, and no build order to maintain.
 - **Locator:** `ServiceLocator.getIt` (`lib/di/service_locator.dart`). `AppBlocProvider` resolves BLoCs through it; widgets and BLoCs do not call `getIt` themselves.
-- **`@module` classes** exist only for third-party objects: `lib/di/network_module.dart` (`Dio`) and `lib/di/navigation_module.dart` (`AppNavigator`).
+- **`@module` classes** exist only for third-party objects: `lib/di/network_module.dart` (`Dio`) and `lib/di/navigation_module.dart` (`GoRouter`, `AppNavigator`).
 
 ## Annotation Decision Table
 
 | Annotation | Use when | Don't use when |
 |---|---|---|
-| `@lazySingleton` | Shared, long-lived: repositories, services (Retrofit `@RestApi`), `MessageBus`, app-wide caches. | Screen-scoped state. |
+| `@lazySingleton` | Shared, long-lived: repositories, services (Retrofit `@RestApi`), feature mediators (`mediator.md`), app-wide caches. | Screen-scoped state. |
 | `@injectable` | Screen-scoped BLoCs, short-lived objects, per-screen mappers (any class with a finite per-screen lifetime). | Things you want to live across screens. |
 | `@singleton` | **NEVER.** Eager singletons are not used. | Always — use `@lazySingleton` instead. |
 | `@module` | **Only** for third-party objects whose construction we don't own: `Dio`, `FlutterSecureStorage`, `PackageInfo`, `Uuid`, `ImagePicker`. | Project-owned classes — annotate them directly. |
-| `@LazySingleton(as: <Interface>)` | Binding a concrete impl to an abstract interface (e.g. `AppNavigator` ← `AppRootNavigator`). | Same-type registrations. |
+| `@LazySingleton(as: <Interface>)` | Binding a concrete impl to an abstract interface (e.g. `ToastService` ← `SnackBarToastService`). | Same-type registrations. |
 | `@disposeMethod` | The class has a `dispose()` / `close()` to call on container teardown. | Pure data holders. |
 | `@factoryMethod` | Retrofit factory constructor (`factory FooService(Dio dio) = _FooService;`). | Plain constructors. |
 | `@factoryParam` | A constructor parameter is *not* from DI — it comes from the call site (e.g. `AppBlocProvider`'s `param1`). | Parameters that should be resolved by the container. |
@@ -70,13 +70,13 @@ Project-owned classes (`StrollerRepository`, `CatalogBloc`, `CatalogVMMapper`, .
 class CatalogVMMapper {
   const CatalogVMMapper();
 
-  CatalogVM toCatalogVM(CatalogData data) => CatalogVM(
-    items: data.strollers.map(_toItemVM).toList(),
+  CatalogVM toCatalogVM(Catalog catalog) => CatalogVM(
+    items: catalog.strollers.map(_toItemVM).toList(),
   );
 }
 
 // in the BLoC handler
-final vm = _vmMapper.toCatalogVM(data);
+final vm = _vmMapper.toCatalogVM(_catalog);
 emit(.loaded(data: vm));
 ```
 

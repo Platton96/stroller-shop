@@ -14,12 +14,13 @@ Demo stroller shop with an AI consultant: a Go backend (`backend/`) and a Flutte
 | Folder | Role |
 |---|---|
 | `services/<domain>/` | Retrofit `@RestApi` services; `obj/` and `response/` hold `*Obj` DTOs (primary constructor + `@JsonSerializable`) implementing `Transformable<Domain>` |
-| `objects/` | Domain models (freezed), barrel `objects.dart` |
+| `entities/` | Domain models (freezed), barrel `entities.dart` |
 | `repositories/` | `@lazySingleton` repositories extending `BaseRepository`; every API call goes through `guardApiCall*`, DioException → `AppException` |
-| `core/` | `BaseBloc`, `AppBlocProvider`, transformers, page-based `AppNavigator`, `MessageBus`, `ToastService`, exceptions, logger |
-| `di/` | injectable + get_it: one `@InjectableInit`, `@module`s for Dio and the navigator |
+| `core/` | `BaseBloc`, `AppBlocProvider`, transformers, `AppNavigator` over GoRouter, `Mediator`, `ToastService`, exceptions, logger |
+| `app/` | `StrollerShopApp` (`MaterialApp.router`) and the GoRouter route table |
+| `di/` | injectable + get_it: one `@InjectableInit`, `@module`s for Dio and the router |
 | `ui_kit/` | Theme tokens (`context.colors`, `context.textStyles`, `AppRadius`) and shared widgets |
-| `features/<name>/` | `bloc/`, `models/` (VMs), `mappers/`, `widgets/`, `<name>_screen.dart`, `<name>_pages.dart`; nested per screen when a feature has 2+ screens |
+| `features/<name>/` | `bloc/`, `ui_models/` (VMs), `models/` (BLoC-held aggregates), `mappers/`, `widgets/`, `extensions/`, `<name>_screen.dart`; nested per screen when a feature has 2+ screens |
 | `l10n/` | `app_ru.arb` → generated `S` |
 
 Data flow: `Service (DTO)` → `Repository (domain object)` → `BLoC` → `VMMapper (VM)` → widgets. Navigation, toasts and cross-feature messages happen only in BLoC handlers; widgets dispatch events.
@@ -32,7 +33,8 @@ fvm flutter gen-l10n
 fvm dart run build_runner build
 fvm dart format lib test
 fvm flutter analyze
-fvm flutter test
+fvm flutter test                                 # unit tests + screen goldens
+fvm flutter test --update-goldens test/golden    # after an intended visual change
 fvm flutter run    # uses the hosted backend; --dart-define=API_BASE_URL=http://localhost:8080 for a local one
 ```
 

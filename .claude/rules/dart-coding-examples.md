@@ -113,8 +113,8 @@ final label = switch (order) { Order(:final total) when total <= 0 => emptyLabel
 ```dart
 enum StrollerKind {
   lightweight(Icons.directions_walk), allTerrain(Icons.terrain);
-  const StrollerKind(this.icon);
   final IconData icon;
+  const StrollerKind(this.icon);
   String title(S l10n) => switch (this) { .lightweight => l10n.kindLightweight, .allTerrain => l10n.kindAllTerrain };
 }
 ```
@@ -170,6 +170,11 @@ void _handleEditEvent(...) => emit(.editing(...)); // not: Future<void> ... asyn
 
 ```dart
 VM toVM(Domain d) => VM(id: d.id, ...); // not: { return VM(...); }
+
+@override
+Widget build(BuildContext context) {
+  return Text(title); // build is the exception: always a block body
+}
 ```
 
 ## No Single-Use Wrapper Variables
@@ -178,7 +183,7 @@ VM toVM(Domain d) => VM(id: d.id, ...); // not: { return VM(...); }
 // bad — what are $1/$2?
 doThing(result.$1, result.$2);
 // good — names restored by destructuring
-final (balance, tasks) = await (fetchBalance(), fetchTasks()).wait;
+final (:balance, :tasks) = summary;
 ```
 
 ## Filtering: `where` Over Collection-`for`
