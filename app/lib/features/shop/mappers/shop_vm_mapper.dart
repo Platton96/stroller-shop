@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
-import 'package:stroller_shop/features/shop/models/shop_delivery_vm.dart';
-import 'package:stroller_shop/features/shop/models/shop_vm.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_delivery_vm.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_vm.dart';
 
 @injectable
 class ShopVMMapper {

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stroller_shop/objects/assistant/assistant_action.dart';
-import 'package:stroller_shop/objects/catalog/stroller.dart';
+import 'package:stroller_shop/entities/assistant/assistant_action.dart';
+import 'package:stroller_shop/entities/catalog/stroller.dart';
 
 part 'chat_reply.freezed.dart';
 

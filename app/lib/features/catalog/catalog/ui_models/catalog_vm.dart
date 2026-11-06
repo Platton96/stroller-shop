@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/type_chip_vm.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/type_chip_vm.dart';
 
 part 'catalog_vm.freezed.dart';
 

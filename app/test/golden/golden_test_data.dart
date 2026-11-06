@@ -1,25 +1,25 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:stroller_shop/core/exceptions/app_exception.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/features/assistant/bloc/assistant_bloc.dart';
-import 'package:stroller_shop/features/assistant/models/assistant_vm.dart';
-import 'package:stroller_shop/features/assistant/models/chat_item_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/assistant_vm.dart';
+import 'package:stroller_shop/features/assistant/ui_models/chat_item_vm.dart';
 import 'package:stroller_shop/features/cart/bloc/cart_bloc.dart';
-import 'package:stroller_shop/features/cart/models/cart_line_vm.dart';
-import 'package:stroller_shop/features/cart/models/cart_vm.dart';
-import 'package:stroller_shop/features/cart/models/delivery_option_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_line_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/delivery_option_vm.dart';
 import 'package:stroller_shop/features/catalog/catalog/bloc/catalog_bloc.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/catalog_vm.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
-import 'package:stroller_shop/features/catalog/catalog/models/type_chip_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/catalog_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/type_chip_vm.dart';
 import 'package:stroller_shop/features/catalog/sort_sheet/bloc/sort_sheet_bloc.dart';
 import 'package:stroller_shop/features/shop/bloc/shop_bloc.dart';
-import 'package:stroller_shop/features/shop/models/shop_delivery_vm.dart';
-import 'package:stroller_shop/features/shop/models/shop_vm.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_delivery_vm.dart';
+import 'package:stroller_shop/features/shop/ui_models/shop_vm.dart';
 import 'package:stroller_shop/features/stroller_details/bloc/stroller_details_bloc.dart';
-import 'package:stroller_shop/features/stroller_details/models/spec_vm.dart';
-import 'package:stroller_shop/features/stroller_details/models/stroller_details_vm.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/spec_vm.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/stroller_details_vm.dart';
 import 'package:stroller_shop/features/tabs/bloc/tabs_bloc.dart';
-import 'package:stroller_shop/objects/objects.dart';
 
 class MockCatalogBloc extends MockBloc<CatalogEvent, CatalogState> implements CatalogBloc {}
 

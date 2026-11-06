@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
 
 part 'folded_dimensions_obj.g.dart';
 

@@ -1,4 +1,4 @@
-import 'package:stroller_shop/features/catalog/catalog/models/stroller_card_vm.dart';
+import 'package:stroller_shop/features/catalog/catalog/ui_models/stroller_card_vm.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
 
 extension StrollerCardVMExtension on StrollerCardVM {

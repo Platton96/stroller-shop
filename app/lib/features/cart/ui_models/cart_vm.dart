@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stroller_shop/features/cart/models/cart_line_vm.dart';
-import 'package:stroller_shop/features/cart/models/delivery_option_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_line_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/delivery_option_vm.dart';
 
 part 'cart_vm.freezed.dart';
 

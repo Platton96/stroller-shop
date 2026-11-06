@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stroller_shop/core/bloc/app_bloc_provider.dart';
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/cart/bloc/cart_bloc.dart';
-import 'package:stroller_shop/features/cart/models/cart_vm.dart';
+import 'package:stroller_shop/features/cart/ui_models/cart_vm.dart';
 import 'package:stroller_shop/features/cart/widgets/cart_header.dart';
 import 'package:stroller_shop/features/cart/widgets/cart_line_card.dart';
 import 'package:stroller_shop/features/cart/widgets/cart_summary.dart';

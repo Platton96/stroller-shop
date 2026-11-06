@@ -150,7 +150,7 @@ When a `Map<K, V>` is keyed by a closed set (an enum) and every key has a valid 
 
 ## Freezed Only for BLoC State and Domain Models
 
-**MUST NOT use `@freezed` for serialized data classes** — DTOs, request bodies, and API response objects (`lib/services/**`) are plain classes with a Dart primary constructor plus `@JsonSerializable`. Freezed stays for BLoC states/events, `*_vm.dart` view models, and domain models in `lib/objects/`, where generated `copyWith`/`==` drive rebuild dedup. DTOs carry no value equality by design. Details: `data-layer.md`.
+**MUST NOT use `@freezed` for serialized data classes** — DTOs, request bodies, and API response objects (`lib/services/**`) are plain classes with a Dart primary constructor plus `@JsonSerializable`. Freezed stays for BLoC states/events, `*_vm.dart` view models, and domain models in `lib/entities/`, where generated `copyWith`/`==` drive rebuild dedup. DTOs carry no value equality by design. Details: `data-layer.md`.
 
 ## No Duplicate Models
 

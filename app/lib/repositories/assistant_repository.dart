@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/repositories/base_repository.dart';
 import 'package:stroller_shop/services/assistant/assistant_service.dart';
 

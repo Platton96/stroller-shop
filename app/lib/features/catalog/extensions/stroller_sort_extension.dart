@@ -1,5 +1,5 @@
+import 'package:stroller_shop/entities/entities.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
-import 'package:stroller_shop/objects/objects.dart';
 
 extension StrollerSortExtension on StrollerSort {
   String title(S strings) => switch (this) {

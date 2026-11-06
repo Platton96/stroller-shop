@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stroller_shop/features/stroller_details/models/spec_vm.dart';
-import 'package:stroller_shop/objects/objects.dart';
+import 'package:stroller_shop/entities/entities.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/spec_vm.dart';
 
 part 'stroller_details_vm.freezed.dart';
 

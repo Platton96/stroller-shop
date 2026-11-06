@@ -7,6 +7,7 @@ import 'package:stroller_shop/features/catalog/catalog/catalog_screen.dart';
 import 'package:stroller_shop/features/shop/shop_screen.dart';
 import 'package:stroller_shop/features/tabs/app_tab.dart';
 import 'package:stroller_shop/features/tabs/bloc/tabs_bloc.dart';
+import 'package:stroller_shop/features/tabs/extensions/app_tab_extension.dart';
 import 'package:stroller_shop/l10n/generated/s.dart';
 import 'package:stroller_shop/ui_kit/theme/app_theme.dart';
 
@@ -102,20 +103,4 @@ class _BottomBar extends StatelessWidget {
       ),
     );
   }
-}
-
-extension on AppTab {
-  IconData get icon => switch (this) {
-    .catalog => Icons.grid_view_rounded,
-    .assistant => Icons.auto_awesome_outlined,
-    .cart => Icons.shopping_cart_outlined,
-    .shop => Icons.storefront_outlined,
-  };
-
-  String title(S strings) => switch (this) {
-    .catalog => strings.tabCatalog,
-    .assistant => strings.tabAssistant,
-    .cart => strings.tabCart,
-    .shop => strings.tabShop,
-  };
 }

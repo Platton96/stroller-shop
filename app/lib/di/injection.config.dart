@@ -81,9 +81,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i940.AppNavigator>(
       () => navigationModule.appNavigator(gh<_i583.GoRouter>()),
     );
-    gh.factoryParam<_i500.SortSheetBloc, _i9.StrollerSort, dynamic>(
-      (selectedSort, _) => _i500.SortSheetBloc(selectedSort),
-    );
     gh.lazySingleton<_i105.AssistantService>(
       () => _i105.AssistantService(gh<_i361.Dio>()),
     );
@@ -92,6 +89,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i831.ShopService>(
       () => _i831.ShopService(gh<_i361.Dio>()),
+    );
+    gh.factoryParam<_i500.SortSheetBloc, _i9.StrollerSort, dynamic>(
+      (selectedSort, _) => _i500.SortSheetBloc(selectedSort),
     );
     gh.lazySingleton<_i264.ToastService>(() => _i264.SnackBarToastService());
     gh.factory<_i984.TabsBloc>(

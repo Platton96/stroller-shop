@@ -1,7 +1,7 @@
 import 'package:stroller_shop/core/bloc/base_bloc.dart';
 import 'package:stroller_shop/features/assistant/mediators/ask_assistant_mediator.dart';
 import 'package:stroller_shop/features/stroller_details/mappers/stroller_details_vm_mapper.dart';
-import 'package:stroller_shop/features/stroller_details/models/stroller_details_vm.dart';
+import 'package:stroller_shop/features/stroller_details/ui_models/stroller_details_vm.dart';
 import 'package:stroller_shop/features/tabs/mediators/open_tab_mediator.dart';
 import 'package:stroller_shop/l10n/app_strings.dart';
 import 'package:stroller_shop/repositories/cart_repository.dart';
